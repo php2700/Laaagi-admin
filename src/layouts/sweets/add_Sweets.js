@@ -33,7 +33,7 @@ function Add_Sweets() {
   const [amount, setAmount] = useState(null);
   const [category, setCategory] = useState(null);
   const [name, setName] = useState(null);
-
+  const [description, setDescription] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
   const [successSB, setSuccessSB] = useState(false);
   const [error, setError] = useState("");
@@ -95,6 +95,12 @@ function Add_Sweets() {
       // return;
     }
 
+    if (!description) {
+      allError.description = "Please Add Description."
+      // setErrors(allError);
+      // return;
+    }
+
     if (Object?.keys(allError)?.length > 0) {
       setErrors(allError)
       if (!sweetsImage) {
@@ -109,12 +115,13 @@ function Add_Sweets() {
     }
 
 
-
     const formData = new FormData();
+    const formattedAmount = `${amount}/g`;
+    formData.append("amount", formattedAmount);
     formData.append("image", sweetsImage);
     formData.append("name", name);
-    formData.append("amount", amount);
     formData.append("category", category);
+    formData.append("description", description)
 
     try {
       const response = await axios.post(
@@ -133,6 +140,7 @@ function Add_Sweets() {
         setName("");
         setAmount("");
         setCategory("");
+        setDescription("");
         setErrors({});
         navigate("/sweets")
       } else {
@@ -232,6 +240,27 @@ function Add_Sweets() {
                         />
                         {errors.amount && (
                           <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.amount}</div>
+                        )}
+                      </MDBox>
+                    </Grid>
+                    <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
+                      <MDBox mb={2} width='25%'>
+                        <MDInput
+                          type="text"
+                          label="Box Description"
+                          fullWidth
+                          multiline
+                          minRows={4}
+                          value={description}
+                          onChange={(e) => {
+                            setDescription(e.target.value)
+                            setErrors((prev) => ({ ...prev, description: "" }))
+                          }
+                          }
+                          sx={{ marginTop: "8px" }}
+                        />
+                        {errors.description && (
+                          <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.description}</div>
                         )}
                       </MDBox>
                     </Grid>

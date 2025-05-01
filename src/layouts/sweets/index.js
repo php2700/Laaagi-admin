@@ -46,6 +46,7 @@ import Delete_Sweets from "./delete_sweets";
 import Edit_Sweets from "./edit_Sweets";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Description } from "@mui/icons-material";
 
 
 function Overview() {
@@ -112,9 +113,12 @@ function Overview() {
                     image: sweet?.image,
                     name: sweet?.name,
                     amount: sweet?.amount,
-                    category: sweet?.category
+                    category: sweet?.category,
+                    description:sweet?.description
                 };
             });
+
+            console.log(modifiedData,'2222')
             setSweetsData(modifiedData);
         } catch (error) {
             console.error("Error fetching banner data:", error);
@@ -225,6 +229,12 @@ function Overview() {
                                                             width: "15%",
                                                             align: "left",
                                                         },
+                                                        {
+                                                            Header: "Description ",
+                                                            accessor: "Description",
+                                                            width: "15%",
+                                                            align: "left",
+                                                        },
                                                         { Header: "Edit", accessor: "Edit", align: "left" },
                                                         { Header: "Action", accessor: "Action", align: "left" },
                                                     ],
@@ -272,6 +282,16 @@ function Overview() {
                                                                 fontWeight="medium"
                                                             >
                                                                 {sweet?.amount}
+                                                            </MDTypography>
+                                                        ),
+                                                        Description: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {sweet?.description}
                                                             </MDTypography>
                                                         ),
                                                         Category: (
