@@ -29,10 +29,11 @@ function Add_Dry_fruit() {
     // State for image file and success message
     const [image, setImage] = useState(null);
     const [name, setName] = useState(null);
-
+    const [description, setDescription] = useState(null);
     const [previewUrl, setPreviewUrl] = useState("");
     const [successSB, setSuccessSB] = useState(false);
     const [error, setError] = useState("");
+    const [amount, setAmount] = useState(null);
     const [errors, setErrors] = useState({})
 
     const handleChangefile = (newFile) => {
@@ -73,8 +74,14 @@ function Add_Dry_fruit() {
 
         if (!name) {
             allError.name = "Please Enter Name"
-            // setErrors(allError);
-            // return;
+        }
+
+        if (!amount) {
+            allError.amount = "Please Select Amount."
+        }
+
+        if (!description) {
+            allError.description = "Please Add Description."
         }
 
         if (Object?.keys(allError)?.length > 0) {
@@ -93,6 +100,10 @@ function Add_Dry_fruit() {
         const formData = new FormData();
         formData.append("image", image);
         formData.append("name", name);
+        formData.append("description", description)
+        const formattedAmount = `${amount}/kg`;
+        formData.append("amount", formattedAmount);
+
 
         try {
             const response = await axios.post(
@@ -109,6 +120,8 @@ function Add_Dry_fruit() {
                 setSuccessSB(true);
                 setImage(null);
                 setName("");
+                setAmount("")
+                setDescription("")
                 setErrors({});
                 navigate("/dry-fruit")
             } else {
@@ -163,6 +176,46 @@ function Add_Dry_fruit() {
                                             </MDBox>
                                         </Grid>
                                         {/* <Grid item xs={12} md={6} xl={3} mt={1} > */}
+                                        <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
+                                            <MDBox mb={2} width='25%'>
+                                                <MDInput
+                                                    type="Number"
+                                                    label="Amount per Kg"
+                                                    fullWidth
+                                                    value={amount}
+                                                    onChange={(e) => {
+                                                        setAmount(e.target.value)
+                                                        setErrors((prev) => ({ ...prev, amount: "" }))
+                                                    }
+                                                    }
+                                                    sx={{ marginTop: "8px" }}
+                                                />
+                                                {errors.amount && (
+                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.amount}</div>
+                                                )}
+                                            </MDBox>
+                                        </Grid>
+                                        <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
+                                            <MDBox mb={2} width='25%'>
+                                                <MDInput
+                                                    type="text"
+                                                    label="Box Description"
+                                                    fullWidth
+                                                    multiline
+                                                    minRows={4}
+                                                    value={description}
+                                                    onChange={(e) => {
+                                                        setDescription(e.target.value)
+                                                        setErrors((prev) => ({ ...prev, description: "" }))
+                                                    }
+                                                    }
+                                                    sx={{ marginTop: "8px" }}
+                                                />
+                                                {errors.description && (
+                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.description}</div>
+                                                )}
+                                            </MDBox>
+                                        </Grid>
                                         <Grid item xs={12} md={6} xl={12} mt={1}
                                             display="flex"
                                             //  justifyContent="center"

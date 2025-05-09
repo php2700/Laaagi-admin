@@ -116,7 +116,7 @@ function Add_Sweets() {
 
 
     const formData = new FormData();
-    const formattedAmount = `${amount}/g`;
+    const formattedAmount = `${amount}/kg`;
     formData.append("amount", formattedAmount);
     formData.append("image", sweetsImage);
     formData.append("name", name);

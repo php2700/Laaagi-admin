@@ -99,6 +99,8 @@ function DryFruit() {
                     _id: dryFruit._id,
                     image: dryFruit?.image,
                     name: dryFruit?.name,
+                    amount: dryFruit?.amount,
+                    description: dryFruit?.description
                 };
             });
             setDryFruitData(modifiedData);
@@ -199,6 +201,18 @@ function DryFruit() {
                                                             width: "15%",
                                                             align: "left",
                                                         },
+                                                        {
+                                                            Header: "Amount ",
+                                                            accessor: "Amount",
+                                                            width: "15%",
+                                                            align: "left",
+                                                        },
+                                                        {
+                                                            Header: "Description ",
+                                                            accessor: "Description",
+                                                            width: "15%",
+                                                            align: "left",
+                                                        },
                                                         { Header: "Action", accessor: "Action", align: "left" },
                                                     ],
 
@@ -237,6 +251,26 @@ function DryFruit() {
                                                                 {wedding?.name}
                                                             </MDTypography>
                                                         ),
+                                                        Amount: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {wedding?.amount}
+                                                            </MDTypography>
+                                                        ),
+                                                        Description: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {wedding?.description}
+                                                            </MDTypography>
+                                                        ),
                                                         Action: (
                                                             <MDTypography
                                                                 component="span"
@@ -247,7 +281,7 @@ function DryFruit() {
                                                                 sx={{
                                                                     cursor: "pointer",
                                                                     textDecoration: "none",
-                                                                    fontSize:'18px'
+                                                                    fontSize: '18px'
                                                                 }}
                                                             >
                                                                 <DeleteIcon />

@@ -48,6 +48,9 @@ import View_Invitation from "./view_invitation";
 // import Edit_Sweets from "./edit_Sweets";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Switch from '@mui/material/Switch';
+
+const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 
 function Overview() {
@@ -115,7 +118,8 @@ function Overview() {
                     name: invitation?.name,
                     description: invitation?.description,
                     category: invitation?.category,
-                    price: invitation?.price
+                    price: invitation?.price,
+                    isInvitationBoxes: invitation?.isInvitationBoxes
                 };
             });
             setInvitationData(modifiedData);
@@ -166,6 +170,38 @@ function Overview() {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleDashboardInvitation = async (invitationData) => {
+        const formData = new FormData();
+
+        formData.append("_id", invitationData?._id)
+        formData.append("name", invitationData?.name);
+        formData.append("description", invitationData?.description)
+        formData.append("category", invitationData?.category);
+        formData.append("price", invitationData?.price);
+        formData.append("isInvitationBoxes", !invitationData?.isInvitationBoxes)
+
+
+        try {
+            const response = await axios.patch(
+                `${process.env.REACT_APP_BASE_URL}api/admin/update_invitation`,
+                formData,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+            if (response.status === 200) {
+                ApiCall()
+            }
+        } catch (error) {
+            console.error("Error uploading banner:", error);
+            setError("Error uploading the image.");
+        }
+
+    }
 
     return (
         <>
@@ -242,6 +278,8 @@ function Overview() {
                                                             width: "15%",
                                                             align: "left",
                                                         },
+                                                        { Header: "DashboardInvitation", accessor: "DashboardInvitation", align: "left" },
+
                                                         { Header: "Edit", accessor: "Edit", align: "left" },
                                                         { Header: "Action", accessor: "Action", align: "left" },
                                                     ],
@@ -315,6 +353,16 @@ function Overview() {
                                                                 view
                                                             </MDButton>
                                                         ),
+                                                        DashboardInvitation: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                <Switch {...label} onChange={() => handleDashboardInvitation(invitation)} defaultChecked={invitation?.isInvitationBoxes == true ? true : false} />
+                                                            </MDTypography>
+                                                        ),
                                                         Edit: (
                                                             <Link to={`/edit-invitation`}
                                                                 state={{ invitationData: invitation }}
@@ -327,7 +375,7 @@ function Overview() {
                                                                     sx={{
                                                                         cursor: "pointer",
                                                                         textDecoration: "none",
-                                                                        fontSize:'18px'
+                                                                        fontSize: '18px'
                                                                     }}
                                                                 >
                                                                     <EditIcon />
@@ -344,7 +392,7 @@ function Overview() {
                                                                 sx={{
                                                                     cursor: "pointer",
                                                                     textDecoration: "none",
-                                                                    fontSize:'18px'
+                                                                    fontSize: '18px'
                                                                 }}
                                                             >
                                                                 <DeleteIcon />

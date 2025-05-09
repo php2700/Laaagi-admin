@@ -47,7 +47,9 @@ import Edit_Sweets from "./edit_Sweets";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Description } from "@mui/icons-material";
+import Switch from '@mui/material/Switch';
 
+const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 function Overview() {
     const navigate = useNavigate();
@@ -67,6 +69,7 @@ function Overview() {
     const [prev_page_url, setPrevpageurl] = useState("");
     const [search, setSearch] = useState("");
     const [path, setPath] = useState("");
+    const [error, setError] = useState();
 
     const [opendetailsmodel, setOpenDetailsModel] = useState(false);
     const [clientDetails, setClientDetails] = useState([]);
@@ -114,11 +117,13 @@ function Overview() {
                     name: sweet?.name,
                     amount: sweet?.amount,
                     category: sweet?.category,
-                    description:sweet?.description
+                    description: sweet?.description,
+                    isWedding: sweet?.isWedding,
+                    isSweet: sweet?.isSweet
                 };
             });
 
-            console.log(modifiedData,'2222')
+            console.log(modifiedData, '2222')
             setSweetsData(modifiedData);
         } catch (error) {
             console.error("Error fetching banner data:", error);
@@ -159,6 +164,49 @@ function Overview() {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleUpdate = async (formData) => {
+        try {
+            const response = await axios.patch(
+                `${process.env.REACT_APP_BASE_URL}api/admin/update_sweets`,
+                formData,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+            if (response.status === 200)
+                ApiCall()
+        } catch (error) {
+            console.error("Error uploading banner:", error);
+            setError("Error uploading the image.");
+        }
+
+    }
+
+    const handleDashboardSweet = (sweetData) => {
+        const formData = new FormData();
+        formData.append("_id", sweetData?._id)
+        formData.append("isWedding", !sweetData.isWedding);
+        formData.append("name", sweetData?.name);
+        formData.append("amount", sweetData?.amount);
+        formData.append("description", sweetData?.description)
+        formData.append("category", sweetData?.category);
+        handleUpdate(formData)
+    }
+
+    const handleDashboardWedding = (sweetsData) => {
+        const formData = new FormData();
+        formData.append("_id", sweetsData?._id)
+        formData.append("isSweet", !sweetsData?.isSweet);
+        formData.append("name", sweetsData?.name);
+        formData.append("amount", sweetsData?.amount);
+        formData.append("category", sweetsData?.category);
+        formData.append("description", sweetsData?.description);
+        handleUpdate(formData)
+    }
 
     return (
         <>
@@ -235,6 +283,9 @@ function Overview() {
                                                             width: "15%",
                                                             align: "left",
                                                         },
+                                                        { Header: "DashboardSweet", accessor: "DashboardSweet", align: "left" },
+                                                        { Header: "DashboardWedding", accessor: "DashboardWedding", align: "left" },
+
                                                         { Header: "Edit", accessor: "Edit", align: "left" },
                                                         { Header: "Action", accessor: "Action", align: "left" },
                                                     ],
@@ -294,6 +345,26 @@ function Overview() {
                                                                 {sweet?.description}
                                                             </MDTypography>
                                                         ),
+                                                        DashboardSweet: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                <Switch {...label} onChange={() => handleDashboardSweet(sweet)} defaultChecked={sweet?.isSweet == true ? true : false} />
+                                                            </MDTypography>
+                                                        ),
+                                                        DashboardWedding: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                <Switch {...label} onChange={() => handleDashboardWedding(sweet)} defaultChecked={sweet?.isWedding == true ? true : false} />
+                                                            </MDTypography>
+                                                        ),
                                                         Category: (
                                                             <MDTypography
                                                                 component="a"
@@ -306,21 +377,21 @@ function Overview() {
                                                         ),
                                                         Edit: (
                                                             <Link to={`/edit-sweets`}
-                                                            state={{ sweetData: sweet }}
+                                                                state={{ sweetData: sweet }}
                                                             >
-                                                            <MDTypography
-                                                                component="span"
-                                                                variant="caption"
-                                                                fontWeight="medium"
-                                                                // onClick={() => handleEdit(sweet)}
-                                                                sx={{
-                                                                    cursor: "pointer",
-                                                                    textDecoration: "none",
-                                                                    fontSize:'18px'
-                                                                }}
-                                                            >
-                                                                <EditIcon />
-                                                            </MDTypography>
+                                                                <MDTypography
+                                                                    component="span"
+                                                                    variant="caption"
+                                                                    fontWeight="medium"
+                                                                    // onClick={() => handleEdit(sweet)}
+                                                                    sx={{
+                                                                        cursor: "pointer",
+                                                                        textDecoration: "none",
+                                                                        fontSize: '18px'
+                                                                    }}
+                                                                >
+                                                                    <EditIcon />
+                                                                </MDTypography>
                                                             </Link>
                                                         ),
                                                         Action: (
@@ -333,10 +404,10 @@ function Overview() {
                                                                 sx={{
                                                                     cursor: "pointer",
                                                                     textDecoration: "none",
-                                                                    fontSize:'18px'
+                                                                    fontSize: '18px'
                                                                 }}
                                                             >
-                                                                <DeleteIcon/>
+                                                                <DeleteIcon />
                                                             </MDTypography>
                                                         ),
                                                     })),
