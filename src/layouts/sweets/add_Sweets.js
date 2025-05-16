@@ -73,32 +73,34 @@ function Add_Sweets() {
     setPreviewUrl("");
   };
 
-  // Handle form submission
   const handleSubmit = async () => {
     let allError = {}
 
     if (!name) {
       allError.name = "Please Enter Name"
-      // setErrors(allError);
-      // return;
+    } else if (!name?.trim()) {
+      allError.name = "Please Enter Name"
+    }
+    else if (!/^[a-zA-Z\s]*$/.test(name)) {
+      allError.name = "Please Enter Valid Name"
     }
 
     if (!amount) {
-      allError.amount = "Please Select Amount."
-      // setErrors(allError);
-      // return;
+      allError.amount = "Please Enter  Amount."
+    } else if (!amount?.trim()) {
+      allError.amount = "Please Enter  Amount."
+    } else if (!/^\d*$/.test(amount)) {
+      allError.amount = "Enter Valid Amount"
     }
 
     if (!category) {
       allError.category = "Please Select Category."
-      // setErrors(allError);
-      // return;
     }
 
     if (!description) {
-      allError.description = "Please Add Description."
-      // setErrors(allError);
-      // return;
+      allError.description = "Please Add Description.";
+    } else if (!description?.trim()) {
+      allError.description = "Please Add Description.";
     }
 
     if (Object?.keys(allError)?.length > 0) {
@@ -176,8 +178,8 @@ function Add_Sweets() {
               <MDBox pt={5} mx={2}>
                 <MDBox component="form" role="form" sx={{ minHeight: "60vh" }}>
                   <Grid container spacing={3}>
-                    <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
-                      <MDBox mb={2} width='25%'>
+                    <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
+                      <MDBox mb={2} width='100%'>
                         <FormControl fullWidth>
                           <InputLabel id="client-name-label" sx={{ paddingTop: "8px", paddingBottom: "3px" }}>
                             Category
@@ -204,18 +206,20 @@ function Add_Sweets() {
                         )}
                       </MDBox>
                     </Grid>
-                    {/* <Grid item xs={12} md={6} xl={3} >
+                    {/* <Grid item xs={12} md={6} xl={4 >
                       <MDBox mb={2} > */}
-                    <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
-                      <MDBox mb={2} width='25%' >
+                    <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
+                      <MDBox mb={2} width='100%' >
                         <MDInput
                           type="text"
                           label="Sweet Name"
                           fullWidth
                           value={name}
                           onChange={(e) => {
+
                             setName(e.target.value)
                             setErrors((prev) => ({ ...prev, name: "" }))
+
                           }}
                           sx={{ marginTop: "8px" }}
                         />
@@ -224,11 +228,11 @@ function Add_Sweets() {
                         )}
                       </MDBox>
                     </Grid>
-                    <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
-                      <MDBox mb={2} width='25%'>
+                    <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
+                      <MDBox mb={2} width='100%'>
                         <MDInput
-                          type="Number"
-                          label="Amount"
+                          type="text"
+                          label="Amount Per Kg"
                           fullWidth
                           value={amount}
                           onChange={(e) => {
@@ -243,37 +247,15 @@ function Add_Sweets() {
                         )}
                       </MDBox>
                     </Grid>
-                    <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
-                      <MDBox mb={2} width='25%'>
-                        <MDInput
-                          type="text"
-                          label="Box Description"
-                          fullWidth
-                          multiline
-                          minRows={4}
-                          value={description}
-                          onChange={(e) => {
-                            setDescription(e.target.value)
-                            setErrors((prev) => ({ ...prev, description: "" }))
-                          }
-                          }
-                          sx={{ marginTop: "8px" }}
-                        />
-                        {errors.description && (
-                          <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.description}</div>
-                        )}
-                      </MDBox>
-                    </Grid>
-
-                    {/* <Grid item xs={12} md={6} xl={3} mt={1} > */}
-                    <Grid item xs={12} md={6} xl={12} mt={1}
+                    {/* <Grid item xs={12} md={6} xl={4 mt={1} > */}
+                    <Grid item xs={12} md={6} xl={4} mt={1}
                       display="flex"
                       //  justifyContent="center"
                       flexDirection='column'
                       alignItems="center"
                     >
 
-                      <MDBox mb={2} width='25%'
+                      <MDBox mb={2} width='100%'
                         display="flex"
                         flexDirection="column"
                       // alignItems="center" 
@@ -329,6 +311,29 @@ function Add_Sweets() {
                         </MDBox>
                       )}
                     </Grid>
+                    <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
+                      <MDBox mb={2} width='100%'>
+                        <MDInput
+                          type="text"
+                          label="Box Description"
+                          fullWidth
+                          multiline
+                          minRows={4}
+                          value={description}
+                          onChange={(e) => {
+                            setDescription(e.target.value)
+                            setErrors((prev) => ({ ...prev, description: "" }))
+                          }
+                          }
+                          sx={{ marginTop: "8px" }}
+                        />
+                        {errors.description && (
+                          <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.description}</div>
+                        )}
+                      </MDBox>
+                    </Grid>
+
+
 
                   </Grid>
                   <MDBox mt={4} mb={1} sx={{ textAlign: "center" }}>

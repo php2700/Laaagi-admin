@@ -74,13 +74,25 @@ function Add_Dry_fruit() {
 
         if (!name) {
             allError.name = "Please Enter Name"
+        } else if (!name?.trim()) {
+            allError.name = "Please Enter Name"
+        } else if (!/^[a-zA-Z\s]*$/.test(name)) {
+            allError.name = "Please Enter Valid Name"
         }
 
+
         if (!amount) {
-            allError.amount = "Please Select Amount."
+            allError.amount = "Please Enter Amount."
+        } else if (!amount?.trim()) {
+            allError.amount = "Please Enter Amount."
+        }
+        else if (!/^\d+$/.test(amount)) {
+            allError.amount = "Please Enter Valid Amount"
         }
 
         if (!description) {
+            allError.description = "Please Add Description."
+        } else if (!description?.trim()) {
             allError.description = "Please Add Description."
         }
 
@@ -157,8 +169,8 @@ function Add_Dry_fruit() {
                             <MDBox pt={5} mx={2}>
                                 <MDBox component="form" role="form" sx={{ minHeight: "60vh" }}>
                                     <Grid container spacing={3}>
-                                        <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
-                                            <MDBox mb={2} width='25%' >
+                                        <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
+                                            <MDBox mb={2} width='100%' >
                                                 <MDInput
                                                     type="text"
                                                     label="Dry Fruit Name"
@@ -176,10 +188,10 @@ function Add_Dry_fruit() {
                                             </MDBox>
                                         </Grid>
                                         {/* <Grid item xs={12} md={6} xl={3} mt={1} > */}
-                                        <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
-                                            <MDBox mb={2} width='25%'>
+                                        <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
+                                            <MDBox mb={2} width='100%'>
                                                 <MDInput
-                                                    type="Number"
+                                                    type="text"
                                                     label="Amount per Kg"
                                                     fullWidth
                                                     value={amount}
@@ -195,8 +207,8 @@ function Add_Dry_fruit() {
                                                 )}
                                             </MDBox>
                                         </Grid>
-                                        <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
-                                            <MDBox mb={2} width='25%'>
+                                        <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
+                                            <MDBox mb={2} width='100%'>
                                                 <MDInput
                                                     type="text"
                                                     label="Box Description"
@@ -216,14 +228,14 @@ function Add_Dry_fruit() {
                                                 )}
                                             </MDBox>
                                         </Grid>
-                                        <Grid item xs={12} md={6} xl={12} mt={1}
+                                        <Grid item xs={12} md={6} xl={4} mt={1}
                                             display="flex"
                                             //  justifyContent="center"
                                             flexDirection='column'
                                             alignItems="center"
                                         >
 
-                                            <MDBox mb={2} width='25%'
+                                            <MDBox mb={2} width='100%'
                                                 display="flex"
                                                 flexDirection="column"
                                             // alignItems="center" 

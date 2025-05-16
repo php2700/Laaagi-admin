@@ -26,6 +26,7 @@ import Footer from "examples/Footer";
 import MasterCard from "examples/Cards/MasterCard";
 import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 
 import { Card } from "@mui/material";
@@ -39,12 +40,15 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import axios from "axios";
 import { useMaterialUIController } from "context";
 import Delete_Dry_fruit from "./delete_dry_fruit";
+import View_Dry_fruit_desc from "./view_desc";
 
 
 function DryFruit() {
     const [controller] = useMaterialUIController();
     const { sidenavColor } = controller;
     const [dryFruitData, setDryFruitData] = useState([]);
+    const [dryFruitOpen, setDryFruitOpen] = useState(false)
+    const [viewData, setViewData] = useState();
 
     const [newPage, setNewPage] = useState(1);
     const [searchText, setSearchText] = useState("");
@@ -95,12 +99,20 @@ function DryFruit() {
             setCurrentpage(response?.data?.dryFruitData?.current_page);
 
             const modifiedData = datas.map((dryFruit) => {
+                const newDate = new Date(dryFruit?.createdAt);
+                const formatedDate = `${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart("2", '0')}-${String(newDate.getDate()).padStart("2", "0")}`
+                const updatedDate = new Date(dryFruit?.updatedAt);
+                const updateDate = `${updatedDate.getFullYear()}-${String(updatedDate.getMonth() + 1).padStart("2", '0')}-${String(updatedDate.getDate()).padStart("2", "0")}`
+
                 return {
                     _id: dryFruit._id,
                     image: dryFruit?.image,
                     name: dryFruit?.name,
                     amount: dryFruit?.amount,
-                    description: dryFruit?.description
+                    description: dryFruit?.description,
+                    createdAt: formatedDate,
+                    updatedAt: updateDate
+
                 };
             });
             setDryFruitData(modifiedData);
@@ -143,6 +155,15 @@ function DryFruit() {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleview = (description) => {
+        setDryFruitOpen(true)
+        setViewData(description);
+    }
+
+    const handleViewClose = () => {
+        setDryFruitOpen(false)
+    }
 
     return (
         <>
@@ -213,6 +234,20 @@ function DryFruit() {
                                                             width: "15%",
                                                             align: "left",
                                                         },
+                                                        {
+                                                            Header: "Created ",
+                                                            accessor: "Created",
+                                                            width: "20%",
+                                                            align: "left",
+                                                        },
+                                                        {
+                                                            Header: "Updated ",
+                                                            accessor: "Updated",
+                                                            width: "20%",
+                                                            align: "left",
+                                                        },
+                                                        { Header: "Edit", accessor: "Edit", align: "left" },
+
                                                         { Header: "Action", accessor: "Action", align: "left" },
                                                     ],
 
@@ -261,15 +296,50 @@ function DryFruit() {
                                                                 {wedding?.amount}
                                                             </MDTypography>
                                                         ),
+
                                                         Description: (
+                                                            <MDButton variant="gradient" color="info" onClick={() => { handleview(wedding?.description) }}>
+                                                                view
+                                                            </MDButton>
+                                                        ),
+                                                        Created: (
                                                             <MDTypography
                                                                 component="a"
                                                                 variant="caption"
                                                                 color="text"
                                                                 fontWeight="medium"
                                                             >
-                                                                {wedding?.description}
+                                                                {wedding?.createdAt}
                                                             </MDTypography>
+                                                        ),
+                                                        Updated: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {wedding?.updatedAt}
+                                                            </MDTypography>
+                                                        ),
+                                                        Edit: (
+                                                            <Link to={`/edit-dry-fruit`}
+                                                                state={{ dryFruitData: wedding }}
+                                                            >
+                                                                <MDTypography
+                                                                    component="span"
+                                                                    variant="caption"
+                                                                    fontWeight="medium"
+                                                                    // onClick={() => handleEdit(review)}
+                                                                    sx={{
+                                                                        cursor: "pointer",
+                                                                        textDecoration: "none",
+                                                                        fontSize: '18px'
+                                                                    }}
+                                                                >
+                                                                    <EditIcon />
+                                                                </MDTypography>
+                                                            </Link>
                                                         ),
                                                         Action: (
                                                             <MDTypography
@@ -341,6 +411,10 @@ function DryFruit() {
                 handleClose={handleClose}
                 data={getDryFruitData}
                 id={id}
+            />
+            <View_Dry_fruit_desc open={dryFruitOpen}
+                handleClose={handleViewClose}
+                data={viewData}
             />
         </>
     );

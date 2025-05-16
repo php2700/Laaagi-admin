@@ -78,12 +78,13 @@ function Edit_Invitation() {
     };
 
     useEffect(() => {
+        console.log(invitationData, '33333333')
         setId(invitationData?._id)
         setName(invitationData?.name)
         setDescription(invitationData?.description)
         setCategory(invitationData?.category)
         setImage(invitationData?.image)
-        setPrice(invitationData?.price)
+        setPrice((invitationData?.price.toString()))
         if (invitationData?.image) {
             setPreviewUrl(`${process.env.REACT_APP_BASE_URL}uploads/${invitationData?.image}`);
         }
@@ -108,28 +109,30 @@ function Edit_Invitation() {
     const handleSubmit = async () => {
         let allError = {}
 
-        if (!name) {
-            allError.name = "Please Enter Box Name"
-            // setErrors(allError);
-            // return;
+        if (!price) {
+            allError.price = "Please Enter Amount ."
+        } else if (!price?.trim()) {
+            allError.price = "Please Enter Amount"
+        } else if (!/^\d*$/.test(price)) {
+            allError.price = "Enter Valid Amount"
         }
 
-        if (!price) {
-            allError.price = "Please Select Price"
-            // setErrors(allError);
-            // return;
+        if (!name) {
+            allError.name = "Please Enter Name"
+        } else if (!name?.trim()) {
+            allError.name = "Please Enter Name"
+        } else if (!/^[a-zA-Z\s]*$/.test(name)) {
+            allError.name = "Please Enter Valid Name"
         }
 
         if (!description) {
             allError.description = "Please Add Description."
-            // setErrors(allError);
-            // return;
+        } else if (!description?.trim()) {
+            allError.description = "Please Enter Description"
         }
 
         if (!category) {
             allError.category = "Please Select Category."
-            // setErrors(allError);
-            // return;
         }
 
         if (Object?.keys(allError)?.length > 0) {
@@ -184,7 +187,7 @@ function Edit_Invitation() {
             setError("Error uploading the image.");
         }
     };
-
+    console.log(category, "category")
     return (
         <DashboardLayout>
             <DashboardNavbar />
@@ -209,8 +212,8 @@ function Edit_Invitation() {
                             <MDBox pt={5} mx={2}>
                                 <MDBox component="form" role="form" sx={{ minHeight: "60vh" }}>
                                     <Grid container spacing={3}>
-                                        <Grid item xs={12} md={6} xl={12} display='flex' justifyContent='center'>
-                                            <MDBox mb={2} width='25%'>
+                                        <Grid item xs={12} md={6} xl={4} display='flex' justifyContent='center'>
+                                            <MDBox mb={2} width='100%'>
                                                 <FormControl fullWidth>
                                                     <InputLabel id="client-name-label" sx={{ paddingTop: "8px" }}>
                                                         Box Category
@@ -239,8 +242,8 @@ function Edit_Invitation() {
                                         </Grid>
 
 
-                                        <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center" >
-                                            <MDBox mb={2} width='25%'>
+                                        <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center" >
+                                            <MDBox mb={2} width='100%'>
                                                 <MDInput
                                                     type="text"
                                                     label="Box Name"
@@ -257,51 +260,41 @@ function Edit_Invitation() {
                                                 )}
                                             </MDBox>
                                         </Grid>
-                                        <Grid item xs={12} md={6} xl={12} display='flex' justifyContent='center'>
-                                            <MDBox mb={2} width='25%'>
-                                                <FormControl fullWidth>
-                                                    <InputLabel id="client-name-label" sx={{ paddingTop: "8px" }}>
-                                                        Price Range
-                                                    </InputLabel>
-                                                    <Select
-                                                        labelId="client-name-label"
-                                                        value={price || ""}
-                                                        onChange={(e) => {
-                                                            setPrice(e.target.value)
-                                                            setErrors((prev) => ({ ...prev, price: "" }));
-                                                        }}
-                                                        label="Client Name"
-                                                        sx={{ height: "45px", marginTop: "8px" }}
-                                                    >
-                                                        {PriceRangeList.map((price) => (
-                                                            <MenuItem key={price} value={price}>
-                                                                {price}
-                                                            </MenuItem>
-                                                        ))}
-                                                    </Select>
-                                                </FormControl>
-                                                {errors.category && (
-                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.category}</div>
+                                        <Grid item xs={12} md={6} xl={4} display='flex' justifyContent='center'>
+                                            <MDBox mb={2} width='100%'>
+
+                                                <MDInput
+                                                    type="text"
+                                                    label="Price"
+                                                    fullWidth
+                                                    value={price}
+                                                    onChange={(e) => {
+
+                                                        setPrice(e.target.value)
+                                                        setErrors((prev) => ({ ...prev, price: "" }));
+                                                    }}
+                                                    sx={{ marginTop: "8px" }}
+                                                />
+                                                {errors.price && (
+                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.price}</div>
                                                 )}
                                             </MDBox>
                                         </Grid>
 
-                                        <Grid item xs={12} md={6} xl={12} mt={1}
+                                        <Grid item xs={12} md={6} xl={4} mt={1}
                                             display='flex'
                                             flexDirection='column'
                                             alignItems="center"
                                         >
                                             <MDBox mb={2}
-                                                width='25%'
+                                                width='100%'
                                                 display="flex"
                                                 flexDirection="column"
                                             >
                                                 <MuiFileInput
-                                                    // value={image || null}
                                                     value={image instanceof File ? image : null}
 
                                                     onChange={handleChangefile}
-                                                    // placeholder="Upload Image"
                                                     placeholder={
                                                         !previewUrl && !image
                                                             ? "Upload Image"
@@ -354,8 +347,8 @@ function Edit_Invitation() {
                                                 </MDBox>
                                             )}
                                         </Grid>
-                                        <Grid item xs={12} md={6} xl={12} display='flex' justifyContent='center'>
-                                            <MDBox mb={2} width='25%'>
+                                        <Grid item xs={12} md={6} xl={4} display='flex' justifyContent='center'>
+                                            <MDBox mb={2} width='100%'>
                                                 <MDInput
                                                     type="text"
                                                     label="Box Description"

@@ -36,6 +36,7 @@ import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
@@ -71,49 +72,77 @@ function Dashboard() {
       <MDBox py={3}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="dark"
-                icon="weekend"
-                title="Users"
-                count={dashboardData?.users}
-                percentage={{
-                  color: "success",
-                  label: "Just updated",
-                }}
-              />
+            <MDBox mb={1.5} sx={{
+              "&:hover": {
+                transform: "scale(1.01)",
+                boxShadow: 2,
+              },
+            }}>
+              <Link to='/users'>
+                <ComplexStatisticsCard
+                  color="dark"
+                  icon="weekend"
+                  title="Users"
+                  count={dashboardData?.users}
+                  percentage={{
+                    color: "success",
+                    label: "Just updated",
+                  }}
+                />
+              </Link>
+
             </MDBox>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                icon="leaderboard"
-                title="Invitations"
-                count={dashboardData?.invitations}
-                percentage={{
-                  color: "success",
-                  label: "Just updated",
-                }}
-              />
+            <MDBox mb={1.5} sx={{
+              "&:hover": {
+                transform: "scale(1.01)",
+                boxShadow: 2,
+              },
+            }}>
+              <Link to='/invitation'>
+                <ComplexStatisticsCard
+                  icon="leaderboard"
+                  title="Invitations"
+                  count={dashboardData?.invitations}
+                  percentage={{
+                    color: "success",
+                    label: "Just updated",
+                  }}
+                />
+              </Link>
             </MDBox>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="success"
-                icon="store"
-                title="Decoration"
-                count={dashboardData?.decorations}
-                percentage={{
-                  color: "success",
-                  label: "Just updated",
-                }}
-              />
+            <MDBox mb={1.5} sx={{
+              "&:hover": {
+                transform: "scale(1.01)",
+                boxShadow: 2,
+              },
+            }}>
+              <Link to='/decoration'>
+                <ComplexStatisticsCard
+                  color="success"
+                  icon="store"
+                  title="Decoration"
+                  count={dashboardData?.decorations}
+                  percentage={{
+                    color: "success",
+                    label: "Just updated",
+                  }}
+                />
+              </Link>
+
             </MDBox>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
+            <MDBox mb={1.5} sx={{
+              "&:hover": {
+                transform: "scale(1.01)",
+                boxShadow: 2,
+              },
+            }}>
+              <Link to='/designer'><ComplexStatisticsCard
                 color="primary"
                 icon="person_add"
                 title="Designers"
@@ -123,12 +152,18 @@ function Dashboard() {
                   amount: "",
                   label: "Just updated",
                 }}
-              />
+              /></Link>
+
             </MDBox>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
+            <MDBox mb={1.5} sx={{
+              "&:hover": {
+                transform: "scale(1.01)",
+                boxShadow: 2,
+              },
+            }}>
+              <Link to='/sweets'><ComplexStatisticsCard
                 color="dark"
                 icon="weekend"
                 title="Sweets"
@@ -137,20 +172,28 @@ function Dashboard() {
                   color: "success",
                   label: "Just updated",
                 }}
-              />
+              /></Link>
+
             </MDBox>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                icon="leaderboard"
-                title="Reviews"
-                count={dashboardData?.reviews}
-                percentage={{
-                  color: "success",
-                  label: "Just updated",
-                }}
-              />
+            <MDBox mb={1.5} sx={{
+              "&:hover": {
+                transform: "scale(1.01)",
+                boxShadow: 2,
+              },
+            }}>
+              <Link to='/sweets'>
+                <ComplexStatisticsCard
+                  icon="leaderboard"
+                  title="Reviews"
+                  count={dashboardData?.reviews}
+                  percentage={{
+                    color: "success",
+                    label: "Just updated",
+                  }}
+                />
+              </Link>
             </MDBox>
           </Grid>
         </Grid>

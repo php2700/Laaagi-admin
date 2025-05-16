@@ -44,8 +44,7 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import axios from "axios";
 import { useMaterialUIController } from "context";
 import Delete_Decoration from "./delete_decoration";
-// import Delete_Sweets from "./delete_sweets";
-// import Edit_Sweets from "./edit_Sweets";
+
 
 
 function Decoration() {
@@ -106,10 +105,14 @@ function Decoration() {
             setCurrentpage(response?.data?.decorationData?.current_page);
 
             const modifiedData = datas.map((decoration) => {
+
+                const newDate = new Date(decoration?.createdAt);
+                const formatedDate = `${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart("2", '0')}-${String(newDate.getDate()).padStart("2", "0")}`
                 return {
                     _id: decoration._id,
                     image: decoration?.image,
                     category: decoration?.category,
+                    createdAt: formatedDate
                 };
             });
             setDecorationData(modifiedData);
@@ -197,17 +200,23 @@ function Decoration() {
                                             <DataTable
                                                 table={{
                                                     columns: [
-                                                        { Header: "ID", accessor: "orderId", width: "1%", align: "left" },
+                                                        { Header: "ID", accessor: "orderId", width: "5%", align: "left" },
                                                         {
                                                             Header: "Image ",
                                                             accessor: "Image",
-                                                            width: "15%",
+                                                            width: "25%",
                                                             align: "left",
                                                         },
                                                         {
                                                             Header: "Category ",
                                                             accessor: "Category",
-                                                            width: "15%",
+                                                            width: "25%",
+                                                            align: "left",
+                                                        },
+                                                        {
+                                                            Header: "Created ",
+                                                            accessor: "Created",
+                                                            width: "25%",
                                                             align: "left",
                                                         },
                                                         { Header: "Action", accessor: "Action", align: "left" },
@@ -248,6 +257,16 @@ function Decoration() {
                                                                 {decoration?.category}
                                                             </MDTypography>
                                                         ),
+                                                        Created: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {decoration?.createdAt}
+                                                            </MDTypography>
+                                                        ),
                                                         Action: (
                                                             <MDTypography
                                                                 component="span"
@@ -258,10 +277,10 @@ function Decoration() {
                                                                 sx={{
                                                                     cursor: "pointer",
                                                                     textDecoration: "none",
-                                                                    fontSize:'18px'
+                                                                    fontSize: '18px'
                                                                 }}
                                                             >
-                                                                <DeleteIcon/>
+                                                                <DeleteIcon />
                                                             </MDTypography>
                                                         ),
                                                     })),

@@ -267,7 +267,7 @@ function Overview() {
                                                             align: "left",
                                                         },
                                                         {
-                                                            Header: "Price Range (INR) ",
+                                                            Header: "Price  (INR) ",
                                                             accessor: "priceRange",
                                                             width: "15%",
                                                             align: "left",

@@ -48,6 +48,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Description } from "@mui/icons-material";
 import Switch from '@mui/material/Switch';
+import View_Description from "./view_desc";
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
@@ -70,6 +71,9 @@ function Overview() {
     const [search, setSearch] = useState("");
     const [path, setPath] = useState("");
     const [error, setError] = useState();
+    const [viewData, setViewData] = useState();
+    const [viewOpen, setViewOpen] = useState(false);
+
 
     const [opendetailsmodel, setOpenDetailsModel] = useState(false);
     const [clientDetails, setClientDetails] = useState([]);
@@ -164,6 +168,16 @@ function Overview() {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleview = (viewData) => {
+        setViewData(viewData)
+        setViewOpen(true)
+    }
+
+    const handleViewClose = () => {
+        setViewOpen(false);
+    }
+
 
     const handleUpdate = async (formData) => {
         try {
@@ -336,14 +350,17 @@ function Overview() {
                                                             </MDTypography>
                                                         ),
                                                         Description: (
-                                                            <MDTypography
-                                                                component="a"
-                                                                variant="caption"
-                                                                color="text"
-                                                                fontWeight="medium"
-                                                            >
-                                                                {sweet?.description}
-                                                            </MDTypography>
+                                                            // <MDTypography
+                                                            //     component="a"
+                                                            //     variant="caption"
+                                                            //     color="text"
+                                                            //     fontWeight="medium"
+                                                            // >
+                                                            //     {sweet?.description}
+                                                            // </MDTypography>
+                                                            <MDButton variant="gradient" color="info" onClick={() => { handleview(sweet?.description) }}>
+                                                                view
+                                                            </MDButton>
                                                         ),
                                                         DashboardSweet: (
                                                             <MDTypography
@@ -464,6 +481,11 @@ function Overview() {
                 handleClose={handleClose}
                 data={getSweetsData}
                 id={sweetId}
+            />
+            <View_Description
+                open={viewOpen}
+                handleClose={handleViewClose}
+                data={viewData}
             />
         </>
     );

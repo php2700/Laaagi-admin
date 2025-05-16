@@ -97,11 +97,14 @@ function Designer() {
             setCurrentpage(response?.data?.designerData?.current_page);
 
             const modifiedData = datas.map((designer) => {
+                const newDate = new Date(designer?.createdAt);
+                const formatedDate = `${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart("2", '0')}-${String(newDate.getDate()).padStart("2", "0")}`
                 return {
                     _id: designer._id,
                     image: designer?.image,
                     name: designer?.name,
-                    category: designer?.category
+                    category: designer?.category,
+                    createdAt: formatedDate
                 };
             });
             setDesignerData(modifiedData);
@@ -189,23 +192,29 @@ function Designer() {
                                             <DataTable
                                                 table={{
                                                     columns: [
-                                                        { Header: "ID", accessor: "orderId", width: "1%", align: "left" },
+                                                        { Header: "ID", accessor: "orderId", width: "5%", align: "left" },
                                                         {
                                                             Header: "Image ",
                                                             accessor: "Image",
-                                                            width: "15%",
+                                                            width: "20%",
                                                             align: "left",
                                                         },
                                                         {
                                                             Header: "Name ",
                                                             accessor: "Name",
-                                                            width: "15%",
+                                                            width: "20%",
                                                             align: "left",
                                                         },
                                                         {
                                                             Header: "Category ",
                                                             accessor: "Category",
-                                                            width: "15%",
+                                                            width: "20%",
+                                                            align: "left",
+                                                        },
+                                                        {
+                                                            Header: "Created ",
+                                                            accessor: "Created",
+                                                            width: "20%",
                                                             align: "left",
                                                         },
                                                         { Header: "Action", accessor: "Action", align: "left" },
@@ -256,6 +265,16 @@ function Designer() {
                                                                 {designer?.category}
                                                             </MDTypography>
                                                         ),
+                                                        Created: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {designer?.createdAt}
+                                                            </MDTypography>
+                                                        ),
                                                         Action: (
                                                             <MDTypography
                                                                 component="span"
@@ -266,7 +285,7 @@ function Designer() {
                                                                 sx={{
                                                                     cursor: "pointer",
                                                                     textDecoration: "none",
-                                                                    fontSize:'18px'
+                                                                    fontSize: '18px'
                                                                 }}
                                                             >
                                                                 <DeleteIcon />

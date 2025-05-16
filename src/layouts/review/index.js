@@ -111,12 +111,20 @@ function Review() {
             setCurrentpage(response?.data?.reviewData?.current_page);
 
             const modifiedData = datas.map((review) => {
+                const newDate = new Date(review?.createdAt);
+                const formatedDate = `${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart("2", '0')}-${String(newDate.getDate()).padStart("2", "0")}`
+                const updatedDate = new Date(review?.updatedAt);
+                const updateDate = `${updatedDate.getFullYear()}-${String(updatedDate.getMonth() + 1).padStart("2", '0')}-${String(updatedDate.getDate()).padStart("2", "0")}`
+
                 return {
                     _id: review._id,
                     image: review?.image,
                     name: review?.name,
                     designation: review?.designation,
-                    description: review?.description
+                    description: review?.description,
+                    createdAt: formatedDate,
+                    updatedAt: updateDate
+
                 };
             });
             setReviewData(modifiedData);
@@ -233,7 +241,18 @@ function Review() {
                                                             width: "15%",
                                                             align: "left",
                                                         },
+
                                                         {
+                                                            Header: "Created ",
+                                                            accessor: "Created",
+                                                            width: "20%",
+                                                            align: "left",
+                                                        }, {
+                                                            Header: "Updated ",
+                                                            accessor: "Updated",
+                                                            width: "20%",
+                                                            align: "left",
+                                                        }, {
                                                             Header: "Description ",
                                                             accessor: "Description",
                                                             width: "15%",
@@ -304,6 +323,26 @@ function Review() {
                                                                 view
                                                             </MDButton>
                                                         ),
+                                                        Created: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {review?.createdAt}
+                                                            </MDTypography>
+                                                        ),
+                                                        Updated: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {review?.updatedAt}
+                                                            </MDTypography>
+                                                        ),
                                                         Edit: (
                                                             <Link to={`/edit-review`}
                                                                 state={{ reviewData: review }}
@@ -316,10 +355,10 @@ function Review() {
                                                                     sx={{
                                                                         cursor: "pointer",
                                                                         textDecoration: "none",
-                                                                        fontSize:'18px'
+                                                                        fontSize: '18px'
                                                                     }}
                                                                 >
-                                                                    <EditIcon/>
+                                                                    <EditIcon />
                                                                 </MDTypography>
                                                             </Link>
                                                         ),
@@ -333,7 +372,7 @@ function Review() {
                                                                 sx={{
                                                                     cursor: "pointer",
                                                                     textDecoration: "none",
-                                                                    fontSize:'18px'
+                                                                    fontSize: '18px'
                                                                 }}
                                                             >
                                                                 <DeleteIcon />

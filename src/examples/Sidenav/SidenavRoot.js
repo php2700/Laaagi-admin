@@ -35,7 +35,9 @@ export default styled(Drawer)(({ theme, ownerState }) => {
   } else if (whiteSidenav) {
     backgroundValue = white.main;
   }
-
+  else {
+    backgroundValue = 'linear-gradient(195deg, #c0c0f5, #191919)';
+  }
   // styles for the sidenav when miniSidenav={false}
   const drawerOpenStyles = () => ({
     background: backgroundValue,

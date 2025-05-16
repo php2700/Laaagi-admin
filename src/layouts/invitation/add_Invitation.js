@@ -80,27 +80,29 @@ function Add_Invitation() {
 
 
         if (!price) {
-            allError.price = "Please select price range."
-            // setErrors(allError);
-            // return;
+            allError.price = "Please Enter Amount ."
+        } else if (!price?.trim()) {
+            allError.price = "Please Enter Amount"
+        } else if (!/^\d*$/.test(price)) {
+            allError.price = "Enter Valid Amount"
         }
 
         if (!name) {
             allError.name = "Please Enter Name"
-            // setErrors(allError);
-            // return;
+        } else if (!name?.trim()) {
+            allError.name = "Please Enter Name"
+        } else if (!/^[a-zA-Z\s]*$/.test(name)) {
+            allError.name = "Please Enter Valid Name"
         }
 
         if (!description) {
             allError.description = "Please Add Description."
-            // setErrors(allError);
-            // return;
+        } else if (!description?.trim()) {
+            allError.description = "Please Enter Description"
         }
 
         if (!category) {
             allError.category = "Please Select Category."
-            // setErrors(allError);
-            // return;
         }
 
         if (Object?.keys(allError)?.length > 0) {
@@ -176,11 +178,10 @@ function Add_Invitation() {
                             <MDBox pt={5} mx={2}>
                                 <MDBox component="form" role="form" sx={{ minHeight: "60vh" }}>
                                     <Grid container spacing={3}>
-                                        {/* <Grid item xs={12} md={6} xl={3} >
-                      <MDBox mb={2} > */}
 
-                                        <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
-                                            <MDBox mb={2} width='25%'>
+
+                                        <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
+                                            <MDBox mb={2} width='100%'>
                                                 <FormControl fullWidth>
                                                     <InputLabel id="client-name-label" sx={{ paddingTop: "8px", paddingBottom: "3px" }}>
                                                         Box Category
@@ -207,8 +208,8 @@ function Add_Invitation() {
                                                 )}
                                             </MDBox>
                                         </Grid>
-                                        <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
-                                            <MDBox mb={2} width='25%' >
+                                        <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
+                                            <MDBox mb={2} width='100%' >
                                                 <MDInput
                                                     type="text"
                                                     label="Box Name"
@@ -225,29 +226,20 @@ function Add_Invitation() {
                                                 )}
                                             </MDBox>
                                         </Grid>
-                                        <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
-                                            <MDBox mb={2} width='25%'>
-                                                <FormControl fullWidth>
-                                                    <InputLabel id="client-name-label" sx={{ paddingTop: "8px", paddingBottom: "3px" }}>
-                                                        Price Range
-                                                    </InputLabel>
-                                                    <Select
-                                                        labelId="client-name-label"
-                                                        value={price}
-                                                        onChange={(e) => {
-                                                            setPrice(e.target.value)
-                                                            setErrors((prev) => ({ ...prev, price: "" }));
-                                                        }}
-                                                        label="Client Name"
-                                                        sx={{ height: "45px", marginTop: "8px" }}
-                                                    >
-                                                        {PriceRangeList.map((price) => (
-                                                            <MenuItem key={price} value={price}>
-                                                                {price}
-                                                            </MenuItem>
-                                                        ))}
-                                                    </Select>
-                                                </FormControl>
+                                        <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
+                                            <MDBox mb={2} width='100%'>
+
+                                                <MDInput
+                                                    type="text"
+                                                    label="Price"
+                                                    fullWidth
+                                                    value={price}
+                                                    onChange={(e) => {
+                                                        setPrice(e.target.value)
+                                                        setErrors((prev) => ({ ...prev, price: "" }));
+                                                    }}
+                                                    sx={{ marginTop: "8px" }}
+                                                />
                                                 {errors.price && (
                                                     <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.price}</div>
                                                 )}
@@ -255,14 +247,14 @@ function Add_Invitation() {
                                         </Grid>
 
                                         {/* <Grid item xs={12} md={6} xl={3} mt={1} > */}
-                                        <Grid item xs={12} md={6} xl={12} mt={1}
+                                        <Grid item xs={12} md={6} xl={4} mt={1}
                                             display="flex"
                                             //  justifyContent="center"
                                             flexDirection='column'
                                             alignItems="center"
                                         >
 
-                                            <MDBox mb={2} width='25%'
+                                            <MDBox mb={2} width='100%'
                                                 display="flex"
                                                 flexDirection="column"
                                             // alignItems="center" 
@@ -318,8 +310,8 @@ function Add_Invitation() {
                                                 </MDBox>
                                             )}
                                         </Grid>
-                                        <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
-                                            <MDBox mb={2} width='25%'>
+                                        <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
+                                            <MDBox mb={2} width='100%'>
                                                 <MDInput
                                                     type="text"
                                                     label="Box Description"

@@ -104,13 +104,18 @@ function Contact_Us() {
             setCurrentpage(response?.data?.contactUsData?.current_page);
 
             const modifiedData = datas?.map((contactUs) => {
+                const newDate = new Date(contactUs?.createdAt);
+                const formatedDate = `${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart("2", '0')}-${String(newDate.getDate()).padStart("2", "0")}`
+
                 return {
                     _id: contactUs._id,
                     firstName: contactUs?.firstName,
                     lastName: contactUs?.lastName,
                     email: contactUs?.email,
                     mobile: contactUs?.mobile,
-                    message: contactUs?.message
+                    message: contactUs?.message,
+                    createdAt: formatedDate
+
                 };
             });
             setContactUsData(modifiedData);
@@ -150,7 +155,7 @@ function Contact_Us() {
         const delayDebounce = setTimeout(() => {
             getContactUsData(1, search);
         }, 1000);
-        
+
         return () => clearTimeout(delayDebounce);
     }, [search]);
 
@@ -227,6 +232,12 @@ function Contact_Us() {
                                                             width: "15%",
                                                             align: "left",
                                                         },
+                                                        {
+                                                            Header: "Created ",
+                                                            accessor: "Created",
+                                                            width: "20%",
+                                                            align: "left",
+                                                        },
                                                         { Header: "Message", accessor: "Message", align: "left" },
                                                     ],
 
@@ -279,6 +290,16 @@ function Contact_Us() {
                                                                 fontWeight="medium"
                                                             >
                                                                 {contactUs?.mobile}
+                                                            </MDTypography>
+                                                        ),
+                                                        Created: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {contactUs?.createdAt}
                                                             </MDTypography>
                                                         ),
                                                         Message: (

@@ -57,14 +57,21 @@ function Edit_User() {
 
         if (!name) {
             allError.name = "Please Enter name"
-            setErrors(allError);
-            return;
+        }
+        else if (!name?.trim()) {
+            allError.name = "Please Enter name"
         }
 
         if (!mobile) {
             allError.mobile = "Please add  mobile."
-            setErrors(allError);
-            return;
+        }
+        else if (!/^\d+$/.test(mobile)) {
+            allError.mobile = 'Mobile number must contain digits only';
+        }
+
+        if (Object?.keys(allError)?.length > 0) {
+            setErrors(allError)
+            return
         }
 
         const edituserData = {
@@ -144,22 +151,26 @@ function Edit_User() {
                                         <Grid item xs={12} md={6} xl={12} display='flex' justifyContent='center'>
                                             <MDBox mb={2} width='25%'>
                                                 <MDInput
-                                                    type="Number"
+                                                    type="text"
                                                     label="Mobile"
                                                     fullWidth
                                                     value={mobile || ""}
                                                     onChange={(e) => {
-                                                        setMobile(e.target.value)
-                                                        setErrors((prev) => ({ ...prev, status: "" }))
+                                                        const newValue = e.target.value
+                                                        if (newValue?.length <= 10) {
+                                                            setMobile(e.target.value)
+                                                            setErrors((prev) => ({ ...prev, mobile: "" }))
+                                                        }
                                                     }
                                                     }
                                                     sx={{ marginTop: "8px" }}
                                                 />
-                                                {errors.status && (
-                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.status}</div>
+                                                {errors.mobile && (
+                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.mobile}</div>
                                                 )}
                                             </MDBox>
                                         </Grid>
+
 
                                     </Grid>
                                     <MDBox mt={4} mb={1} sx={{ textAlign: "center" }}>
@@ -173,7 +184,6 @@ function Edit_User() {
                     </Grid>
                 </Grid>
             </MDBox>
-            {/* Success Snackbar */}
             <MDSnackbar
                 color="success"
                 icon="check"

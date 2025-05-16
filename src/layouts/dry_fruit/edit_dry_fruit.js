@@ -20,13 +20,12 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MDInput from "components/MDInput";
-import Delete_Image from "./delete_image";
 
 
-function Edit_Review() {
+function Edit_Dry_fruit() {
     const location = useLocation();
     const navigate = useNavigate();
-    const { reviewData } = location.state || {};
+    const { dryFruitData } = location.state || {};
 
     const token = localStorage.getItem("authToken");
     const [controller] = useMaterialUIController();
@@ -34,9 +33,10 @@ function Edit_Review() {
 
     // State for image file and success message
     const [image, setImage] = useState(null);
-    const [designation, setDesignation] = useState(null);
     const [description, setDescription] = useState(null);
     const [name, setName] = useState(null);
+    const [amount, setAmount] = useState(null);
+
     const [_id, setId] = useState();
 
     const [previewUrl, setPreviewUrl] = useState("");
@@ -74,20 +74,20 @@ function Edit_Review() {
     };
 
     useEffect(() => {
-        setId(reviewData?._id)
-        setName(reviewData?.name)
-        setDesignation(reviewData?.designation)
-        setDescription(reviewData?.description)
-        setImage(reviewData?.image)
-        if (reviewData?.image) {
-            setPreviewUrl(`${process.env.REACT_APP_BASE_URL}uploads/${reviewData?.image}`);
+        setId(dryFruitData?._id)
+        setName(dryFruitData?.name)
+        setDescription(dryFruitData?.description)
+        setImage(dryFruitData?.image)
+        setAmount(dryFruitData?.amount)
+        if (dryFruitData?.image) {
+            setPreviewUrl(`${process.env.REACT_APP_BASE_URL}uploads/${dryFruitData?.image}`);
         }
-    }, [reviewData]);
+    }, [dryFruitData]);
 
     const handleRemoveImage = () => {
-        setOpen(true)
-        // setImage(null);
-        // setPreviewUrl("");
+        // setOpen(true)
+        setImage(null);
+        setPreviewUrl("");
     };
 
     const handleClose = () => {
@@ -111,17 +111,17 @@ function Edit_Review() {
             allError.name = "Please Enter Valid Name"
         }
 
-
-        if (!designation) {
-            allError.designation = "Please Add Designation."
-        } else if (!designation?.trim()) {
-            allError.designation = "Please Enter designation"
+        if (!amount) {
+            allError.amount = "Please Enter Amount."
+        } else if (!amount?.trim()) {
+            allError.amount = "Please Enter Amount."
         }
+
 
         if (!description) {
             allError.description = "Please Enter Description."
         } else if (!description?.trim()) {
-            allError.description = "Please Enter description"
+            allError.description = "Please Enter Description"
         }
 
         if (Object?.keys(allError)?.length > 0) {
@@ -140,15 +140,21 @@ function Edit_Review() {
         const formData = new FormData();
         formData.append("_id", _id)
         formData.append("name", name);
-        formData.append("designation", designation);
         formData.append("description", description);
-        if (image && image !== reviewData?.image) {
+        let formattedAmount;
+        if (amount.includes('kg')) {
+            formattedAmount = `${amount}`;
+        } else {
+            formattedAmount = `${amount}/kg`;
+        }
+        formData.append("amount", formattedAmount);
+        if (image && image !== dryFruitData?.image) {
             formData.append("image", image);
         }
 
         try {
             const response = await axios.patch(
-                `${process.env.REACT_APP_BASE_URL}api/admin/update_review`,
+                `${process.env.REACT_APP_BASE_URL}api/admin/update_dry_fruit`,
                 formData,
                 {
                     headers: {
@@ -162,10 +168,9 @@ function Edit_Review() {
                 setImage(null);
                 setId("")
                 setName("");
-                setDesignation("");
                 setDescription("");
                 setErrors({});
-                navigate("/review")
+                navigate("/dry-fruit")
             } else {
                 setError("Failed to upload the image.");
             }
@@ -217,22 +222,21 @@ function Edit_Review() {
                                                 )}
                                             </MDBox>
                                         </Grid>
-                                        <Grid item xs={12} md={6} xl={4} display='flex' justifyContent='center'>
+                                        <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center" >
                                             <MDBox mb={2} width='100%'>
                                                 <MDInput
                                                     type="text"
-                                                    label="designation"
+                                                    label="Amount Per Kg"
                                                     fullWidth
-                                                    value={designation || ""}
+                                                    value={amount?.split("/")[0] || ""}
                                                     onChange={(e) => {
-                                                        setDesignation(e.target.value)
-                                                        setErrors((prev) => ({ ...prev, designation: "" }))
-                                                    }
-                                                    }
+                                                        setAmount(e.target.value)
+                                                        setErrors((prev) => ({ ...prev, amount: "" }))
+                                                    }}
                                                     sx={{ marginTop: "8px" }}
                                                 />
-                                                {errors.designation && (
-                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.designation}</div>
+                                                {errors.amount && (
+                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.amount}</div>
                                                 )}
                                             </MDBox>
                                         </Grid>
@@ -351,13 +355,9 @@ function Edit_Review() {
                 close={() => setSuccessSB(false)}
                 bgWhite
             />
-            <Delete_Image
-                open={open}
-                handleClose={handleClose}
-                removeImage={handleConfrimRemoveImage}
-            />
+
         </DashboardLayout>
     );
 }
 
-export default Edit_Review;
+export default Edit_Dry_fruit;

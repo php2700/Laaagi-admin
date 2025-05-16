@@ -81,6 +81,7 @@ import Edit_User from "layouts/users/edit_user"
 import Customization from "layouts/customization/index"
 import Quote from "layouts/quote/index"
 import Edit_Banner from "layouts/billing/edit_Banner"
+import Edit_Dry_fruit from "layouts/dry_fruit/edit_dry_fruit";
 
 const routes = [
   {
@@ -93,12 +94,53 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "About Us",
-    key: "about us",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/about",
-    component: <About />,
+    name: "Users",
+    key: "users",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/users",
+    component: <Users />,
   },
+  {
+    type: "collapse",
+    name: "Invitation",
+    key: "invitation",
+    icon: <Icon fontSize="small">notifications</Icon>,
+    route: "/invitation",
+    component: <Invitation />,
+  },
+  {
+    type: "collapse",
+    name: "Sweets",
+    key: "sweets",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/sweets",
+    component: <Sweets />,
+  },
+  {
+    type: "collapse",
+    name: "Decoration",
+    key: "decoration",
+    icon: <Icon fontSize="small">assignment</Icon>,
+    route: "/decoration",
+    component: <Decoration />,
+  },
+  {
+    type: "collapse",
+    name: "Designer",
+    key: "designer",
+    icon: <Icon fontSize="small">assignment</Icon>,
+    route: "/designer",
+    component: <Designer />,
+  },
+  {
+    type: "collapse",
+    name: "Plannning",
+    key: "planning",
+    icon: <Icon fontSize="small">assignment</Icon>,
+    route: "/planning",
+    component: <Planning />,
+  },
+
   {
     type: "collapse",
     name: "Ads",
@@ -115,14 +157,14 @@ const routes = [
     route: "/banners",
     component: <Billing />,
   },
-  {
-    type: "collapse",
-    name: "Best Sellers",
-    key: "best_sellers",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/best-seller",
-    component: <Best_seller />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Best Sellers",
+  //   key: "best_sellers",
+  //   icon: <Icon fontSize="small">assignment</Icon>,
+  //   route: "/best-seller",
+  //   component: <Best_seller />,
+  // },
   {
     type: "collapse",
     name: "Contact Us",
@@ -139,30 +181,16 @@ const routes = [
     route: "/customization",
     component: <Customization />,
   },
-  {
-    type: "collapse",
-    name: "Designer",
-    key: "designer",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/designer",
-    component: <Designer />,
-  },
-  {
-    type: "collapse",
-    name: "Decoration",
-    key: "decoration",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/decoration",
-    component: <Decoration />,
-  },
-  {
-    type: "collapse",
-    name: "Discover Sweets",
-    key: "discover_sweets",
-    icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/discover-sweets",
-    component: <Discover_sweets />,
-  },
+
+
+  // {
+  //   type: "collapse",
+  //   name: "Discover Sweets",
+  //   key: "discover_sweets",
+  //   icon: <Icon fontSize="small">notifications</Icon>,
+  //   route: "/discover-sweets",
+  //   component: <Discover_sweets />,
+  // },
   {
     type: "collapse",
     name: "Dry Fruits Treats",
@@ -171,30 +199,16 @@ const routes = [
     route: "/dry-fruit",
     component: <DryFruit />,
   },
-  {
-    type: "collapse",
-    name: "Invitation",
-    key: "invitation",
-    icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/invitation",
-    component: <Invitation />,
-  },
-  {
-    type: "collapse",
-    name: "Invitation Boxes",
-    key: "invitation_boxes",
-    icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/invitation-boxes",
-    component: <Invitation_Boxes />,
-  },
-  {
-    type: "collapse",
-    name: "Plannning",
-    key: "planning",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/planning",
-    component: <Planning />,
-  },
+
+  // {
+  //   type: "collapse",
+  //   name: "Invitation Boxes",
+  //   key: "invitation_boxes",
+  //   icon: <Icon fontSize="small">notifications</Icon>,
+  //   route: "/invitation-boxes",
+  //   component: <Invitation_Boxes />,
+  // },
+
   {
     type: "collapse",
     name: "Quote",
@@ -211,22 +225,7 @@ const routes = [
     route: "/review",
     component: <Review />,
   },
-  {
-    type: "collapse",
-    name: "Sweets",
-    key: "sweets",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/sweets",
-    component: <Sweets />,
-  },
-  {
-    type: "collapse",
-    name: "Users",
-    key: "users",
-    icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/users",
-    component: <Users />,
-  },
+
   {
     type: "collapse",
     name: "Edit Users",
@@ -252,9 +251,9 @@ const routes = [
   //   route: "/rtl",
   //   component: <RTL />,
   // },
- 
- 
- 
+
+
+
   {
     type: "collapse",
     name: "Add Banner",
@@ -311,7 +310,7 @@ const routes = [
     route: "/edit-about",
     component: <Edit_About />,
   },
-  
+
   {
     type: "collapse",
     name: "Add Review",
@@ -344,14 +343,22 @@ const routes = [
     route: "/edit-invitation",
     component: <Edit_Invitation />,
   },
-  
+
+  // {
+  //   type: "collapse",
+  //   name: "Wedding Special",
+  //   key: "wedding_special",
+  //   icon: <Icon fontSize="small">assignment</Icon>,
+  //   route: "/wedding",
+  //   component: <Wedding />,
+  // },
   {
     type: "collapse",
-    name: "Wedding Special",
-    key: "wedding_special",
+    name: "About Us",
+    key: "about us",
     icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/wedding",
-    component: <Wedding />,
+    route: "/about",
+    component: <About />,
   },
   {
     type: "collapse",
@@ -361,7 +368,7 @@ const routes = [
     route: "/add-wedding",
     component: <Add_Wedding />,
   },
- 
+
   {
     type: "collapse",
     name: "Add Dry Fruits",
@@ -370,7 +377,14 @@ const routes = [
     route: "/add-dry-fruit",
     component: <Add_Dry_fruit />,
   },
- 
+{
+    type: "collapse",
+    name: "Add Dry Fruits",
+    key: "add_dry_fruit",
+    icon: <Icon fontSize="small">notifications</Icon>,
+    route: "/edit-dry-fruit",
+    component: <Edit_Dry_fruit />,
+  },
   {
     type: "collapse",
     name: "Add Best Seller",
@@ -396,7 +410,7 @@ const routes = [
     route: "/edit-planning",
     component: <Edit_Planning />,
   },
- 
+
   {
     type: "collapse",
     name: "Edit Invitation Boxes",
@@ -405,7 +419,7 @@ const routes = [
     route: "/edit-invitation-boxes",
     component: <Edit_Invitation_box />,
   },
-  
+
   {
     type: "collapse",
     name: "Edit Discover Sweets",

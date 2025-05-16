@@ -97,10 +97,17 @@ function About() {
             setCurrentpage(response?.data?.aboutData?.current_page);
 
             const modifiedData = datas.map((about) => {
+                   const newDate = new Date(about?.createdAt);
+                const formatedDate = `${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart("2", '0')}-${String(newDate.getDate()).padStart("2", "0")}`
+                const updatedDate = new Date(about?.updatedAt);
+                const updateDate = `${updatedDate.getFullYear()}-${String(updatedDate.getMonth() + 1).padStart("2", '0')}-${String(updatedDate.getDate()).padStart("2", "0")}`
+
                 return {
                     _id: about._id,
                     video: about?.video,
                     description: about?.description,
+                         createdAt: formatedDate,
+                    updatedAt: updateDate
                 };
             });
             setAboutData(modifiedData);
@@ -178,13 +185,25 @@ function About() {
                                                         {
                                                             Header: "Video ",
                                                             accessor: "Video",
-                                                            width: "15%",
+                                                            width: "25%",
                                                             align: "left",
                                                         },
                                                         {
                                                             Header: "Description ",
                                                             accessor: "Description",
-                                                            width: "15%",
+                                                            width: "25%",
+                                                            align: "left",
+                                                        },
+                                                          {
+                                                            Header: "Created ",
+                                                            accessor: "Created",
+                                                            width: "20%",
+                                                            align: "left",
+                                                        },
+                                                        {
+                                                            Header: "Updated ",
+                                                            accessor: "Updated",
+                                                            width: "20%",
                                                             align: "left",
                                                         },
                                                         { Header: "Edit", accessor: "Edit", align: "left" },
@@ -237,6 +256,25 @@ function About() {
                                                             >
                                                                 view
                                                             </MDButton>
+                                                        ), Created: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {about?.createdAt}
+                                                            </MDTypography>
+                                                        ),
+                                                        Updated: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {about?.updatedAt}
+                                                            </MDTypography>
                                                         ),
 
 

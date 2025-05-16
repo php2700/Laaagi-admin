@@ -106,6 +106,9 @@ function Quote() {
             setCurrentpage(response?.data?.quoteData?.current_page);
 
             const modifiedData = datas.map((quote) => {
+                const newDate = new Date(quote?.createdAt);
+                const formatedDate = `${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart("2", '0')}-${String(newDate.getDate()).padStart("2", "0")}`
+
                 return {
                     _id: quote._id,
                     firstName: quote?.firstName,
@@ -114,7 +117,9 @@ function Quote() {
                     message: quote?.message,
                     mobile: quote?.mobile,
                     decorationCategory: quote?.decorationId?.category,
-                    decorationImage: quote?.decorationId?.image
+                    decorationImage: quote?.decorationId?.image,
+                    createdAt: formatedDate
+
                 };
             });
             console.log(modifiedData, "2222222222222")
@@ -181,7 +186,7 @@ function Quote() {
                                     </MDTypography>
                                 </MDBox>
                                 <MDBox pt={3}>
-                                <MDBox mx={2} mb={2} textAlign="right">
+                                    <MDBox mx={2} mb={2} textAlign="right">
                                         <MDBox pr={1}>
                                             <MDInput
                                                 value={search}
@@ -235,6 +240,12 @@ function Quote() {
                                                             Header: "Mobile ",
                                                             accessor: "Mobile",
                                                             width: "15%",
+                                                            align: "left",
+                                                        },
+                                                        {
+                                                            Header: "Created ",
+                                                            accessor: "Created",
+                                                            width: "20%",
                                                             align: "left",
                                                         },
                                                         {
@@ -318,15 +329,18 @@ function Quote() {
                                                                 {user?.mobile}
                                                             </MDTypography>
                                                         ),
+                                                        Created: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {user?.createdAt}
+                                                            </MDTypography>
+                                                        ),
+
                                                         Message: (
-                                                            // <MDTypography
-                                                            //     component="a"
-                                                            //     variant="caption"
-                                                            //     color="text"
-                                                            //     fontWeight="medium"
-                                                            // >
-                                                            //     {user?.message}
-                                                            // </MDTypography>
                                                             <MDButton
                                                                 variant='gradient'
                                                                 color='info'

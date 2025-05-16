@@ -136,8 +136,7 @@ function Add_Planning() {
                             <MDBox pt={5} mx={2}>
                                 <MDBox component="form" role="form" sx={{ minHeight: "60vh" }}>
                                     <Grid container spacing={3}>
-                                        {/* <Grid item xs={12} md={6} xl={3} >
-                      <MDBox mb={2} > */}
+
 
                                         <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
                                             <MDBox mb={2} width='25%'>

@@ -91,10 +91,19 @@ function Ads() {
             setCurrentpage(response?.data?.adsData?.current_page);
 
             const modifiedData = datas.map((ads) => {
+                const newDate = new Date(ads?.createdAt);
+                const formatedDate = `${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart("2", '0')}-${String(newDate.getDate()).padStart("2", "0")}`
+                const updatedDate = new Date(ads?.updatedAt);
+                const updateDate = `${updatedDate.getFullYear()}-${String(updatedDate.getMonth() + 1).padStart("2", '0')}-${String(updatedDate.getDate()).padStart("2", "0")}`
+
+
                 return {
                     _id: ads._id,
                     image: ads?.image,
-                    banner: ads?.banner
+                    banner: ads?.banner,
+                     createdAt: formatedDate,
+                    updatedAt: updateDate
+
                 };
             });
             setAdsData(modifiedData);
@@ -161,18 +170,29 @@ function Ads() {
                                             <DataTable
                                                 table={{
                                                     columns: [
-                                                        { Header: "ID", accessor: "orderId", width: "1%", align: "left" },
+                                                        { Header: "ID", accessor: "orderId", width: "5%", align: "left" },
                                                         {
-                                                            Header: 'Banner', accessor: "Banner", width: "15%",
+                                                            Header: 'Banner', accessor: "Banner", width: "20%",
                                                             align: "left"
                                                         },
                                                         {
                                                             Header: "Image ",
                                                             accessor: "Image",
-                                                            width: "15%",
+                                                            width: "20%",
                                                             align: "left",
                                                         },
-
+                                                           {
+                                                            Header: "Created ",
+                                                            accessor: "Created",
+                                                            width: "20%",
+                                                            align: "left",
+                                                        },
+                                                        {
+                                                            Header: "Updated ",
+                                                            accessor: "Updated",
+                                                            width: "20%",
+                                                            align: "left",
+                                                        },
 
                                                         { Header: "Edit", accessor: "Edit", align: "left" },
                                                     ],
@@ -214,7 +234,26 @@ function Ads() {
                                                                 />
                                                             </MDTypography>
                                                         ),
-
+                                                               Created: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {ads?.createdAt}
+                                                            </MDTypography>
+                                                        ),
+                                                        Updated: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {ads?.updatedAt}
+                                                            </MDTypography>
+                                                        ),
 
                                                         Edit: (
                                                             <Link to={`/edit-ads`}

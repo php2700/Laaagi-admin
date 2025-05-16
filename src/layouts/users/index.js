@@ -107,14 +107,20 @@ function Users() {
             setCurrentpage(response?.data?.userData?.current_page);
 
             const modifiedData = datas.map((user) => {
+                const date = new Date(user?.createdAt);
+                const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+
                 return {
                     _id: user._id,
                     name: user?.name,
                     mobile: user?.mobile,
-                    status: user?.status
+                    status: user?.status,
+                    email: user?.email,
+                    address: user?.address,
+                    profile: user?.profile,
+                    createdAt: formattedDate
                 };
             });
-            console.log(modifiedData, "2222222222222")
             setUserData(modifiedData);
         } catch (error) {
             console.error("Error fetching banner data:", error);
@@ -199,10 +205,21 @@ function Users() {
                                                 table={{
                                                     columns: [
                                                         { Header: "ID", accessor: "orderId", width: "1%", align: "left" },
-
+                                                        {
+                                                            Header: "Profile ",
+                                                            accessor: "Profile",
+                                                            width: "15%",
+                                                            align: "left",
+                                                        },
                                                         {
                                                             Header: "Name ",
                                                             accessor: "Name",
+                                                            width: "15%",
+                                                            align: "left",
+                                                        },
+                                                        {
+                                                            Header: "Email ",
+                                                            accessor: "Email",
                                                             width: "15%",
                                                             align: "left",
                                                         },
@@ -213,12 +230,24 @@ function Users() {
                                                             align: "left",
                                                         },
                                                         {
+                                                            Header: "Address ",
+                                                            accessor: "Address",
+                                                            width: "15%",
+                                                            align: "left",
+                                                        },
+                                                        {
+                                                            Header: "Created",
+                                                            accessor: "Created",
+                                                            width: "15%",
+                                                            align: "left",
+                                                        },
+                                                        {
                                                             Header: "Status ",
                                                             accessor: "Status",
                                                             width: "15%",
                                                             align: "left",
                                                         },
-                                                        { Header: "Edit", accessor: "Edit", align: "left" },
+                                                        // { Header: "Edit", accessor: "Edit", align: "left" },
                                                     ],
 
                                                     rows: userData.map((user, index) => ({
@@ -232,6 +261,20 @@ function Users() {
                                                                 {index + 1}
                                                             </MDTypography>
                                                         ),
+                                                        Profile: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                <img
+                                                                    src={`${process.env.REACT_APP_BASE_URL}uploads/${user?.profile}`}
+                                                                    alt="Banner"
+                                                                    style={{ width: "50px", height: "50px", borderRadius: "5px" }}
+                                                                />
+                                                            </MDTypography>
+                                                        ),
                                                         Name: (
                                                             <MDTypography
                                                                 component="a"
@@ -242,6 +285,16 @@ function Users() {
                                                                 {user?.name}
                                                             </MDTypography>
                                                         ),
+                                                        Email: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {user?.email}
+                                                            </MDTypography>
+                                                        ),
                                                         Mobile: (
                                                             <MDTypography
                                                                 component="a"
@@ -250,6 +303,26 @@ function Users() {
                                                                 fontWeight="medium"
                                                             >
                                                                 {user?.mobile}
+                                                            </MDTypography>
+                                                        ),
+                                                        Address: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {user?.address}
+                                                            </MDTypography>
+                                                        ),
+                                                        Created: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {user?.createdAt}
                                                             </MDTypography>
                                                         ),
                                                         Status: (
@@ -263,25 +336,25 @@ function Users() {
 
                                                             </MDTypography>
                                                         ),
-                                                        Edit: (
-                                                            <Link to={`/edit-user`}
-                                                                state={{ userData: user }}
-                                                            >
-                                                                <MDTypography
-                                                                    component="span"
-                                                                    variant="caption"
-                                                                    fontWeight="medium"
-                                                                    // onClick={() => handleEdit(user)}
-                                                                    sx={{
-                                                                        cursor: "pointer",
-                                                                        textDecoration: "none",
-                                                                        fontSize:"18px"
-                                                                    }}
-                                                                >
-                                                                    <EditIcon/>
-                                                                </MDTypography>
-                                                            </Link>
-                                                        ),
+                                                        // Edit: (
+                                                        //     <Link to={`/edit-user`}
+                                                        //         state={{ userData: user }}
+                                                        //     >
+                                                        //         <MDTypography
+                                                        //             component="span"
+                                                        //             variant="caption"
+                                                        //             fontWeight="medium"
+                                                        //             // onClick={() => handleEdit(user)}
+                                                        //             sx={{
+                                                        //                 cursor: "pointer",
+                                                        //                 textDecoration: "none",
+                                                        //                 fontSize: "18px"
+                                                        //             }}
+                                                        //         >
+                                                        //             <EditIcon />
+                                                        //         </MDTypography>
+                                                        //     </Link>
+                                                        // ),
                                                     })),
                                                 }}
                                                 isSorted={false}

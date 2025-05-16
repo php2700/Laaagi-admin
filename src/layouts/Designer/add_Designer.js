@@ -32,12 +32,12 @@ function Add_Designer() {
 
     const [previewUrl, setPreviewUrl] = useState("");
     const [successSB, setSuccessSB] = useState(false);
-    const [category,setCategory]=useState();
+    const [category, setCategory] = useState();
     const [error, setError] = useState("");
     const [errors, setErrors] = useState({})
 
-    const categoryList=[
-        "Bridge","Groom"
+    const categoryList = [
+        "Bridge", "Groom"
     ]
 
     const handleChangefile = (newFile) => {
@@ -78,13 +78,14 @@ function Add_Designer() {
 
         if (!name) {
             allError.name = "Please Enter Name"
-            // setErrors(allError);
-            // return;
+        } else if (!name?.trim()) {
+            allError.name = "Please Enter Name"
+        } else if (!/^[a-zA-Z\s]*$/.test(name)) {
+            allError.name = "Please Enter Valid Name"
         }
-        if (!category) {    
-            allError.category = "Please Select Category"
-            // setErrors(allError);
-            // return;
+
+        if (!category) {
+            allError.category = "Please Select Category";
         }
 
         if (Object?.keys(allError)?.length > 0) {
@@ -101,7 +102,7 @@ function Add_Designer() {
         }
 
         const formData = new FormData();
-        formData.append("category",category)
+        formData.append("category", category)
         formData.append("image", designerImage);
         formData.append("name", name);
 
@@ -156,10 +157,10 @@ function Add_Designer() {
                             <MDBox pt={5} mx={2}>
                                 <MDBox component="form" role="form" sx={{ minHeight: "60vh" }}>
                                     <Grid container spacing={3}>
-                                        <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
-                                            <MDBox mb={2} width='25%'>
+                                        <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
+                                            <MDBox mb={2} width='100%'>
                                                 <FormControl fullWidth>
-                                                    <InputLabel id="client-name-label" sx={{ paddingTop: "8px",paddingBottom:'3px' }}>
+                                                    <InputLabel id="client-name-label" sx={{ paddingTop: "8px", paddingBottom: '3px' }}>
                                                         Category
                                                     </InputLabel>
                                                     <Select
@@ -184,8 +185,8 @@ function Add_Designer() {
                                                 )}
                                             </MDBox>
                                         </Grid>
-                                        <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
-                                            <MDBox mb={2} width='25%' >
+                                        <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
+                                            <MDBox mb={2} width='100%' >
                                                 <MDInput
                                                     type="text"
                                                     label="Designer Name"
@@ -203,14 +204,14 @@ function Add_Designer() {
                                             </MDBox>
                                         </Grid>
                                         {/* <Grid item xs={12} md={6} xl={3} mt={1} > */}
-                                        <Grid item xs={12} md={6} xl={12} mt={1}
+                                        <Grid item xs={12} md={6} xl={4} mt={1}
                                             display="flex"
                                             //  justifyContent="center"
                                             flexDirection='column'
                                             alignItems="center"
                                         >
 
-                                            <MDBox mb={2} width='25%'
+                                            <MDBox mb={2} width='100%'
                                                 display="flex"
                                                 flexDirection="column"
                                             // alignItems="center" 

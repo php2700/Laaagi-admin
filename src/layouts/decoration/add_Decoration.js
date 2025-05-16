@@ -72,14 +72,12 @@ function Add_Decoration() {
         setPreviewUrl("");
     };
 
-    // Handle form submission
     const handleSubmit = async () => {
         let allError = {}
 
         if (!category) {
             allError.category = "Please Select Category."
-            // setErrors(allError);
-            // return;
+
         }
 
         if (Object?.keys(allError)?.length > 0) {

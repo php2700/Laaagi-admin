@@ -40,6 +40,7 @@ function Edit_Sweets() {
     const [name, setName] = useState(null);
     const [_id, setId] = useState();
     const [open, setOpen] = useState(false)
+    const [description, setDescription] = useState(null);
 
     const [previewUrl, setPreviewUrl] = useState("");
     const [successSB, setSuccessSB] = useState(false);
@@ -47,7 +48,6 @@ function Edit_Sweets() {
     const [errors, setErrors] = useState({})
 
     const sweetsList = sweetsData;
-    // Handle file change
     const handleChangefile = (newFile) => {
         if (newFile && newFile.type.startsWith("image/")) {
 
@@ -81,6 +81,7 @@ function Edit_Sweets() {
         setAmount(sweetData?.amount)
         setCategory(sweetData?.category)
         setSweetsImage(sweetData?.image)
+        setDescription(sweetData?.description)
         if (sweetData?.image) {
             setPreviewUrl(`${process.env.REACT_APP_BASE_URL}uploads/${sweetData?.image}`);
         }
@@ -88,8 +89,6 @@ function Edit_Sweets() {
 
     const handleRemoveImage = () => {
         setOpen(true)
-        // setSweetsImage(null);
-        // setPreviewUrl("");
     };
 
     const handleClose = () => {
@@ -105,22 +104,30 @@ function Edit_Sweets() {
     const handleSubmit = async () => {
         let allError = {}
 
+
+
         if (!name) {
-            allError.name = "Please Enter name"
-            // setErrors(allError);
-            // return;
+            allError.name = "Please Enter Sweet Name"
+        } else if (!name?.trim()) {
+            allError.name = "Please Enter Sweet Name"
+        } else if (!/^[a-zA-Z\s]*$/.test(name)) {
+            allError.name = "Please Enter Valid Sweet Name"
         }
 
         if (!amount) {
-            allError.amount = "Please Enter Amount."
-            // setErrors(allError);
-            // return;
+            allError.amount = "Please Enter  Amount."
+        } else if (!amount?.trim()) {
+            allError.amount = "Please Enter  Amount."
         }
 
         if (!category) {
             allError.category = "Please Select Category."
-            // setErrors(allError);
-            // return;
+        }
+
+        if (!description) {
+            allError.description = "Please Add Description.";
+        } else if (!description?.trim()) {
+            allError.description = "Please Enter Sweet description"
         }
 
         if (Object?.keys(allError)?.length > 0) {
@@ -140,8 +147,15 @@ function Edit_Sweets() {
         const formData = new FormData();
         formData.append("_id", _id)
         formData.append("name", name);
-        formData.append("amount", amount);
+        let formattedAmount;
+        if (amount.includes('kg')) {
+            formattedAmount = `${amount}`;
+        } else {
+            formattedAmount = `${amount}/kg`;
+        }
+        formData.append("amount", formattedAmount);
         formData.append("category", category);
+        formData.append("description", description)
         if (sweetsImage && sweetsImage !== sweetData?.image) {
             formData.append("image", sweetsImage);
         }
@@ -163,6 +177,7 @@ function Edit_Sweets() {
                 setId("")
                 setName("");
                 setAmount("");
+                setDescription("")
                 setCategory("");
                 setErrors({});
                 navigate("/sweets")
@@ -199,8 +214,8 @@ function Edit_Sweets() {
                             <MDBox pt={5} mx={2}>
                                 <MDBox component="form" role="form" sx={{ minHeight: "60vh" }}>
                                     <Grid container spacing={3}>
-                                        <Grid item xs={12} md={6} xl={12} display='flex' justifyContent='center'>
-                                            <MDBox mb={2} width='25%'>
+                                        <Grid item xs={12} md={6} xl={4} display='flex' justifyContent='center'>
+                                            <MDBox mb={2} width='100%'>
                                                 <FormControl fullWidth>
                                                     <InputLabel id="client-name-label" sx={{ paddingTop: "8px" }}>
                                                         Category
@@ -227,8 +242,8 @@ function Edit_Sweets() {
                                                 )}
                                             </MDBox>
                                         </Grid>
-                                        <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center" >
-                                            <MDBox mb={2} width='25%'>
+                                        <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center" >
+                                            <MDBox mb={2} width='100%'>
                                                 <MDInput
                                                     type="text"
                                                     label="Sweet Name"
@@ -245,16 +260,19 @@ function Edit_Sweets() {
                                                 )}
                                             </MDBox>
                                         </Grid>
-                                        <Grid item xs={12} md={6} xl={12} display='flex' justifyContent='center'>
-                                            <MDBox mb={2} width='25%'>
+                                        <Grid item xs={12} md={6} xl={4} display='flex' justifyContent='center'>
+                                            <MDBox mb={2} width='100%'>
                                                 <MDInput
-                                                    type="Number"
-                                                    label="Amount"
+                                                    type="text"
+                                                    label="Amount Per kg"
                                                     fullWidth
-                                                    value={amount || ""}
+                                                    value={amount?.split('/')[0] || ""}
                                                     onChange={(e) => {
-                                                        setAmount(e.target.value)
-                                                        setErrors((prev) => ({ ...prev, amount: "" }))
+                                                        let newAmount = e.target.value;
+                                                        if (/^\d*$/.test(newAmount)) {
+                                                            setAmount(newAmount)
+                                                            setErrors((prev) => ({ ...prev, amount: "" }))
+                                                        }
                                                     }
                                                     }
                                                     sx={{ marginTop: "8px" }}
@@ -265,13 +283,13 @@ function Edit_Sweets() {
                                             </MDBox>
                                         </Grid>
 
-                                        <Grid item xs={12} md={6} xl={12} mt={1}
+                                        <Grid item xs={12} md={6} xl={4} mt={1}
                                             display='flex'
                                             flexDirection='column'
                                             alignItems="center"
                                         >
                                             <MDBox mb={2}
-                                                width='25%'
+                                                width='100%'
                                                 display="flex"
                                                 flexDirection="column"
                                             >
@@ -332,6 +350,27 @@ function Edit_Sweets() {
                                                     </MDBox>
                                                 </MDBox>
                                             )}
+                                        </Grid>
+                                        <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
+                                            <MDBox mb={2} width='100%'>
+                                                <MDInput
+                                                    type="text"
+                                                    label="Box Description"
+                                                    fullWidth
+                                                    multiline
+                                                    minRows={4}
+                                                    value={description}
+                                                    onChange={(e) => {
+                                                        setDescription(e.target.value)
+                                                        setErrors((prev) => ({ ...prev, description: "" }))
+                                                    }
+                                                    }
+                                                    sx={{ marginTop: "8px" }}
+                                                />
+                                                {errors.description && (
+                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.description}</div>
+                                                )}
+                                            </MDBox>
                                         </Grid>
 
                                     </Grid>

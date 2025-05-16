@@ -106,6 +106,9 @@ function Customization() {
             setCurrentpage(response?.data?.customizationData?.current_page);
 
             const modifiedData = datas.map((customization) => {
+                const newDate = new Date(customization?.createdAt);
+                const formatedDate = `${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart("2", '0')}-${String(newDate.getDate()).padStart("2", "0")}`
+
                 return {
                     _id: customization._id,
                     firstName: customization?.firstName,
@@ -113,7 +116,9 @@ function Customization() {
                     message: customization?.message,
                     mobile: customization?.mobile,
                     image: customization?.invitationId?.image,
-                    boxName: customization?.invitationId?.name
+                    boxName: customization?.invitationId?.name,
+                    createdAt: formatedDate
+
                 };
             });
             console.log(modifiedData, "2222222222222")
@@ -234,11 +239,18 @@ function Customization() {
                                                             align: "left",
                                                         },
                                                         {
+                                                            Header: "Created ",
+                                                            accessor: "Created",
+                                                            width: "20%",
+                                                            align: "left",
+                                                        },
+                                                        {
                                                             Header: "Message ",
                                                             accessor: "Message",
                                                             width: "15%",
                                                             align: "left",
                                                         },
+
 
                                                     ],
 
@@ -304,14 +316,6 @@ function Customization() {
                                                             </MDTypography>
                                                         ),
                                                         Message: (
-                                                            // <MDTypography
-                                                            //     component="a"
-                                                            //     variant="caption"
-                                                            //     color="text"
-                                                            //     fontWeight="medium"
-                                                            // >
-                                                            //     {user?.message}
-                                                            // </MDTypography>
                                                             <MDButton
                                                                 variant='gradient' color='info'
                                                                 onClick={() => handleView(user?.message)}
@@ -319,6 +323,16 @@ function Customization() {
                                                                 view
                                                             </MDButton>
 
+                                                        ),
+                                                        Created: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {user?.createdAt}
+                                                            </MDTypography>
                                                         ),
                                                     })),
                                                 }}

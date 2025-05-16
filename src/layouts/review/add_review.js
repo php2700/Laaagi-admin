@@ -79,29 +79,31 @@ function Add_Review() {
 
     if (!name) {
       allError.name = "Please Enter Name"
-      // setErrors(allError);
-      // return;
+    } else if (!name?.trim()) {
+      allError.name = "Please Enter Name"
+    } else if (!/^[a-zA-Z\s]*$/.test(name)) {
+      allError.name = "Please Enter Valid Name"
     }
 
     if (!description) {
       allError.description = "Please Add Description."
-      // setErrors(allError);
-      // return;
+    } else if (!description?.trim()) {
+      allError.description = "Please Enter description"
     }
 
     if (!designation) {
-      allError.designation = "Please Select Designation."
-      // setErrors(allError);
-      // return;
+      allError.designation = "Please Enter Designation."
+    } else if (!designation?.trim()) {
+      allError.designation = "Please Enter designation"
     }
 
     if (Object?.keys(allError)?.length > 0) {
       setErrors(allError)
       if (!image) {
-          setError("Please Upload Image.");
+        setError("Please Upload Image.");
       }
       return
-  }
+    }
 
     if (!image) {
       setError("Please Upload Image.");
@@ -168,8 +170,8 @@ function Add_Review() {
                   <Grid container spacing={3}>
                     {/* <Grid item xs={12} md={6} xl={3} >
                       <MDBox mb={2} > */}
-                    <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
-                      <MDBox mb={2} width='25%' >
+                    <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
+                      <MDBox mb={2} width='100%' >
                         <MDInput
                           type="text"
                           label="Name"
@@ -186,8 +188,8 @@ function Add_Review() {
                         )}
                       </MDBox>
                     </Grid>
-                    <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
-                      <MDBox mb={2} width='25%'>
+                    <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
+                      <MDBox mb={2} width='100%'>
                         <MDInput
                           type="text"
                           label="designation"
@@ -205,20 +207,17 @@ function Add_Review() {
                         )}
                       </MDBox>
                     </Grid>
-                    
-                   
-                    {/* <Grid item xs={12} md={6} xl={3} mt={1} > */}
-                    <Grid item xs={12} md={6} xl={12} mt={1}
+
+
+                    <Grid item xs={12} md={6} xl={4} mt={1}
                       display="flex"
-                      //  justifyContent="center"
                       flexDirection='column'
                       alignItems="center"
                     >
 
-                      <MDBox mb={2} width='25%'
+                      <MDBox mb={2} width='100%'
                         display="flex"
                         flexDirection="column"
-                      // alignItems="center" 
                       >
                         <MuiFileInput
                           value={image}
@@ -272,8 +271,8 @@ function Add_Review() {
                       )}
                     </Grid>
 
-                    <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
-                      <MDBox mb={2} width='25%'>
+                    <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
+                      <MDBox mb={2} width='100%'>
                         <MDInput
                           type="text"
                           label="description"

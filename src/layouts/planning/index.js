@@ -109,10 +109,19 @@ function Planning() {
             setCurrentpage(response?.data?.planningData?.current_page);
 
             const modifiedData = datas.map((planning) => {
+
+                const newDate = new Date(planning?.createdAt);
+                const formatedDate = `${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart("2", '0')}-${String(newDate.getDate()).padStart("2", "0")}`
+                const updatedDate = new Date(planning?.updatedAt);
+                const updateDate = `${updatedDate.getFullYear()}-${String(updatedDate.getMonth() + 1).padStart("2", '0')}-${String(updatedDate.getDate()).padStart("2", "0")}`
+
                 return {
                     _id: planning._id,
                     description: planning?.description,
-                    category: planning?.category
+                    category: planning?.category,
+                    createdAt: formatedDate,
+                    updatedAt: updateDate
+
                 };
             });
             setPlanningData(modifiedData);
@@ -213,13 +222,25 @@ function Planning() {
                                                         {
                                                             Header: "Category ",
                                                             accessor: "Category",
-                                                            width: "15%",
+                                                            width: "20%",
                                                             align: "left",
                                                         },
                                                         {
                                                             Header: "Task ",
                                                             accessor: "Description",
-                                                            width: "15%",
+                                                            width: "20%",
+                                                            align: "left",
+                                                        },
+                                                        {
+                                                            Header: "Created ",
+                                                            accessor: "Created",
+                                                            width: "20%",
+                                                            align: "left",
+                                                        },
+                                                        {
+                                                            Header: "Updated ",
+                                                            accessor: "Updated",
+                                                            width: "20%",
                                                             align: "left",
                                                         },
                                                         { Header: "Edit", accessor: "Edit", align: "left" },
@@ -248,20 +269,30 @@ function Planning() {
                                                             </MDTypography>
                                                         ),
                                                         Description: (
-                                                            // <MDTypography
-                                                            //     component="a"
-                                                            //     variant="caption"
-                                                            //     color="text"
-                                                            //     fontWeight="medium"
-                                                            // >
-                                                            //     {planning?.description}
-                                                            // </MDTypography>
                                                             <MDButton variant="gradient" color="info" onClick={() => { handleview(planning?.description) }}>
                                                                 view
                                                             </MDButton>
                                                         ),
-
-
+                                                        Created: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {planning?.createdAt}
+                                                            </MDTypography>
+                                                        ),
+                                                        Updated: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {planning?.updatedAt}
+                                                            </MDTypography>
+                                                        ),
 
                                                         Edit: (
                                                             <Link to={`/edit-planning`}
@@ -275,7 +306,7 @@ function Planning() {
                                                                     sx={{
                                                                         cursor: "pointer",
                                                                         textDecoration: "none",
-                                                                        fontSize:"18px"
+                                                                        fontSize: "18px"
                                                                     }}
                                                                 >
                                                                     <EditIcon />
@@ -292,7 +323,7 @@ function Planning() {
                                                                 sx={{
                                                                     cursor: "pointer",
                                                                     textDecoration: "none",
-                                                                    fontSize:'18px'
+                                                                    fontSize: '18px'
                                                                 }}
                                                             >
                                                                 <DeleteIcon />
