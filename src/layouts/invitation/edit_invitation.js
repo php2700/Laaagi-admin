@@ -108,11 +108,8 @@ function Edit_Invitation() {
 
     const handleSubmit = async () => {
         let allError = {}
-
         if (!price) {
             allError.price = "Please Enter Amount ."
-        } else if (!price?.trim()) {
-            allError.price = "Please Enter Amount"
         } else if (!/^\d*$/.test(price)) {
             allError.price = "Enter Valid Amount"
         }

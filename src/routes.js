@@ -82,6 +82,7 @@ import Customization from "layouts/customization/index"
 import Quote from "layouts/quote/index"
 import Edit_Banner from "layouts/billing/edit_Banner"
 import Edit_Dry_fruit from "layouts/dry_fruit/edit_dry_fruit";
+import DesignerQuote from "layouts/designerQuote";
 
 const routes = [
   {
@@ -216,6 +217,14 @@ const routes = [
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/quote",
     component: <Quote />,
+  },
+  {
+    type: "collapse",
+    name: "DesignerQuote",
+    key: "DesignerQuote",
+    icon: <Icon fontSize="small">notifications</Icon>,
+    route: "/designer-quote",
+    component: <DesignerQuote />,
   },
   {
     type: "collapse",
@@ -377,7 +386,7 @@ const routes = [
     route: "/add-dry-fruit",
     component: <Add_Dry_fruit />,
   },
-{
+  {
     type: "collapse",
     name: "Add Dry Fruits",
     key: "add_dry_fruit",

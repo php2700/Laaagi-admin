@@ -37,7 +37,7 @@ function Add_Designer() {
     const [errors, setErrors] = useState({})
 
     const categoryList = [
-        "Bridge", "Groom"
+        "Bridge", "Groom", "Suits", "Other"
     ]
 
     const handleChangefile = (newFile) => {

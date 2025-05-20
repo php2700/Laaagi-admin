@@ -230,8 +230,11 @@ function Edit_Dry_fruit() {
                                                     fullWidth
                                                     value={amount?.split("/")[0] || ""}
                                                     onChange={(e) => {
-                                                        setAmount(e.target.value)
-                                                        setErrors((prev) => ({ ...prev, amount: "" }))
+                                                        let newAmount = e.target.value;
+                                                        if (/^\d*$/.test(newAmount)) {
+                                                            setAmount(newAmount)
+                                                            setErrors((prev) => ({ ...prev, amount: "" }))
+                                                        }
                                                     }}
                                                     sx={{ marginTop: "8px" }}
                                                 />
