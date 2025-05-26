@@ -201,9 +201,11 @@ function Overview() {
     }
 
     const handleDashboardSweet = (sweetData) => {
+        const updatedSweet = sweetData?.isSweet === true || sweetData?.isSweet === 'true' ? 'false' : 'true';
+
         const formData = new FormData();
         formData.append("_id", sweetData?._id)
-        formData.append("isWedding", !sweetData.isWedding);
+        formData.append("isSweet", updatedSweet);
         formData.append("name", sweetData?.name);
         formData.append("amount", sweetData?.amount);
         formData.append("description", sweetData?.description)
@@ -212,9 +214,11 @@ function Overview() {
     }
 
     const handleDashboardWedding = (sweetsData) => {
+        const updatedIsWedding = sweetsData?.isWedding === true || sweetsData?.isWedding === 'true' ? 'false' : 'true';
+
         const formData = new FormData();
         formData.append("_id", sweetsData?._id)
-        formData.append("isSweet", !sweetsData?.isSweet);
+        formData.append("isWedding", updatedIsWedding);
         formData.append("name", sweetsData?.name);
         formData.append("amount", sweetsData?.amount);
         formData.append("category", sweetsData?.category);
@@ -369,7 +373,10 @@ function Overview() {
                                                                 color="text"
                                                                 fontWeight="medium"
                                                             >
-                                                                <Switch {...label} onChange={() => handleDashboardSweet(sweet)} defaultChecked={sweet?.isSweet == true ? true : false} />
+                                                                <Switch {...label}
+                                                                    onChange={() => handleDashboardSweet(sweet)}
+                                                                    // defaultChecked={sweet?.isSweet == 'true' ? true : false} />
+                                                                    checked={sweet?.isSweet === true || sweet?.isSweet === "true"} />
                                                             </MDTypography>
                                                         ),
                                                         DashboardWedding: (
@@ -379,7 +386,8 @@ function Overview() {
                                                                 color="text"
                                                                 fontWeight="medium"
                                                             >
-                                                                <Switch {...label} onChange={() => handleDashboardWedding(sweet)} defaultChecked={sweet?.isWedding == true ? true : false} />
+                                                                <Switch {...label} onChange={() => handleDashboardWedding(sweet)}
+                                                                    checked={sweet?.isWedding === true || sweet?.isWedding === "true"} />
                                                             </MDTypography>
                                                         ),
                                                         Category: (
