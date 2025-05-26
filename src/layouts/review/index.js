@@ -283,7 +283,7 @@ function Review() {
                                                                 <img
                                                                     src={`${process.env.REACT_APP_BASE_URL}uploads/${review?.image}`}
                                                                     alt="Banner"
-                                                                    style={{ width: "100px", height: "100px", borderRadius: "5px" }}
+                                                                    style={{ width: "100px", height: "100px", borderRadius: "50%" }}
                                                                 />
                                                             </MDTypography>
                                                         ),

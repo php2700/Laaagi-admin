@@ -183,7 +183,7 @@ function Dashboard() {
                 boxShadow: 2,
               },
             }}>
-              <Link to='/sweets'>
+              <Link to='/review'>
                 <ComplexStatisticsCard
                   icon="leaderboard"
                   title="Reviews"
