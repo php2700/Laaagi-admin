@@ -18,6 +18,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { FormControl, IconButton, InputLabel, MenuItem, Select } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MDInput from "components/MDInput";
+import { logout } from "layouts/common";
 
 
 function Add_Designer() {
@@ -128,8 +129,11 @@ function Add_Designer() {
                 setError("Failed to upload the image.");
             }
         } catch (error) {
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
             console.error("Error uploading banner:", error);
-            setError("Error uploading the image.");
+            // setError("Error uploading the image.");
         }
     };
 

@@ -21,6 +21,7 @@ import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MDInput from "components/MDInput";
 import { decorartionData } from "layouts/staticData/index";
+import { logout } from "layouts/common";
 
 
 function Add_Decoration() {
@@ -119,7 +120,10 @@ function Add_Decoration() {
             }
         } catch (error) {
             console.error("Error uploading banner:", error);
-            setError("Error uploading the image.");
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
+            // setError("Error uploading the image.");
         }
     };
 

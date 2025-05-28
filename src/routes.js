@@ -83,6 +83,7 @@ import Quote from "layouts/quote/index"
 import Edit_Banner from "layouts/billing/edit_Banner"
 import Edit_Dry_fruit from "layouts/dry_fruit/edit_dry_fruit";
 import DesignerQuote from "layouts/designerQuote";
+import InvitationQuote from "layouts/invitationQuote";
 
 const routes = [
   {
@@ -217,6 +218,14 @@ const routes = [
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/quote",
     component: <Quote />,
+  },
+  {
+    type: "collapse",
+    name: "InvitationQuote",
+    key: "InvitationQuote",
+    icon: <Icon fontSize="small">notifications</Icon>,
+    route: "/invitation-quote",
+    component: <InvitationQuote />,
   },
   {
     type: "collapse",

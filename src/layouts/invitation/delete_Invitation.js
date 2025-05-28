@@ -1,10 +1,13 @@
 import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import axios from 'axios';
+import { logout } from 'layouts/common';
 import PropTypes from "prop-types";
+import { useNavigate } from 'react-router-dom';
 
 
 const Delete_Invitation = ({ open, handleClose, data, id }) => {
-    console.log(id,"21111111111111")
+    console.log(id, "21111111111111")
+    const navigate = useNavigate();
     const token = localStorage.getItem("authToken");
     const handleDelete = () => {
         axios.delete(`${process.env.REACT_APP_BASE_URL}api/admin/invitation_delete/${id}`, {
@@ -15,6 +18,9 @@ const Delete_Invitation = ({ open, handleClose, data, id }) => {
             data();
             handleClose();
         }).catch((error) => {
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
             console.log(error)
         })
     }

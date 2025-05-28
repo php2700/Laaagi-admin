@@ -22,6 +22,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import MDInput from "components/MDInput";
 import { sweetsData } from "layouts/staticData/index";
 import Delete_Image from "./delete_image";
+import { logout } from "layouts/common";
 
 
 function Edit_Sweets() {
@@ -185,8 +186,11 @@ function Edit_Sweets() {
                 setError("Failed to upload the image.");
             }
         } catch (error) {
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
             console.error("Error uploading banner:", error);
-            setError("Error uploading the image.");
+            // setError("Error uploading the image.");
         }
     };
 

@@ -1,9 +1,12 @@
 import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import axios from 'axios';
+import { logout } from 'layouts/common';
 import PropTypes from "prop-types";
+import { useNavigate } from 'react-router-dom';
 
 
 const Delete_Sweets = ({ open, handleClose, data, id }) => {
+    const navigate=useNavigate()
     const token = localStorage.getItem("authToken");
     const handleDelete = () => {
         axios.delete(`${process.env.REACT_APP_BASE_URL}api/admin/delete_sweets/${id}`, {
@@ -15,6 +18,9 @@ const Delete_Sweets = ({ open, handleClose, data, id }) => {
             handleClose();
         }).catch((error) => {
             console.log(error)
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
         })
     }
     return (

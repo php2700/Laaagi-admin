@@ -22,6 +22,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import MDInput from "components/MDInput";
 import { planningData } from "layouts/staticData/index";
 import { planningCategoryData } from "layouts/staticData/index";
+import { logout } from "layouts/common";
 
 function Edit_Planning() {
     const location = useLocation();
@@ -125,7 +126,10 @@ function Edit_Planning() {
             }
         } catch (error) {
             console.error("Error uploading banner:", error);
-            setError("Error uploading the image.");
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
+            // setError("Error uploading the image.");
         }
     };
 

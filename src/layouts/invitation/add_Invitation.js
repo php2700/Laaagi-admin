@@ -19,6 +19,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MDInput from "components/MDInput";
+import { logout } from "layouts/common";
 
 
 function Add_Invitation() {
@@ -147,8 +148,11 @@ function Add_Invitation() {
                 setError("Failed to upload the image.");
             }
         } catch (error) {
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
             console.error("Error uploading banner:", error);
-            setError("Error uploading the image.");
+            // setError("Error uploading the image.");
         }
     };
 

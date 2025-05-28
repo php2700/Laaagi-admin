@@ -36,9 +36,11 @@ import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "layouts/common";
 
 function Dashboard() {
+  const navigate=useNavigate()
   const { sales, tasks } = reportsLineChartData;
   const [dashboardData, setDashboardData] = useState({});
 
@@ -57,6 +59,9 @@ function Dashboard() {
       );
       setDashboardData(response?.data?.dashboard);
     } catch (error) {
+      if (error?.response?.data?.Message === 'jwt expired') {
+                      logout(navigate)
+                  }
       console.error("Error fetching data:", error);
     }
   };

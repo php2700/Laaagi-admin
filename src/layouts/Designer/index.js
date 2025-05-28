@@ -31,19 +31,21 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Card } from "@mui/material";
 import MDTypography from "components/MDTypography";
 import DataTable from "examples/Tables/DataTable";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { use, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import MDButton from "components/MDButton";
 import MDPagination from "components/MDPagination";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import axios from "axios";
 import { useMaterialUIController } from "context";
 import Delete_Designer from "./delete_Designer";
+import { logout } from "layouts/common";
 // import Delete_Decoration from "./delete_decoration";
 
 
 
 function Designer() {
+    const navigate = useNavigate();
     const [controller] = useMaterialUIController();
     const { sidenavColor } = controller;
     const [designerData, setDesignerData] = useState([]);
@@ -109,6 +111,9 @@ function Designer() {
             });
             setDesignerData(modifiedData);
         } catch (error) {
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
             console.error("Error fetching banner data:", error);
         }
     };

@@ -18,6 +18,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MDInput from "components/MDInput";
+import { logout } from "layouts/common";
 
 
 function Add_Dry_fruit() {
@@ -141,7 +142,10 @@ function Add_Dry_fruit() {
             }
         } catch (error) {
             console.error("Error uploading banner:", error);
-            setError("Error uploading the image.");
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
+            // setError("Error uploading the image.");
         }
     };
 

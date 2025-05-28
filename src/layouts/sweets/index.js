@@ -49,6 +49,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Description } from "@mui/icons-material";
 import Switch from '@mui/material/Switch';
 import View_Description from "./view_desc";
+import { logout } from "layouts/common";
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
@@ -123,14 +124,17 @@ function Overview() {
                     category: sweet?.category,
                     description: sweet?.description,
                     isWedding: sweet?.isWedding,
-                    isSweet: sweet?.isSweet
+                    isSweet: sweet?.isSweet,
+                    isBestSeller: sweet?.isBestSeller
                 };
             });
 
             console.log(modifiedData, '2222')
             setSweetsData(modifiedData);
         } catch (error) {
-            console.error("Error fetching banner data:", error);
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
         }
     };
 
@@ -226,6 +230,18 @@ function Overview() {
         handleUpdate(formData)
     }
 
+    const handleBestSeller = (sweetsData) => {
+        const updetedBestseller = sweetsData?.isBestSeller === true || sweetsData?.isBestSeller === 'true' ? 'false' : 'true';
+        const formData = new FormData();
+        formData.append("_id", sweetsData?._id)
+        formData.append("isBestSeller", updetedBestseller);
+        formData.append("name", sweetsData?.name);
+        formData.append("amount", sweetsData?.amount);
+        formData.append("category", sweetsData?.category);
+        formData.append("description", sweetsData?.description);
+        handleUpdate(formData)
+    }
+
     return (
         <>
             <DashboardLayout>
@@ -303,6 +319,7 @@ function Overview() {
                                                         },
                                                         { Header: "DashboardSweet", accessor: "DashboardSweet", align: "left" },
                                                         { Header: "DashboardWedding", accessor: "DashboardWedding", align: "left" },
+                                                        { Header: "BestSeller", accessor: "BestSeller", align: "left" },
 
                                                         { Header: "Edit", accessor: "Edit", align: "left" },
                                                         { Header: "Action", accessor: "Action", align: "left" },
@@ -388,6 +405,17 @@ function Overview() {
                                                             >
                                                                 <Switch {...label} onChange={() => handleDashboardWedding(sweet)}
                                                                     checked={sweet?.isWedding === true || sweet?.isWedding === "true"} />
+                                                            </MDTypography>
+                                                        ),
+                                                        BestSeller: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                <Switch {...label} onChange={() => handleBestSeller(sweet)}
+                                                                    checked={sweet?.isBestSeller === true || sweet?.isBestSeller === "true"} />
                                                             </MDTypography>
                                                         ),
                                                         Category: (

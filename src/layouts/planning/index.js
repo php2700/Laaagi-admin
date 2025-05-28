@@ -46,6 +46,7 @@ import Delete_Planning from "./delete_planning";
 import View_Planning from "./view_planning";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { logout } from "layouts/common";
 
 
 function Planning() {
@@ -126,6 +127,9 @@ function Planning() {
             });
             setPlanningData(modifiedData);
         } catch (error) {
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
             console.error("Error fetching planning data:", error);
         }
     };

@@ -22,6 +22,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import MDInput from "components/MDInput";
 import { invitationCategoryData, PriceRangeData } from "layouts/staticData/index"
 import Delete_Image from "./delete_image";
+import { logout } from "layouts/common";
 
 function Edit_Invitation() {
     const location = useLocation();
@@ -180,8 +181,11 @@ function Edit_Invitation() {
                 setError("Failed to upload the image.");
             }
         } catch (error) {
-            console.error("Error uploading banner:", error);
-            setError("Error uploading the image.");
+            // console.error("Error uploading banner:", error);
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
+            // setError("Error uploading the image.");
         }
     };
     console.log(category, "category")

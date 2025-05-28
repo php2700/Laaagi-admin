@@ -45,6 +45,7 @@ import { useMaterialUIController } from "context";
 import View_Customization from "./view";
 import MDInput from "components/MDInput";
 import { debounce } from "lodash";
+import { logout } from "layouts/common";
 
 
 
@@ -124,6 +125,9 @@ function Customization() {
             console.log(modifiedData, "2222222222222")
             setCustomizationData(modifiedData);
         } catch (error) {
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
             console.error("Error fetching banner data:", error);
         }
     };

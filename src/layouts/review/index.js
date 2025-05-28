@@ -46,6 +46,7 @@ import Delete_Review from "./delete_review";
 import View_Review from "./view_review";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { logout } from "layouts/common";
 
 
 // import Delete_reviews from "./delete_reviews";
@@ -129,6 +130,9 @@ function Review() {
             });
             setReviewData(modifiedData);
         } catch (error) {
+            if (error?.response?.data?.Message === 'jwt expired') {
+                            logout(navigate)
+                        }
             console.error("Error fetching banner data:", error);
         }
     };

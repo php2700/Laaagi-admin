@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import MDInput from "components/MDInput";
 import { planningCategoryData } from "layouts/staticData/index";
 import { position } from "stylis";
+import { logout } from "layouts/common";
 
 
 function Add_Planning() {
@@ -108,7 +109,10 @@ function Add_Planning() {
             }
         } catch (error) {
             console.error("Error uploading banner:", error);
-            setError("Error uploading the image.");
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
+            // setError("Error uploading the image.");
         }
     };
 

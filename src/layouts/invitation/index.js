@@ -119,7 +119,9 @@ function Overview() {
                     description: invitation?.description,
                     category: invitation?.category,
                     price: invitation?.price,
-                    isInvitationBoxes: invitation?.isInvitationBoxes
+                    isInvitationBoxes: invitation?.isInvitationBoxes,
+                    isBestSeller: invitation?.isBestSeller,
+
                 };
             });
             setInvitationData(modifiedData);
@@ -171,17 +173,7 @@ function Overview() {
         setOpen(false);
     };
 
-    const handleDashboardInvitation = async (invitationData) => {
-        const formData = new FormData();
-
-        formData.append("_id", invitationData?._id)
-        formData.append("name", invitationData?.name);
-        formData.append("description", invitationData?.description)
-        formData.append("category", invitationData?.category);
-        formData.append("price", invitationData?.price);
-        formData.append("isInvitationBoxes", !invitationData?.isInvitationBoxes)
-
-
+    const updateSwitch = async (formData) => {
         try {
             const response = await axios.patch(
                 `${process.env.REACT_APP_BASE_URL}api/admin/update_invitation`,
@@ -198,9 +190,32 @@ function Overview() {
             }
         } catch (error) {
             console.error("Error uploading banner:", error);
-            setError("Error uploading the image.");
         }
+    }
 
+    const handleIsBestSeller = async (invitationData) => {
+        const BestSeller = invitationData.isBestSeller == true || invitationData.isBestSeller == 'true' ? 'false' : 'true'
+        const formData = new FormData();
+        formData.append("_id", invitationData?._id)
+        formData.append("name", invitationData?.name);
+        formData.append("description", invitationData?.description)
+        formData.append("category", invitationData?.category);
+        formData.append("price", invitationData?.price);
+        formData.append("isBestSeller", BestSeller)
+        updateSwitch(formData)
+    }
+
+    const handleDashboardInvitation = async (invitationData) => {
+        const isInvitationBoxes = invitationData.isInvitationBoxes == true || invitationData.isInvitationBoxes == 'true' ? 'false' : 'true'
+
+        const formData = new FormData();
+        formData.append("_id", invitationData?._id)
+        formData.append("name", invitationData?.name);
+        formData.append("description", invitationData?.description)
+        formData.append("category", invitationData?.category);
+        formData.append("price", invitationData?.price);
+        formData.append("isInvitationBoxes", isInvitationBoxes)
+        updateSwitch(formData)
     }
 
     return (
@@ -279,7 +294,7 @@ function Overview() {
                                                             align: "left",
                                                         },
                                                         { Header: "DashboardInvitation", accessor: "DashboardInvitation", align: "left" },
-
+                                                        { Header: "BestSeller", accessor: "BestSeller", align: "left" },
                                                         { Header: "Edit", accessor: "Edit", align: "left" },
                                                         { Header: "Action", accessor: "Action", align: "left" },
                                                     ],
@@ -349,7 +364,7 @@ function Overview() {
                                                             // >
                                                             //     {invitation?.description}
                                                             // </MDTypography>
-                                                            
+
                                                             <MDButton variant="gradient" color="info" onClick={() => { handleview(invitation?.description) }}>
                                                                 view
                                                             </MDButton>
@@ -361,7 +376,17 @@ function Overview() {
                                                                 color="text"
                                                                 fontWeight="medium"
                                                             >
-                                                                <Switch {...label} onChange={() => handleDashboardInvitation(invitation)} defaultChecked={invitation?.isInvitationBoxes == true ? true : false} />
+                                                                <Switch {...label} onChange={() => handleDashboardInvitation(invitation)} checked={invitation?.isInvitationBoxes == true || invitation?.isInvitationBoxes == 'true'} />
+                                                            </MDTypography>
+                                                        ),
+                                                        BestSeller: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                <Switch {...label} onChange={() => handleIsBestSeller(invitation)} checked={invitation.isBestSeller == true || invitation.isBestSeller == 'true'} />
                                                             </MDTypography>
                                                         ),
                                                         Edit: (

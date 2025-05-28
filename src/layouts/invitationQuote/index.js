@@ -45,12 +45,11 @@ import { useMaterialUIController } from "context";
 import Header from "layouts/profile/components/Header";
 import View_quote from "./view";
 import MDInput from "components/MDInput";
-import View_Design from "./view";
 import { logout } from "layouts/common";
 
 
 
-function DesignerQuote() {
+function InvitationQuote() {
     const navigate = useNavigate();
     const [controller] = useMaterialUIController();
     const { sidenavColor } = controller;
@@ -82,7 +81,7 @@ function DesignerQuote() {
     const getData = async (page, search) => {
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_BASE_URL}api/admin/designer-quote-list`,
+                `${process.env.REACT_APP_BASE_URL}api/admin/invitation-quote-list`,
                 {
                     params: {
                         page: page,
@@ -110,23 +109,21 @@ function DesignerQuote() {
             const modifiedData = datas.map((quote) => {
                 const newDate = new Date(quote?.createdAt);
                 const formatedDate = `${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart("2", '0')}-${String(newDate.getDate()).padStart("2", "0")}`
-console.log(quote,'aaaaaaaaaaaaa')
+
                 return {
                     _id: quote._id,
-                    firstName: quote?.firstName,
-                    email: quote?.email,
-                    lastName: quote?.lastName,
-                    message: quote?.message,
-                    mobile: quote?.mobile,
-                    decorationCategory: quote?.designerId?.category,
-                    decorationImage: quote?.designerId?.image,
-                    createdAt: formatedDate
-
+                    firstName: quote?.name,
+                    amount: quote?.price,
+                    decorationCategory: quote?.category,
+                    decorationImage: quote?.image,
+                    createdAt: formatedDate,
+                    description: quote?.description
                 };
             });
             console.log(modifiedData, "2222222222222")
             setQuoteData(modifiedData);
         } catch (error) {
+            console.log("fffffffff",error?.response?.data?.Message)
             if (error?.response?.data?.Message === 'jwt expired') {
                 logout(navigate)
             }
@@ -212,38 +209,27 @@ console.log(quote,'aaaaaaaaaaaaa')
                                                     columns: [
                                                         { Header: "ID", accessor: "orderId", width: "1%", align: "left" },
                                                         {
-                                                            Header: "Designer Image",
-                                                            accessor: "decorationImage",
+                                                            Header: "Image",
+                                                            accessor: "Image",
                                                             width: '15%',
                                                             align: 'left'
                                                         },
                                                         {
-                                                            Header: "Designer Category",
-                                                            accessor: "decorationCategtory",
+                                                            Header: "Category",
+                                                            accessor: "Categtory",
                                                             with: '15%',
                                                             align: 'left'
                                                         },
                                                         {
-                                                            Header: "First Name ",
-                                                            accessor: "firstName",
+                                                            Header: "Name ",
+                                                            accessor: "Name",
                                                             width: "15%",
                                                             align: "left",
                                                         },
+
                                                         {
-                                                            Header: "Last Name ",
-                                                            accessor: "lastName",
-                                                            width: "15%",
-                                                            align: "left",
-                                                        },
-                                                        {
-                                                            Header: "Email",
-                                                            accessor: "Email",
-                                                            width: "15%",
-                                                            align: "left",
-                                                        },
-                                                        {
-                                                            Header: "Mobile ",
-                                                            accessor: "Mobile",
+                                                            Header: "Amount ",
+                                                            accessor: "Amount",
                                                             width: "15%",
                                                             align: "left",
                                                         },
@@ -273,7 +259,7 @@ console.log(quote,'aaaaaaaaaaaaa')
                                                                 {index + 1}
                                                             </MDTypography>
                                                         ),
-                                                        decorationImage: (
+                                                        Image: (
                                                             <MDTypography
                                                                 component="a"
                                                                 variant="caption"
@@ -286,7 +272,7 @@ console.log(quote,'aaaaaaaaaaaaa')
                                                                 />
                                                             </MDTypography>
                                                         ),
-                                                        decorationCategtory: (
+                                                        Categtory: (
                                                             <MDTypography
                                                                 component="a"
                                                                 variant="caption"
@@ -294,7 +280,7 @@ console.log(quote,'aaaaaaaaaaaaa')
                                                                 fontWeight="medium"
                                                             >{user?.decorationCategory}</MDTypography>
                                                         ),
-                                                        firstName: (
+                                                        Name: (
                                                             <MDTypography
                                                                 component="a"
                                                                 variant="caption"
@@ -304,34 +290,15 @@ console.log(quote,'aaaaaaaaaaaaa')
                                                                 {user?.firstName}
                                                             </MDTypography>
                                                         ),
-                                                        lastName: (
+
+                                                        Amount: (
                                                             <MDTypography
                                                                 component="a"
                                                                 variant="caption"
                                                                 color="text"
                                                                 fontWeight="medium"
                                                             >
-                                                                {user?.lastName}
-                                                            </MDTypography>
-                                                        ),
-                                                        Email: (
-                                                            <MDTypography
-                                                                component="a"
-                                                                variant="caption"
-                                                                color="text"
-                                                                fontWeight="medium"
-                                                            >
-                                                                {user?.email}
-                                                            </MDTypography>
-                                                        ),
-                                                        Mobile: (
-                                                            <MDTypography
-                                                                component="a"
-                                                                variant="caption"
-                                                                color="text"
-                                                                fontWeight="medium"
-                                                            >
-                                                                {user?.mobile}
+                                                                {user?.amount}
                                                             </MDTypography>
                                                         ),
                                                         Created: (
@@ -349,7 +316,7 @@ console.log(quote,'aaaaaaaaaaaaa')
                                                             <MDButton
                                                                 variant='gradient'
                                                                 color='info'
-                                                                onClick={() => handleView(user?.message)}
+                                                                onClick={() => handleView(user?.description)}
                                                             >
                                                                 view
                                                             </MDButton>
@@ -403,7 +370,7 @@ console.log(quote,'aaaaaaaaaaaaa')
                     </Grid>
                 </MDBox>
             </DashboardLayout>
-            <View_Design
+            <View_quote
                 open={open}
                 handleClose={handleClose}
                 data={viewQuoteData}
@@ -412,4 +379,4 @@ console.log(quote,'aaaaaaaaaaaaa')
     );
 }
 
-export default DesignerQuote;
+export default InvitationQuote;

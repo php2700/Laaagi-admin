@@ -45,6 +45,7 @@ import { useMaterialUIController } from "context";
 import View_Contact from "./view_contact";
 import MDInput from "components/MDInput";
 import debounce from "lodash.debounce";
+import { logout } from "layouts/common";
 
 
 function Contact_Us() {
@@ -120,6 +121,9 @@ function Contact_Us() {
             });
             setContactUsData(modifiedData);
         } catch (error) {
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
             console.error("Error fetching banner data:", error);
         }
     };

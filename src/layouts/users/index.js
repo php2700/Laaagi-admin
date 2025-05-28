@@ -44,6 +44,7 @@ import axios from "axios";
 import { useMaterialUIController } from "context";
 import MDInput from "components/MDInput";
 import EditIcon from '@mui/icons-material/Edit';
+import { logout } from "layouts/common";
 
 
 
@@ -123,6 +124,9 @@ function Users() {
             });
             setUserData(modifiedData);
         } catch (error) {
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
             console.error("Error fetching banner data:", error);
         }
     };

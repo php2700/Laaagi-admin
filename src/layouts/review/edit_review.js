@@ -21,6 +21,7 @@ import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MDInput from "components/MDInput";
 import Delete_Image from "./delete_image";
+import { logout } from "layouts/common";
 
 
 function Edit_Review() {
@@ -171,7 +172,10 @@ function Edit_Review() {
             }
         } catch (error) {
             console.error("Error uploading banner:", error);
-            setError("Error uploading the image.");
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
+            // setError("Error uploading the image.");
         }
     };
 

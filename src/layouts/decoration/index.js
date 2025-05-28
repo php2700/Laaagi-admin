@@ -44,6 +44,7 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import axios from "axios";
 import { useMaterialUIController } from "context";
 import Delete_Decoration from "./delete_decoration";
+import { logout } from "layouts/common";
 
 
 
@@ -117,6 +118,9 @@ function Decoration() {
             });
             setDecorationData(modifiedData);
         } catch (error) {
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
             console.error("Error fetching banner data:", error);
         }
     };

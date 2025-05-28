@@ -41,6 +41,8 @@ import axios from "axios";
 import { useMaterialUIController } from "context";
 import Delete_Dry_fruit from "./delete_dry_fruit";
 import View_Dry_fruit_desc from "./view_desc";
+import Switch from '@mui/material/Switch';
+import { logout } from "layouts/common";
 
 
 function DryFruit() {
@@ -110,6 +112,7 @@ function DryFruit() {
                     name: dryFruit?.name,
                     amount: dryFruit?.amount,
                     description: dryFruit?.description,
+                    isBestSeller: dryFruit?.isBestSeller,
                     createdAt: formatedDate,
                     updatedAt: updateDate
 
@@ -117,6 +120,10 @@ function DryFruit() {
             });
             setDryFruitData(modifiedData);
         } catch (error) {
+            console.log(error?.response?.data?.Message,"asssssssss")
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
             console.error("Error fetching banner data:", error);
         }
     };
@@ -163,6 +170,32 @@ function DryFruit() {
 
     const handleViewClose = () => {
         setDryFruitOpen(false)
+    }
+
+    const handleDashboardWedding = async (dryFruit) => {
+        const updatedIsBestSeller = dryFruit?.isBestSeller === true || dryFruit?.isBestSeller === 'true' ? 'false' : 'true';
+
+        const formData = new FormData();
+        formData.append("_id", dryFruit?._id)
+        formData.append("isBestSeller", updatedIsBestSeller);
+        formData.append("name", dryFruit?.name);
+        formData.append("amount", dryFruit?.amount);
+        formData.append("description", dryFruit?.description);
+        const response = await axios.patch(
+            `${process.env.REACT_APP_BASE_URL}api/admin/update_dry_fruit`,
+            formData,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
+        if (response.status === 200) {
+             getDryFruitData(newPage, searchText);
+        } else {
+            console.log("error")
+        }
     }
 
     return (
@@ -235,6 +268,12 @@ function DryFruit() {
                                                             align: "left",
                                                         },
                                                         {
+                                                            Header: "BestSeller ",
+                                                            accessor: "BestSeller",
+                                                            width: "15%",
+                                                            align: "left",
+                                                        },
+                                                        {
                                                             Header: "Created ",
                                                             accessor: "Created",
                                                             width: "20%",
@@ -301,6 +340,17 @@ function DryFruit() {
                                                             <MDButton variant="gradient" color="info" onClick={() => { handleview(wedding?.description) }}>
                                                                 view
                                                             </MDButton>
+                                                        ),
+                                                        BestSeller: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                <Switch onChange={() => handleDashboardWedding(wedding)}
+                                                                    checked={wedding?.isBestSeller === true || wedding?.isBestSeller === "true"} />
+                                                            </MDTypography>
                                                         ),
                                                         Created: (
                                                             <MDTypography

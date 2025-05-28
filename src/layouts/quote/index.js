@@ -45,6 +45,7 @@ import { useMaterialUIController } from "context";
 import Header from "layouts/profile/components/Header";
 import View_quote from "./view";
 import MDInput from "components/MDInput";
+import { logout } from "layouts/common";
 
 
 
@@ -125,6 +126,9 @@ function Quote() {
             console.log(modifiedData, "2222222222222")
             setQuoteData(modifiedData);
         } catch (error) {
+            if (error?.response?.data?.Message === 'jwt expired') {
+                logout(navigate)
+            }
             console.error("Error fetching banner data:", error);
         }
     };
