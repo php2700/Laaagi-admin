@@ -349,7 +349,7 @@ function Overview() {
                                                             // >
                                                             //     {invitation?.description}
                                                             // </MDTypography>
-                                                            
+
                                                             <MDButton variant="gradient" color="info" onClick={() => { handleview(invitation?.description) }}>
                                                                 view
                                                             </MDButton>
@@ -361,7 +361,13 @@ function Overview() {
                                                                 color="text"
                                                                 fontWeight="medium"
                                                             >
-                                                                <Switch {...label} onChange={() => handleDashboardInvitation(invitation)} defaultChecked={invitation?.isInvitationBoxes == true ? true : false} />
+                                                                <Switch
+                                                                    {...label}
+                                                                    onChange={() => handleDashboardInvitation(invitation)}
+                                                                    checked={invitation?.isInvitationBoxes === true}
+                                                                />
+
+                                                                {/* <Switch {...label} onChange={() => handleDashboardInvitation(invitation)} defaultChecked={invitation?.isInvitationBoxes == true ? true : false} /> */}
                                                             </MDTypography>
                                                         ),
                                                         Edit: (

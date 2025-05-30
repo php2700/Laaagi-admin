@@ -196,6 +196,11 @@ export default function App() {
         {getRoutes(routes)}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+          {/* <Route path="/" element={<Navigate to="/authentication/sign-in" />} /> */}
+
+        {/* Login screen */}
+        {/* <Route path="/authentication/sign-in" element={<Basic />} /> */}
+
     </ThemeProvider>
   );
 }
