@@ -45,7 +45,7 @@ import { useMaterialUIController } from "context";
 import MDInput from "components/MDInput";
 import EditIcon from '@mui/icons-material/Edit';
 import { logout } from "layouts/common";
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 
@@ -271,12 +271,16 @@ function Users() {
                                                                 variant="caption"
                                                                 color="text"
                                                                 fontWeight="medium"
-                                                            >
-                                                                <img
-                                                                    src={`${process.env.REACT_APP_BASE_URL}uploads/${user?.profile}`}
-                                                                    alt="Banner"
-                                                                    style={{ width: "50px", height: "50px", borderRadius: "5px" }}
-                                                                />
+                                                            >{
+                                                                    user?.profile ?
+                                                                        <img
+                                                                            src={`${process.env.REACT_APP_BASE_URL}uploads/${user?.profile}`}
+                                                                            alt="Banner"
+                                                                            style={{ width: "50px", height: "50px", borderRadius: "5px" }}
+                                                                        />
+                                                                        : < AccountCircleIcon style={{ width: "50px", height: "50px", borderRadius: "5px" }} />
+                                                                }
+
                                                             </MDTypography>
                                                         ),
                                                         Name: (
