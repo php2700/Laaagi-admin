@@ -143,10 +143,10 @@ function Add_Planning() {
 
 
                                         <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
-                                            <MDBox mb={2} width='25%'>
+                                            {/* <MDBox mb={2} width='25%'>
                                                 <FormControl fullWidth>
                                                     <InputLabel id="client-description-label" sx={{ paddingTop: "8px", paddingBottom: "3px" }}>
-                                                        Category
+                                                        Event
                                                     </InputLabel>
                                                     <Select
                                                         labelId="client-description-label"
@@ -168,7 +168,25 @@ function Add_Planning() {
                                                 {errors.category && (
                                                     <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.category}</div>
                                                 )}
-                                            </MDBox>
+                                            </MDBox> */}
+                                            <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
+                                                <MDBox mb={2} width='25%' >
+                                                    <MDInput
+                                                        type="text"
+                                                        label="Event"
+                                                        fullWidth
+                                                        value={category}
+                                                        onChange={(e) => {
+                                                            setCategory(e.target.value)
+                                                            setErrors((prev) => ({ ...prev, category: "" }));
+                                                        }}
+                                                        sx={{ marginTop: "8px" }}
+                                                    />
+                                                    {errors.category && (
+                                                        <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.category}</div>
+                                                    )}
+                                                </MDBox>
+                                            </Grid>
                                         </Grid>
                                         {/* <Grid item xs={12} md={6} xl={12} display="flex" justifyContent="center">
                                             <MDBox mb={2} width='25%' >

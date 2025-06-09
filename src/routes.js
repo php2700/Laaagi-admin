@@ -84,6 +84,7 @@ import Edit_Banner from "layouts/billing/edit_Banner"
 import Edit_Dry_fruit from "layouts/dry_fruit/edit_dry_fruit";
 import DesignerQuote from "layouts/designerQuote";
 import InvitationQuote from "layouts/invitationQuote";
+import { Planning_Help } from "layouts/planning/planning-help-req";
 
 const routes = [
   {
@@ -142,7 +143,14 @@ const routes = [
     route: "/planning",
     component: <Planning />,
   },
-
+  {
+    type: "collapse",
+    name: "Plannning Help",
+    key: "Plannning Help",
+    icon: <Icon fontSize="small">assignment</Icon>,
+    route: "/planning-help",
+    component: <Planning_Help />,
+  },
   {
     type: "collapse",
     name: "Ads",
