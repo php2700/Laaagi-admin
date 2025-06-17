@@ -30,14 +30,22 @@ function Add_Invitation() {
 
     // State for image file and success message
     const [image, setImage] = useState(null);
+    const [image02, setImage02] = useState(null);
+    const [image03, setImage03] = useState(null);
+    const [image04, setImage04] = useState(null);
     const [description, setDescription] = useState(null);
     const [category, setCategory] = useState(null);
     const [name, setName] = useState(null);
     const [price, setPrice] = useState();
-
     const [previewUrl, setPreviewUrl] = useState("");
+    const [previewUrl02, setPreviewUrl02] = useState("");
+    const [previewUrl03, setPreviewUrl03] = useState("");
+    const [previewUrl04, setPreviewUrl04] = useState("");
     const [successSB, setSuccessSB] = useState(false);
     const [error, setError] = useState("");
+    const [error02, setError02] = useState("");
+    const [error03, setError03] = useState("");
+    const [error04, setError04] = useState("");
     const [errors, setErrors] = useState({})
 
     const invitationCategory = invitationCategoryData;
@@ -70,19 +78,116 @@ function Add_Invitation() {
         }
     };
 
+
+    const handleChangefile2 = (newFile) => {
+        if (newFile && newFile.type.startsWith("image/")) {
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    if (img.width >= 340 && img.height >= 220) {
+                        setImage02(newFile);
+                        setPreviewUrl02(URL.createObjectURL(newFile))
+                        setError02("");
+                    } else {
+                        setError02("Small Image,Image must be at least 220x340 pixels.");
+                        setImage02(null);
+                        setPreviewUrl02("");
+                    }
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(newFile);
+        } else {
+            setError02("Please select a valid image file.");
+            setImage02(null);
+            setPreviewUrl02("");
+        }
+    };
+
+    const handleChangefile3 = (newFile) => {
+        if (newFile && newFile.type.startsWith("image/")) {
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    if (img.width >= 340 && img.height >= 220) {
+                        setImage03(newFile);
+                        setPreviewUrl03(URL.createObjectURL(newFile))
+                        setError03("");
+                    } else {
+                        setError03("Small Image,Image must be at least 220x340 pixels.");
+                        setImage03(null);
+                        setPreviewUrl03("");
+                    }
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(newFile);
+        } else {
+            setError03("Please select a valid image file.");
+            setImage03(null);
+            setPreviewUrl03("");
+        }
+    };
+
+    const handleChangefile4 = (newFile) => {
+        if (newFile && newFile.type.startsWith("image/")) {
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    if (img.width >= 340 && img.height >= 220) {
+                        setImage04(newFile);
+                        setPreviewUrl04(URL.createObjectURL(newFile))
+                        setError04("");
+                    } else {
+                        setError04("Small Image,Image must be at least 220x340 pixels.");
+                        setImage04(null);
+                        setPreviewUrl04("");
+                    }
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(newFile);
+        } else {
+            setError04("Please select a valid image file.");
+            setImage04(null);
+            setPreviewUrl04("");
+        }
+    };
+
     const handleRemoveImage = () => {
         setImage(null);
         setPreviewUrl("");
     };
 
-    // Handle form submission
-    const handleSubmit = async () => {
-        let allError = {}
+    const handleRemoveImage02 = () => {
+        setImage02(null);
+        setPreviewUrl02("");
+    };
 
+    const handleRemoveImage03 = () => {
+        setImage03(null);
+        setPreviewUrl03("");
+    };
+
+    const handleRemoveImage04 = () => {
+        setImage04(null);
+        setPreviewUrl04("");
+    };
+
+    // Handle form submission
+    const handleSubmit = async (e) => {
+        let allError = {}
+        e.preventDefault()
 
         if (!price) {
             allError.price = "Please Enter Amount ."
-        }  else if (!/^\d*$/.test(price)) {
+        } else if (!/^\d*$/.test(price)) {
             allError.price = "Enter Valid Amount"
         }
 
@@ -109,21 +214,33 @@ function Add_Invitation() {
             if (!image) {
                 setError("Please upload Image.");
             }
+            if (!image02) setError02("Please upload Image.");
+            if (!image03) setError03("Please upload Image.");
+            if (!image04) setError04("Please upload Image.");
+
             return
         }
 
         if (!image) {
             setError("Please upload Image.");
-            return;
         }
+        if (!image02) setError02("Please upload Image.");
+        if (!image03) setError03("Please upload Image.");
+        if (!image04) setError04("Please upload Image.");
+
+        if (!image || !image02 || !image03 || !image04) return
+
 
         const formData = new FormData();
         formData.append("price", price)
         formData.append("image", image);
+        formData.append("image02", image02);
+        formData.append("image03", image03);
+        formData.append("image04", image04);
         formData.append("name", name);
         formData.append("description", description);
         formData.append("category", category);
-
+console.log(formData,'hjhlkgfgmnfgmn')
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_BASE_URL}api/admin/add_invitation`,
@@ -138,6 +255,9 @@ function Add_Invitation() {
             if (response.status === 200) {
                 setSuccessSB(true);
                 setImage(null);
+                setImage02(null)
+                setImage03(null)
+                setImage04(null)
                 setName("");
                 setDescription("");
                 setCategory("");
@@ -146,6 +266,10 @@ function Add_Invitation() {
                 navigate("/invitation")
             } else {
                 setError("Failed to upload the image.");
+                setError02("Failed to upload the image.");
+                setError03("Failed to upload the image.");
+                setError04("Failed to upload the image.");
+
             }
         } catch (error) {
             if (error?.response?.data?.Message === 'jwt expired') {
@@ -264,7 +388,7 @@ function Add_Invitation() {
                                                 <MuiFileInput
                                                     value={image}
                                                     onChange={handleChangefile}
-                                                    placeholder="Upload Box Image"
+                                                    placeholder="Upload Box Image01"
                                                     fullWidth
                                                     minHeight={'450px'}
                                                     InputProps={{
@@ -312,6 +436,201 @@ function Add_Invitation() {
                                                 </MDBox>
                                             )}
                                         </Grid>
+
+
+                                        <Grid item xs={12} md={6} xl={4} mt={1}
+                                            display="flex"
+                                            //  justifyContent="center"
+                                            flexDirection='column'
+                                            alignItems="center"
+                                        >
+
+                                            <MDBox mb={2} width='100%'
+                                                display="flex"
+                                                flexDirection="column"
+                                            // alignItems="center" 
+                                            >
+                                                <MuiFileInput
+                                                    value={image02}
+                                                    onChange={handleChangefile2}
+                                                    placeholder="Upload Box Image02"
+                                                    fullWidth
+                                                    minHeight={'450px'}
+                                                    InputProps={{
+                                                        startAdornment: (
+                                                            <InputAdornment position="start">
+                                                                <AttachFileIcon sx={{ marginRight: 1, color: "#757575" }} />
+                                                            </InputAdornment>
+                                                        ),
+                                                    }}
+                                                />
+                                                {error02 && (
+                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>
+                                                        {error02}
+                                                    </div>
+                                                )}
+                                            </MDBox>
+                                            {previewUrl02 && (
+                                                <MDBox mt={1}
+                                                    sx={{ textAlign: "center" }}
+                                                >
+                                                    <img
+                                                        src={previewUrl02}
+                                                        alt="Preview"
+                                                        style={{
+                                                            width: "340px",
+                                                            height: "220px",
+                                                            objectFit: "cover",
+                                                            borderRadius: "8px",
+                                                            marginTop: "8px",
+                                                        }}
+                                                    />
+                                                    <MDBox mt={1}>
+                                                        <MDTypography variant="caption" color="text">
+                                                            {image02?.name}
+                                                        </MDTypography>
+                                                        <IconButton
+                                                            onClick={handleRemoveImage02}
+                                                            color="error"
+                                                            size="small"
+                                                            sx={{ ml: 1 }}
+                                                        >
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </MDBox>
+                                                </MDBox>
+                                            )}
+                                        </Grid>
+
+
+                                        <Grid item xs={12} md={6} xl={4} mt={1}
+                                            display="flex"
+                                            //  justifyContent="center"
+                                            flexDirection='column'
+                                            alignItems="center"
+                                        >
+
+                                            <MDBox mb={2} width='100%'
+                                                display="flex"
+                                                flexDirection="column"
+                                            // alignItems="center" 
+                                            >
+                                                <MuiFileInput
+                                                    value={image03}
+                                                    onChange={handleChangefile3}
+                                                    placeholder="Upload Box Image03"
+                                                    fullWidth
+                                                    minHeight={'450px'}
+                                                    InputProps={{
+                                                        startAdornment: (
+                                                            <InputAdornment position="start">
+                                                                <AttachFileIcon sx={{ marginRight: 1, color: "#757575" }} />
+                                                            </InputAdornment>
+                                                        ),
+                                                    }}
+                                                />
+                                                {error03 && (
+                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>
+                                                        {error03}
+                                                    </div>
+                                                )}
+                                            </MDBox>
+                                            {previewUrl03 && (
+                                                <MDBox mt={1}
+                                                    sx={{ textAlign: "center" }}
+                                                >
+                                                    <img
+                                                        src={previewUrl03}
+                                                        alt="Preview"
+                                                        style={{
+                                                            width: "340px",
+                                                            height: "220px",
+                                                            objectFit: "cover",
+                                                            borderRadius: "8px",
+                                                            marginTop: "8px",
+                                                        }}
+                                                    />
+                                                    <MDBox mt={1}>
+                                                        <MDTypography variant="caption" color="text">
+                                                            {image03?.name}
+                                                        </MDTypography>
+                                                        <IconButton
+                                                            onClick={handleRemoveImage03}
+                                                            color="error"
+                                                            size="small"
+                                                            sx={{ ml: 1 }}
+                                                        >
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </MDBox>
+                                                </MDBox>
+                                            )}
+                                        </Grid>
+
+                                        <Grid item xs={12} md={6} xl={4} mt={1}
+                                            display="flex"
+                                            //  justifyContent="center"
+                                            flexDirection='column'
+                                            alignItems="center"
+                                        >
+
+                                            <MDBox mb={2} width='100%'
+                                                display="flex"
+                                                flexDirection="column"
+                                            // alignItems="center" 
+                                            >
+                                                <MuiFileInput
+                                                    value={image04}
+                                                    onChange={handleChangefile4}
+                                                    placeholder="Upload Box Image04"
+                                                    fullWidth
+                                                    minHeight={'450px'}
+                                                    InputProps={{
+                                                        startAdornment: (
+                                                            <InputAdornment position="start">
+                                                                <AttachFileIcon sx={{ marginRight: 1, color: "#757575" }} />
+                                                            </InputAdornment>
+                                                        ),
+                                                    }}
+                                                />
+                                                {error04 && (
+                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>
+                                                        {error04}
+                                                    </div>
+                                                )}
+                                            </MDBox>
+                                            {previewUrl04 && (
+                                                <MDBox mt={1}
+                                                    sx={{ textAlign: "center" }}
+                                                >
+                                                    <img
+                                                        src={previewUrl04}
+                                                        alt="Preview"
+                                                        style={{
+                                                            width: "340px",
+                                                            height: "220px",
+                                                            objectFit: "cover",
+                                                            borderRadius: "8px",
+                                                            marginTop: "8px",
+                                                        }}
+                                                    />
+                                                    <MDBox mt={1}>
+                                                        <MDTypography variant="caption" color="text">
+                                                            {image04?.name}
+                                                        </MDTypography>
+                                                        <IconButton
+                                                            onClick={handleRemoveImage04}
+                                                            color="error"
+                                                            size="small"
+                                                            sx={{ ml: 1 }}
+                                                        >
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </MDBox>
+                                                </MDBox>
+                                            )}
+                                        </Grid>
+
                                         <Grid item xs={12} md={6} xl={4} display="flex" justifyContent="center">
                                             <MDBox mb={2} width='100%'>
                                                 <MDInput
