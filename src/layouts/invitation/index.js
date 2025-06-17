@@ -115,6 +115,10 @@ function Overview() {
                 return {
                     _id: invitation._id,
                     image: invitation?.image,
+                    image02: invitation?.image02,
+                    image03: invitation?.image03,
+                    image04: invitation?.image04,
+
                     name: invitation?.name,
                     description: invitation?.description,
                     category: invitation?.category,
@@ -264,8 +268,26 @@ function Overview() {
                                                     columns: [
                                                         { Header: "ID", accessor: "orderId", width: "1%", align: "left" },
                                                         {
-                                                            Header: "Image ",
+                                                            Header: "Image01 ",
                                                             accessor: "Image",
+                                                            width: "15%",
+                                                            align: "left",
+                                                        },
+                                                        {
+                                                            Header: "Image02 ",
+                                                            accessor: "Image02",
+                                                            width: "15%",
+                                                            align: "left",
+                                                        },
+                                                        {
+                                                            Header: "Image03",
+                                                            accessor: "Image03",
+                                                            width: "15%",
+                                                            align: "left",
+                                                        },
+                                                        {
+                                                            Header: "Image04 ",
+                                                            accessor: "Image04",
                                                             width: "15%",
                                                             align: "left",
                                                         },
@@ -320,7 +342,49 @@ function Overview() {
                                                                 <img
                                                                     src={`${process.env.REACT_APP_BASE_URL}uploads/${invitation?.image}`}
                                                                     alt="Banner"
-                                                                    style={{ width: "100px", height: "100px", borderRadius: "5px" }}
+                                                                    style={{ width: "80px", height: "80px", borderRadius: "5px" }}
+                                                                />
+                                                            </MDTypography>
+                                                        ),
+                                                        Image02: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                <img
+                                                                    src={`${process.env.REACT_APP_BASE_URL}uploads/${invitation?.image02}`}
+                                                                    alt="Banner"
+                                                                    style={{ width: "80px", height: "80px", borderRadius: "5px" }}
+                                                                />
+                                                            </MDTypography>
+                                                        ),
+                                                        Image03: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                <img
+                                                                    src={`${process.env.REACT_APP_BASE_URL}uploads/${invitation?.image03}`}
+                                                                    alt="Banner"
+                                                                    style={{ width: "80px", height: "80px", borderRadius: "5px" }}
+                                                                />
+                                                            </MDTypography>
+                                                        ),
+                                                        Image04: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                <img
+                                                                    src={`${process.env.REACT_APP_BASE_URL}uploads/${invitation?.image04}`}
+                                                                    alt="Banner"
+                                                                    style={{ width: "80px", height: "80px", borderRadius: "5px" }}
                                                                 />
                                                             </MDTypography>
                                                         ),
