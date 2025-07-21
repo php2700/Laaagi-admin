@@ -118,13 +118,13 @@ function Overview() {
                     image02: invitation?.image02,
                     image03: invitation?.image03,
                     image04: invitation?.image04,
-
                     name: invitation?.name,
                     description: invitation?.description,
                     category: invitation?.category,
                     price: invitation?.price,
                     isInvitationBoxes: invitation?.isInvitationBoxes,
                     isBestSeller: invitation?.isBestSeller,
+                    isDeliveryCharge: invitation?.isDeliveryCharge
 
                 };
             });
@@ -206,6 +206,14 @@ function Overview() {
         formData.append("category", invitationData?.category);
         formData.append("price", invitationData?.price);
         formData.append("isBestSeller", BestSeller)
+        updateSwitch(formData)
+    }
+
+    const handleIsDeliveryCharge = async (invitationData) => {
+        const deliveryCharge = invitationData.isDeliveryCharge == true || invitationData.isDeliveryCharge == 'true' ? 'false' : 'true'
+        const formData = new FormData();
+        formData.append("_id", invitationData?._id)
+        formData.append("isDeliveryCharge", deliveryCharge)
         updateSwitch(formData)
     }
 
@@ -315,8 +323,9 @@ function Overview() {
                                                             width: "15%",
                                                             align: "left",
                                                         },
-                                                        { Header: "DashboardInvitation", accessor: "DashboardInvitation", align: "left" },
+                                                        // { Header: "DashboardInvitation", accessor: "DashboardInvitation", align: "left" },
                                                         { Header: "BestSeller", accessor: "BestSeller", align: "left" },
+                                                        { Header: "DeliveryCharge", accessor: "DeliveryCharge", align: "left" },
                                                         { Header: "Edit", accessor: "Edit", align: "left" },
                                                         { Header: "Action", accessor: "Action", align: "left" },
                                                     ],
@@ -433,16 +442,16 @@ function Overview() {
                                                                 view
                                                             </MDButton>
                                                         ),
-                                                        DashboardInvitation: (
-                                                            <MDTypography
-                                                                component="a"
-                                                                variant="caption"
-                                                                color="text"
-                                                                fontWeight="medium"
-                                                            >
-                                                                <Switch {...label} onChange={() => handleDashboardInvitation(invitation)} checked={invitation?.isInvitationBoxes == true || invitation?.isInvitationBoxes == 'true'} />
-                                                            </MDTypography>
-                                                        ),
+                                                        // DashboardInvitation: (
+                                                        //     <MDTypography
+                                                        //         component="a"
+                                                        //         variant="caption"
+                                                        //         color="text"
+                                                        //         fontWeight="medium"
+                                                        //     >
+                                                        //         <Switch {...label} onChange={() => handleDashboardInvitation(invitation)} checked={invitation?.isInvitationBoxes == true || invitation?.isInvitationBoxes == 'true'} />
+                                                        //     </MDTypography>
+                                                        // ),
                                                         BestSeller: (
                                                             <MDTypography
                                                                 component="a"
@@ -451,6 +460,16 @@ function Overview() {
                                                                 fontWeight="medium"
                                                             >
                                                                 <Switch {...label} onChange={() => handleIsBestSeller(invitation)} checked={invitation.isBestSeller == true || invitation.isBestSeller == 'true'} />
+                                                            </MDTypography>
+                                                        ),
+                                                        DeliveryCharge: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                <Switch {...label} onChange={() => handleIsDeliveryCharge(invitation)} checked={invitation.isDeliveryCharge == true || invitation.isDeliveryCharge == 'true'} />
                                                             </MDTypography>
                                                         ),
                                                         Edit: (
