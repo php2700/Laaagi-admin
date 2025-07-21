@@ -124,7 +124,7 @@ function Overview() {
                     category: sweet?.category,
                     description: sweet?.description,
                     isWedding: sweet?.isWedding,
-                    isSweet: sweet?.isSweet,
+                    isDeliveryCharge: sweet?.isDeliveryCharge,
                     isBestSeller: sweet?.isBestSeller
                 };
             });
@@ -204,12 +204,11 @@ function Overview() {
 
     }
 
-    const handleDashboardSweet = (sweetData) => {
-        const updatedSweet = sweetData?.isSweet === true || sweetData?.isSweet === 'true' ? 'false' : 'true';
-
+    const handleDeliverycharge = (sweetData) => {
+        const updatedSweet = sweetData?.isDeliveryCharge === true || sweetData?.isDeliveryCharge === 'true' ? 'false' : 'true';
         const formData = new FormData();
         formData.append("_id", sweetData?._id)
-        formData.append("isSweet", updatedSweet);
+        formData.append("isDeliveryCharge", updatedSweet);
         formData.append("name", sweetData?.name);
         formData.append("amount", sweetData?.amount);
         formData.append("description", sweetData?.description)
@@ -219,7 +218,6 @@ function Overview() {
 
     const handleDashboardWedding = (sweetsData) => {
         const updatedIsWedding = sweetsData?.isWedding === true || sweetsData?.isWedding === 'true' ? 'false' : 'true';
-
         const formData = new FormData();
         formData.append("_id", sweetsData?._id)
         formData.append("isWedding", updatedIsWedding);
@@ -317,7 +315,7 @@ function Overview() {
                                                             width: "15%",
                                                             align: "left",
                                                         },
-                                                        { Header: "DashboardSweet", accessor: "DashboardSweet", align: "left" },
+                                                        { Header: "DeliveryCharge", accessor: "DeliveryCharge", align: "left" },
                                                         { Header: "DashboardWedding", accessor: "DashboardWedding", align: "left" },
                                                         { Header: "BestSeller", accessor: "BestSeller", align: "left" },
 
@@ -383,7 +381,7 @@ function Overview() {
                                                                 view
                                                             </MDButton>
                                                         ),
-                                                        DashboardSweet: (
+                                                        DeliveryCharge: (
                                                             <MDTypography
                                                                 component="a"
                                                                 variant="caption"
@@ -391,9 +389,9 @@ function Overview() {
                                                                 fontWeight="medium"
                                                             >
                                                                 <Switch {...label}
-                                                                    onChange={() => handleDashboardSweet(sweet)}
+                                                                    onChange={() => handleDeliverycharge(sweet)}
                                                                     // defaultChecked={sweet?.isSweet == 'true' ? true : false} />
-                                                                    checked={sweet?.isSweet === true || sweet?.isSweet === "true"} />
+                                                                    checked={sweet?.isDeliveryCharge === true || sweet?.isDeliveryCharge === "true"} />
                                                             </MDTypography>
                                                         ),
                                                         DashboardWedding: (
