@@ -85,6 +85,10 @@ import Edit_Dry_fruit from "layouts/dry_fruit/edit_dry_fruit";
 import DesignerQuote from "layouts/designerQuote";
 import InvitationQuote from "layouts/invitationQuote";
 import { Planning_Help } from "layouts/planning/planning-help-req";
+import { PrivacyPolicy } from "layouts/privacy_policy";
+import { TermCondition } from "layouts/term_condition";
+import { Shipping } from "layouts/shipping";
+import { PaymentRefund } from "layouts/payment_refund";
 
 const routes = [
   {
@@ -461,6 +465,37 @@ const routes = [
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/edit-banner",
     component: <Edit_Banner />,
+  },{
+     type: "collapse",
+    name: "Privacy Policy",
+    key: "privacy policy",
+    icon: <Icon fontSize="small">notifications</Icon>,
+    route: "/privacy-policy",
+    component: <PrivacyPolicy />,
+  },
+  {
+     type: "collapse",
+    name: "Term And Condition",
+    key: "term and condition",
+    icon: <Icon fontSize="small">notifications</Icon>,
+    route: "/term-condition",
+    component: <TermCondition />,
+  },
+  {
+     type: "collapse",
+    name: "Shipping",
+    key: "shipping",
+    icon: <Icon fontSize="small">notifications</Icon>,
+    route: "/shipping",
+    component: <Shipping />,
+  },
+  {
+     type: "collapse",
+    name: "Payment Refund",
+    key: "payment refund",
+    icon: <Icon fontSize="small">notifications</Icon>,
+    route: "/payment-refund",
+    component: <PaymentRefund />,
   }
 
 ];
