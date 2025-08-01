@@ -118,6 +118,7 @@ function Overview() {
                     image02: invitation?.image02,
                     image03: invitation?.image03,
                     image04: invitation?.image04,
+                    videoFile:invitation?.videoFile,
                     name: invitation?.name,
                     description: invitation?.description,
                     category: invitation?.category,
@@ -230,6 +231,7 @@ function Overview() {
         updateSwitch(formData)
     }
 
+console.log(invitationData,"invitation")
     return (
         <>
             <DashboardLayout>
@@ -296,6 +298,12 @@ function Overview() {
                                                         {
                                                             Header: "Image04 ",
                                                             accessor: "Image04",
+                                                            width: "15%",
+                                                            align: "left",
+                                                        },
+                                                        {
+                                                            Header: "Video ",
+                                                            accessor: "Video",
                                                             width: "15%",
                                                             align: "left",
                                                         },
@@ -395,6 +403,26 @@ function Overview() {
                                                                     alt="Banner"
                                                                     style={{ width: "80px", height: "80px", borderRadius: "5px" }}
                                                                 />
+                                                            </MDTypography>
+                                                        ),
+                                                        Video:(
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                               
+                                                              <video
+  controls muted
+  style={{ width: "100px", height: "80px", borderRadius: "5px" }}
+>
+  <source
+    src={`${process.env.REACT_APP_BASE_URL}uploads/${invitation?.videoFile}`}
+    type="video/mp4"
+  />
+</video>
+
                                                             </MDTypography>
                                                         ),
                                                         Name: (

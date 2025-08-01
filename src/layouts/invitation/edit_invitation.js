@@ -38,6 +38,8 @@ function Edit_Invitation() {
     const [image02, setImage02] = useState(null);
     const [image03, setImage03] = useState(null);
     const [image04, setImage04] = useState(null);
+    const [videoFile, setVideoFile] = useState(null);
+    const [videoPreviewUrl, setVideoPreviewUrl] = useState(null)
 
     const [price, setPrice] = useState();
     const [description, setDescription] = useState(null);
@@ -56,6 +58,8 @@ function Edit_Invitation() {
     const [error04, setError04] = useState("");
     const [errors, setErrors] = useState({})
     const [open, setOpen] = useState(false)
+    const [videoError, setVideoError] = useState("")
+
 
     const invitationList = invitationCategoryData;
     const PriceRangeList = PriceRangeData;
@@ -169,6 +173,22 @@ function Edit_Invitation() {
         }
     };
 
+    const handleVideoChange = (file) => {
+        if (file && file.type.startsWith("video/")) {
+            setVideoFile(file);
+            setVideoPreviewUrl(URL.createObjectURL(file));
+            setVideoError("")
+        } else {
+            setVideoFile(null);
+            setVideoPreviewUrl(null);
+        }
+    };
+
+    const handleRemoveVideo = () => {
+        setVideoFile(null);
+        setVideoPreviewUrl(null);
+    };
+
     useEffect(() => {
         console.log(invitationData, '33333333')
         setId(invitationData?._id)
@@ -179,13 +199,14 @@ function Edit_Invitation() {
         setImage02(invitationData?.image02)
         setImage03(invitationData?.image03)
         setImage04(invitationData?.image04)
+        setVideoError(invitationData?.videoFile)
         setPrice((invitationData?.price.toString()))
         if (invitationData?.image) {
             setPreviewUrl(`${process.env.REACT_APP_BASE_URL}uploads/${invitationData?.image}`);
             setPreviewUrl02(`${process.env.REACT_APP_BASE_URL}uploads/${invitationData?.image02}`);
             setPreviewUrl03(`${process.env.REACT_APP_BASE_URL}uploads/${invitationData?.image03}`);
             setPreviewUrl04(`${process.env.REACT_APP_BASE_URL}uploads/${invitationData?.image04}`);
-
+            setVideoPreviewUrl(`${process.env.REACT_APP_BASE_URL}uploads/${invitationData?.videoFile}`)
         }
     }, [invitationData]);
 
@@ -255,6 +276,8 @@ function Edit_Invitation() {
             if (!image02) setError02("Please upload Image.");
             if (!image03) setError03("Please upload Image.");
             if (!image04) setError04("Please upload Image.");
+            if (!videoFile) setVideoError("Please upload Video.");
+
             return;
         }
 
@@ -265,8 +288,10 @@ function Edit_Invitation() {
         if (!image02) setError02("Please upload Image.");
         if (!image03) setError03("Please upload Image.");
         if (!image04) setError04("Please upload Image.");
+        if (!videoFile) setVideoError("Please upload Video.");
 
-        if (!image || !image02 || !image03 || !image04) return
+
+        if (!image || !image02 || !image03 || !image04 || videoFile) return
 
 
         const formData = new FormData();
@@ -287,6 +312,9 @@ function Edit_Invitation() {
         if (image04 && image04 !== invitationData?.image04) {
             formData.append("image04", image04);
         }
+        if (videoFile && videoFile !== invitationData?.videoFile) {
+            formData.append("videoFile", videoFile)
+        }
         try {
             const response = await axios.patch(
                 `${process.env.REACT_APP_BASE_URL}api/admin/update_invitation`,
@@ -304,6 +332,7 @@ function Edit_Invitation() {
                 setImage02(null);
                 setImage03(null);
                 setImage04(null);
+                setVideoFile(null)
                 setId("")
                 setName("");
                 setDescription("");
@@ -674,6 +703,69 @@ function Edit_Invitation() {
                                                         </MDTypography>
                                                         <IconButton
                                                             onClick={handleRemoveImage04}
+                                                            color="error"
+                                                            size="small"
+                                                            sx={{ ml: 1 }}
+                                                        >
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </MDBox>
+                                                </MDBox>
+                                            )}
+                                        </Grid>
+                                        <Grid item xs={12} md={6} xl={4} mt={1}
+                                            display="flex"
+                                            //  justifyContent="center"
+                                            flexDirection='column'
+                                            alignItems="center"
+                                        >
+
+                                            <MDBox mb={2} width='100%'
+                                                display="flex"
+                                                flexDirection="column"
+                                            // alignItems="center" 
+                                            >
+                                                <MuiFileInput
+                                                    value={videoFile instanceof File ? videoFile : null}
+
+                                                    onChange={handleVideoChange}
+                                                    placeholder="Upload Video"
+                                                    fullWidth
+                                                    inputProps={{ accept: 'video/*' }}
+                                                    InputProps={{
+                                                        startAdornment: (
+                                                            <InputAdornment position="start">
+                                                                <AttachFileIcon sx={{ marginRight: 1, color: "#757575" }} />
+                                                            </InputAdornment>
+                                                        ),
+                                                    }}
+
+                                                />
+                                                {videoError && (
+                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>
+                                                        {videoError}
+                                                    </div>
+                                                )}
+
+                                            </MDBox>
+                                            {videoPreviewUrl && (
+                                                <MDBox mt={1} sx={{ textAlign: "center" }}>
+                                                    <video
+                                                        src={videoPreviewUrl}
+                                                        controls
+                                                        style={{
+                                                            width: "340px",
+                                                            height: "220px",
+                                                            borderRadius: "8px",
+                                                            marginTop: "8px",
+                                                        }}
+                                                    />
+                                                    <MDBox mt={1}>
+                                                        <MDTypography variant="caption" color="text">
+                                                            {videoFile?.name}
+                                                        </MDTypography>
+                                                        <IconButton
+                                                            onClick={handleRemoveVideo}
                                                             color="error"
                                                             size="small"
                                                             sx={{ ml: 1 }}
