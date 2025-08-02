@@ -135,7 +135,7 @@ export const  Shipping=()=> {
                                 </MDBox>
                                 <MDBox mt={6} mb={1} sx={{ textAlign: "center" }}>
                                     <MDButton variant="gradient" color="info" onClick={handleSubmit}>
-                                        Add Privacy Policy
+                                        Add Shipping
                                     </MDButton>
                                 </MDBox>
                             </div>

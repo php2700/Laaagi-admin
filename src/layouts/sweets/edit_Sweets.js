@@ -149,10 +149,10 @@ function Edit_Sweets() {
         formData.append("_id", _id)
         formData.append("name", name);
         let formattedAmount;
-        if (amount.includes('kg')) {
+        if (amount.includes('g')) {
             formattedAmount = `${amount}`;
         } else {
-            formattedAmount = `${amount}/kg`;
+            formattedAmount = `${amount}/400g`;
         }
         formData.append("amount", formattedAmount);
         formData.append("category", category);
@@ -268,7 +268,7 @@ function Edit_Sweets() {
                                             <MDBox mb={2} width='100%'>
                                                 <MDInput
                                                     type="text"
-                                                    label="Amount Per kg"
+                                                    label="Amount Per 400g"
                                                     fullWidth
                                                     value={amount?.split('/')[0] || ""}
                                                     onChange={(e) => {

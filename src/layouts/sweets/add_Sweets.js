@@ -119,7 +119,7 @@ function Add_Sweets() {
 
 
     const formData = new FormData();
-    const formattedAmount = `${amount}/kg`;
+    const formattedAmount = `${amount}/400g`;
     formData.append("amount", formattedAmount);
     formData.append("image", sweetsImage);
     formData.append("name", name);
@@ -236,7 +236,7 @@ function Add_Sweets() {
                       <MDBox mb={2} width='100%'>
                         <MDInput
                           type="text"
-                          label="Amount Per Kg"
+                          label="Amount Per 400g"
                           fullWidth
                           value={amount}
                           onChange={(e) => {

@@ -92,7 +92,7 @@ export const  PrivacyPolicy=()=> {
         e.preventDefault();
 
         const privacypolicy = {
-            privacyPolicy: content
+            data: content
         };
 
         axios.post(`${process.env.REACT_APP_BASE_URL}api/admin/privacy-policy`, privacypolicy, {

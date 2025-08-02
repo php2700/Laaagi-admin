@@ -117,13 +117,14 @@ function InvitationQuote() {
                     decorationCategory: quote?.category,
                     decorationImage: quote?.image,
                     createdAt: formatedDate,
-                    description: quote?.description
+                    description: quote?.description,
+                    name:quote?.userId?.name
                 };
             });
             console.log(modifiedData, "2222222222222")
             setQuoteData(modifiedData);
         } catch (error) {
-            console.log("fffffffff",error?.response?.data?.Message)
+            console.log("fffffffff", error?.response?.data?.Message)
             if (error?.response?.data?.Message === 'jwt expired') {
                 logout(navigate)
             }
@@ -221,8 +222,14 @@ function InvitationQuote() {
                                                             align: 'left'
                                                         },
                                                         {
-                                                            Header: "Name ",
+                                                            Header: "Invitation Name ",
                                                             accessor: "Name",
+                                                            width: "15%",
+                                                            align: "left",
+                                                        },
+                                                        {
+                                                            Header: "Name ",
+                                                            accessor: "UserName",
                                                             width: "15%",
                                                             align: "left",
                                                         },
@@ -290,7 +297,16 @@ function InvitationQuote() {
                                                                 {user?.firstName}
                                                             </MDTypography>
                                                         ),
-
+                                                        UserName: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {user?.name}
+                                                            </MDTypography>
+                                                        ),
                                                         Amount: (
                                                             <MDTypography
                                                                 component="a"
