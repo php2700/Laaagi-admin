@@ -18,12 +18,15 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Delete_Image from "./delete_Image";
+import MDInput from "components/MDInput";
+
 
 
 function Edit_Banner() {
     const location = useLocation()
     const navigate = useNavigate();
     const { bannerData } = location.state || {};
+    const [errorLink, setErrorLink] = useState()
 
     const token = localStorage.getItem("authToken");
     const [controller] = useMaterialUIController();
@@ -31,6 +34,7 @@ function Edit_Banner() {
 
     // State for image file and success message
     const [image, setImage] = useState(null);
+    const [link, setLink] = useState()
     const [_id, setId] = useState();
     const [open, setOpen] = useState(false)
 
@@ -68,6 +72,7 @@ function Edit_Banner() {
     useEffect(() => {
         setId(bannerData?._id)
         setImage(bannerData?.banner)
+        setLink(bannerData?.link)
         if (bannerData?.banner) {
             setPreviewUrl(`${process.env.REACT_APP_BASE_URL}uploads/${bannerData?.banner}`);
         }
@@ -88,12 +93,23 @@ function Edit_Banner() {
     }
 
     const handleSubmit = async () => {
+        if (!link && !bannerImage) {
+            setErrorLink("please add Link")
+            setError("Please upload an image.");
+            return
+        }
+        if (!link) {
+            setErrorLink("please add Link")
+            return
+        }
         if (!image) {
             setError("Please upload Image.");
             return;
         }
 
         const formData = new FormData();
+        formData.append("link", link)
+
         formData.append("_id", _id)
         if (image && image !== bannerData?.banner) {
             formData.append("banner", image);
@@ -112,6 +128,7 @@ function Edit_Banner() {
             );
             if (response.status === 200) {
                 setSuccessSB(true);
+                setLink("")
                 setImage(null);
                 setId("")
                 navigate("/banners")
@@ -149,6 +166,31 @@ function Edit_Banner() {
                                 <MDBox component="form" role="form" sx={{ minHeight: "60vh" }}>
                                     <Grid container spacing={3}>
 
+                                        <Grid item
+                                            xs={12}
+                                            display="flex"
+                                            justifyContent="center"
+                                            alignItems="center">
+                                            <MDBox mb={2}
+                                                width="25%"
+                                                display="flex"
+                                                flexDirection="column" >
+                                                <MDInput
+                                                    type="text"
+                                                    label="Add Link"
+                                                    fullWidth
+                                                    value={link}
+                                                    onChange={(e) => {
+                                                        setLink(e.target.value)
+                                                        setErrorLink('')
+                                                    }}
+                                                    sx={{ marginTop: "8px" }}
+                                                />
+                                                {errorLink && (
+                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errorLink}</div>
+                                                )}
+                                            </MDBox>
+                                        </Grid>
                                         <Grid item xs={12} md={6} xl={12} mt={1}
                                             display='flex'
                                             flexDirection='column'

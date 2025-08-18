@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import InputAdornment from "@mui/material/InputAdornment";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import MDInput from "components/MDInput";
 
 
 function Add_Banner() {
@@ -24,6 +25,8 @@ function Add_Banner() {
   const token = localStorage.getItem("authToken");
   const [controller] = useMaterialUIController();
   const { sidenavColor } = controller;
+  const [link, setLink] = useState();
+  const [errorLink, setErrorLink] = useState()
 
   // State for image file and success message
   const [bannerImage, setBannerImage] = useState(null);
@@ -66,6 +69,16 @@ function Add_Banner() {
 
   // Handle form submission
   const handleSubmit = async () => {
+
+    if (!link && !bannerImage) {
+      setErrorLink("please add Link")
+      setError("Please upload an image.");
+      return
+    }
+    if (!link) {
+      setErrorLink("please add Link")
+      return
+    }
     if (!bannerImage) {
       setError("Please upload an image.");
       return;
@@ -73,6 +86,7 @@ function Add_Banner() {
 
     const formData = new FormData();
     formData.append("banner", bannerImage);
+    formData.append("link", link)
 
     console.log(formData, "11111111111");
 
@@ -89,6 +103,7 @@ function Add_Banner() {
       );
       if (response.status === 200) {
         setSuccessSB(true);
+        setLink("")
         setBannerImage(null);
         navigate("/banners")
       } else {
@@ -175,6 +190,31 @@ function Add_Banner() {
                         </MDBox>
                       )}
                     </Grid> */}
+                    <Grid item
+                      xs={12}
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center">
+                      <MDBox mb={2}
+                        width="25%"
+                        display="flex"
+                        flexDirection="column" >
+                        <MDInput
+                          type="text"
+                          label="Add Link"
+                          fullWidth
+                          value={link}
+                          onChange={(e) => {
+                            setLink(e.target.value)
+                            setErrorLink('')
+                          }}
+                          sx={{ marginTop: "8px" }}
+                        />
+                        {errorLink && (
+                          <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errorLink}</div>
+                        )}
+                      </MDBox>
+                    </Grid>
                     <Grid
                       item
                       xs={12}
