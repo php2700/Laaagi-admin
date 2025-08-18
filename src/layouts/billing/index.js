@@ -105,6 +105,7 @@ function Billing() {
         return {
           _id: user._id,
           banner: user.banner,
+          link: user?.link
         };
       });
       setBannerData(modifiedData);
@@ -200,6 +201,12 @@ function Billing() {
                               width: "15%",
                               align: "left",
                             },
+                            {
+                              Header: "Link ",
+                              accessor: "Link",
+                              width: "15%",
+                              align: "left",
+                            },
                             { Header: "Action", accessor: "Action", align: "left" },
                           ],
 
@@ -227,6 +234,16 @@ function Billing() {
                                   alt="Banner"
                                   style={{ width: "100px", height: "100px", borderRadius: "5px" }}
                                 />
+                              </MDTypography>
+                            ),
+                            Link: (
+                              <MDTypography
+                                component="a"
+                                variant="caption"
+                                color="text"
+                                fontWeight="medium"
+                              >
+                                {user?.link}
                               </MDTypography>
                             ),
                             Action: (
