@@ -89,6 +89,8 @@ import { PrivacyPolicy } from "layouts/privacy_policy";
 import { TermCondition } from "layouts/term_condition";
 import { Shipping } from "layouts/shipping";
 import { PaymentRefund } from "layouts/payment_refund";
+import GuestList from "layouts/guestList/index"
+
 
 const routes = [
   {
@@ -107,6 +109,16 @@ const routes = [
     route: "/users",
     component: <Users />,
   },
+    {
+    type: "collapse",
+    name: "GuestList",
+    key: "userssss",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/guestList",
+    component: <GuestList/>,
+  },
+   
+ 
   {
     type: "collapse",
     name: "Invitation",
@@ -497,6 +509,7 @@ const routes = [
     route: "/payment-refund",
     component: <PaymentRefund />,
   }
+  
 
 ];
 
