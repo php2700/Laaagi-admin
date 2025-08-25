@@ -90,6 +90,9 @@ import { TermCondition } from "layouts/term_condition";
 import { Shipping } from "layouts/shipping";
 import { PaymentRefund } from "layouts/payment_refund";
 import GuestList from "layouts/guestList/index"
+import PaymentHistoryAdmin from "layouts/about/paymenthistory/index"
+import UserPaymentHistory  from "layouts/userpayments/index"
+import UserGuestList from "layouts/guesthistory/index"
 
 
 const routes = [
@@ -111,13 +114,40 @@ const routes = [
   },
     {
     type: "collapse",
-    name: "GuestList",
+    name: "All GuestList",
     key: "userssss",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/guestList",
     component: <GuestList/>,
   },
-   
+     {
+    type: "collapse",
+    name: " All Payment History",
+    key: "paymenthistory",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/payment-history",
+    component: <PaymentHistoryAdmin/>,
+  },
+      {
+        type: "collapse",
+        name: " Userpayment History",
+        key: "user-payment-history",
+        icon: <Icon fontSize="small">receipt</Icon>,
+        route: "/payment-history/:userId", // यह वही पाथ है जिस पर आप Users पेज से भेज रहे हैं
+        component: <UserPaymentHistory />,
+        // इसे साइडबार में न दिखाने के लिए noCollapse: true कर सकते हैं
+    },
+        {
+        // <-- नया गेस्ट लिस्ट राउट जोड़ें
+        type: "collapse", // यह साइडबार में नहीं दिखेगा अगर noCollapse: true है
+        name: "User GuestList",
+        key: "user-guest-list",
+    icon: <Icon fontSize="small">table_view</Icon>,
+
+        route: "/guest-list/:userId", // यह URL Users.js के navigate() से मेल खाना चाहिए
+        component: <UserGuestList />,
+    },
+
  
   {
     type: "collapse",

@@ -199,6 +199,7 @@ function Users() {
                                                 label="Search here" />
                                         </MDBox>
                                     </MDBox>
+
                                     {userData?.length === 0 ? (
                                         <p style={{ textAlign: "center", fontWeight: "500", paddingBottom: "10px" }}>
                                             No Data Found
@@ -251,6 +252,14 @@ function Users() {
                                                             width: "15%",
                                                             align: "left",
                                                         },
+                                                        {
+                                                            Header: "View ",
+                                                            accessor: "View",
+                                                            width: "15%",
+                                                            align: "left",
+                                                        },
+
+
                                                         // { Header: "Edit", accessor: "Edit", align: "left" },
                                                     ],
 
@@ -265,6 +274,7 @@ function Users() {
                                                                 {index + 1}
                                                             </MDTypography>
                                                         ),
+
                                                         Profile: (
                                                             <MDTypography
                                                                 component="a"
@@ -344,6 +354,27 @@ function Users() {
 
                                                             </MDTypography>
                                                         ),
+                                                        View: (
+                                                            <MDBox display="flex" gap={1}>
+                                                                <MDButton
+                                                                    variant="gradient"
+                                                                    color="info"
+                                                                    size="small"
+                                                                    onClick={() => navigate(`/payment-history/${user._id}`)}
+                                                                >
+                                                                    payment history
+                                                                </MDButton>
+                                                                <MDButton
+                                                                    variant="gradient"
+                                                                    color="dark"
+                                                                    size="small"
+                                                                     onClick={() => navigate(`/guest-list/${user._id}`)}
+                                                                >
+                                                                    guestList
+                                                                </MDButton>
+                                                            </MDBox>
+                                                        ),
+
                                                         // Edit: (
                                                         //     <Link to={`/edit-user`}
                                                         //         state={{ userData: user }}
