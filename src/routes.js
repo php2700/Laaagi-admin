@@ -130,21 +130,19 @@ const routes = [
   },
       {
         type: "collapse",
-        name: " Userpayment History",
+        name: "Userpayment History",
         key: "user-payment-history",
-        icon: <Icon fontSize="small">receipt</Icon>,
-        route: "/payment-history/:userId", // यह वही पाथ है जिस पर आप Users पेज से भेज रहे हैं
+        icon: <Icon fontSize="small">table_view</Icon>,
+        route: "/payment-history/:userId", 
         component: <UserPaymentHistory />,
-        // इसे साइडबार में न दिखाने के लिए noCollapse: true कर सकते हैं
+       
     },
         {
-        // <-- नया गेस्ट लिस्ट राउट जोड़ें
-        type: "collapse", // यह साइडबार में नहीं दिखेगा अगर noCollapse: true है
         name: "User GuestList",
         key: "user-guest-list",
     icon: <Icon fontSize="small">table_view</Icon>,
 
-        route: "/guest-list/:userId", // यह URL Users.js के navigate() से मेल खाना चाहिए
+        route: "/guest-list/:userId", 
         component: <UserGuestList />,
     },
 

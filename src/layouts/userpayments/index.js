@@ -120,7 +120,7 @@ function UserPaymentHistory() {
                         display="flex" justifyContent="space-between" alignItems="center"
                     >
                         <MDTypography variant="h6" color="white">
-                            {userName ? `Payment History for: ${userName}` : "Loading User History..."}
+                            {userName ? `Payment History for: ${userName}` : ""}
                         </MDTypography>
                         <MDButton variant="outlined" color="white" onClick={() => navigate("/users")}>
                             Back to Users

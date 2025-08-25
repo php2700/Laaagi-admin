@@ -120,7 +120,10 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       name === "Edit Invitation Boxes" ||
       name === "Edit Discover Sweets" ||
       name === "Edit Users" ||
-      name === "Edit Banner"
+      name === "Edit Banner"||
+      name === "Userpayment History" ||
+      name === "User GuestList"||
+      name === "Userpayment History"
     ) {
       return null;
     }
