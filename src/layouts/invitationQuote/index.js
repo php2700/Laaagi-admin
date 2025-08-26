@@ -223,8 +223,8 @@ function InvitationQuote() {
                                                             align: 'left'
                                                         },
                                                           {
-                                                            Header: "mobile",
-                                                            accessor: "mobile",
+                                                            Header: "Mobile",
+                                                            accessor: "Mobile",
                                                             with: '15%',
                                                             align: 'left'
                                                         },
