@@ -74,7 +74,7 @@ function PaymentHistoryAdmin() {
 
             const modifiedData = historyData.map((payment) => ({
                 _id: payment._id,
-                userName: payment.userId?.name || "Unknown User",
+                 userName: payment.userId?.name || "N/A",
                 amount: `₹${payment.amount}` || "N/A",
                 invitationName: payment.invitationName || "N/A",
                 orderId: payment.razorpay_order_id || "N/A",

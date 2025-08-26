@@ -118,7 +118,8 @@ function InvitationQuote() {
                     decorationImage: quote?.image,
                     createdAt: formatedDate,
                     description: quote?.description,
-                    name:quote?.userId?.name
+                    name:quote?.userId?.name,
+                    mobile:quote?.mobile
                 };
             });
             console.log(modifiedData, "2222222222222")
@@ -221,6 +222,12 @@ function InvitationQuote() {
                                                             with: '15%',
                                                             align: 'left'
                                                         },
+                                                          {
+                                                            Header: "mobile",
+                                                            accessor: "mobile",
+                                                            with: '15%',
+                                                            align: 'left'
+                                                        },
                                                         {
                                                             Header: "Invitation Name ",
                                                             accessor: "Name",
@@ -295,6 +302,16 @@ function InvitationQuote() {
                                                                 fontWeight="medium"
                                                             >
                                                                 {user?.firstName}
+                                                            </MDTypography>
+                                                        ),
+                                                         Mobile: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {user?.mobile}
                                                             </MDTypography>
                                                         ),
                                                         UserName: (

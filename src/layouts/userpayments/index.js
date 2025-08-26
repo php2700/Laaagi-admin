@@ -17,7 +17,7 @@ import DataTable from "examples/Tables/DataTable";
 // React hooks and router
 import { useEffect, useState } from "react";
 // --- बदलाव 1: useLocation को useParams से बदलें ---
-import { useNavigate, useParams } from "react-router-dom"; 
+import {useLocation, useNavigate, useParams } from "react-router-dom"; 
 import axios from "axios";
 
 // Common functions
@@ -119,12 +119,14 @@ function UserPaymentHistory() {
                         variant="gradient" bgColor={sidenavColor} borderRadius="lg" coloredShadow="info"
                         display="flex" justifyContent="space-between" alignItems="center"
                     >
-                        <MDTypography variant="h6" color="white">
+                        {/* <MDTypography variant="h6" color="white">
                             {userName ? `Payment History for: ${userName}` : ""}
+                        </MDTypography> */}
+                         <MDTypography variant="h6" color="white">
+                            Payment History for: {userName || ""}
                         </MDTypography>
-                        <MDButton variant="outlined" color="white" onClick={() => navigate("/users")}>
-                            Back to Users
-                        </MDButton>
+                        
+
                     </MDBox>
                     <MDBox pt={3}>
                         {userHistory.length === 0 ? (

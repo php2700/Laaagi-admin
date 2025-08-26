@@ -102,9 +102,7 @@ function UserGuestList() {
                         <MDTypography variant="h6" color="white">
                             Guest List for: {userName || ""}
                         </MDTypography>
-                        <MDButton variant="outlined" color="white" onClick={() => navigate("/users")}>
-                            Back to Users
-                        </MDButton>
+
                     </MDBox>
                     <MDBox pt={3}>
                         {userGuests.length === 0 ? (
