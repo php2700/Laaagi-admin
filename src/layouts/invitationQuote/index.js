@@ -119,7 +119,7 @@ function InvitationQuote() {
                     createdAt: formatedDate,
                     description: quote?.description,
                     name:quote?.userId?.name,
-                    mobile:quote?.mobile
+                    mobile:quote?.userId?.mobile
                 };
             });
             console.log(modifiedData, "2222222222222")
