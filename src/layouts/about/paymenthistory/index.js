@@ -72,7 +72,7 @@ function PaymentHistoryAdmin() {
                 setTotalPages(Math.ceil(historyData.length / perPage));
             }
 
-            const modifiedData = historyData.map((payment) => ({
+            const modifiedData = historyData.map((payment) => ({  
                 _id: payment._id,
                  userName: payment.userId?.name || "N/A",
                 amount: `₹${payment.amount}` || "N/A",
