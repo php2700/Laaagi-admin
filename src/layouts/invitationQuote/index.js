@@ -90,6 +90,7 @@ function InvitationQuote() {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
+                    
                 }
             );
             const datas = response?.data?.quoteData?.data;
@@ -119,7 +120,7 @@ function InvitationQuote() {
                     createdAt: formatedDate,
                     description: quote?.description,
                     name:quote?.userId?.name,
-                    mobile:quote?.userId?.mobile
+                    mobile:quote?.mobile
                 };
             });
             console.log(modifiedData, "2222222222222")
