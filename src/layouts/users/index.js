@@ -138,7 +138,9 @@ function Users() {
     };
 
     const ApiCall = () => {
-        getUserData(newPage, searchText);
+        // getUserData(newPage, searchText);
+        getUserData(newPage, search); // ✅ CORRECT
+
     };
     // Calculate the total number of pages based on the data you receive
     const totalPages = Math.ceil(total_rows / per_page);
@@ -193,9 +195,14 @@ function Users() {
                                         <MDBox pr={1}>
                                             <MDInput
                                                 value={search}
+                                                // onChange={(e) => {
+                                                //     setSearch(e.target.value)
+                                                // }}
                                                 onChange={(e) => {
-                                                    setSearch(e.target.value)
+                                                    setSearch(e.target.value);
+                                                    setNewPage(1); // reset to first page
                                                 }}
+
                                                 label="Search here" />
                                         </MDBox>
                                     </MDBox>
@@ -368,7 +375,7 @@ function Users() {
                                                                     variant="gradient"
                                                                     color="dark"
                                                                     size="small"
-                                                                     onClick={() => navigate(`/guest-list/${user._id}`)}
+                                                                    onClick={() => navigate(`/guest-list/${user._id}`)}
                                                                 >
                                                                     guestList
                                                                 </MDButton>
