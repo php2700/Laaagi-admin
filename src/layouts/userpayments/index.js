@@ -34,7 +34,7 @@
 //     // State declarations
 //     const [userHistory, setUserHistory] = useState([]);
 //     const [userName, setUserName] = useState(""); 
-    
+
 //     // --- बदलाव 3: location.state की अब कोई ज़रूरत नहीं है ---
 //     const token = localStorage.getItem("authToken");
 
@@ -58,11 +58,11 @@
 //                 });
 
 //                 const historyData = response.data.data || [];
-                
+
 //                 if (historyData.length > 0 && historyData[0].userId) {
 //                     setUserName(historyData[0].userId.name);
 //                 }
-                
+
 //                 const modifiedData = historyData.map((payment) => ({
 //                     _id: payment._id,
 //                     amount: `₹${payment.amount}`,
@@ -70,7 +70,7 @@
 //                     orderId: payment.razorpay_order_id,
 //                     date: new Date(payment.createdAt).toLocaleDateString("hi-IN"),
 //                 }));
-                
+
 //                 setUserHistory(modifiedData);
 
 //             } catch (error) {
@@ -125,7 +125,7 @@
 //                          <MDTypography variant="h6" color="white">
 //                             Payment History for: {userName || ""}
 //                         </MDTypography>
-                        
+
 
 //                     </MDBox>
 //                     <MDBox pt={3}>
@@ -352,19 +352,25 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DataTable from "examples/Tables/DataTable";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { logout } from "layouts/common";
 import { useMaterialUIController } from "context";
 
 function UserPaymentHistory() {
   const navigate = useNavigate();
-  const { userId } = useParams();
+  // const { userId } = useParams();
+  const location = useLocation();
+  
+  const userId = location.state?.userId;
+  const initialUserName = location.state?.userName;
   const [controller] = useMaterialUIController();
   const { sidenavColor } = controller;
 
   const [userHistory, setUserHistory] = useState([]);
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState(initialUserName || "");
+  // const [userName, setUserName] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const rowsPerPage = 10; // This should match your backend's default limit or be passed
@@ -511,39 +517,39 @@ function UserPaymentHistory() {
                   noEndBorder
                 />
                 <MDBox display="flex" justifyContent="center" mt={2} mb={2}>
-<Pagination
-  count={totalPages}
-  page={currentPage}
-  onChange={(e, value) => setCurrentPage(value)}
-  color="primary" // This will make the default 'primary' color for selected items if not overridden
-  sx={{
-    // Styles for the individual page items (including arrows and numbers)
-    '& .MuiPaginationItem-root': {
-      borderRadius: '50%', // Makes them circular
-      border: '1px solid #D9D9D9', // Light grey border for unselected items
-      color: '#8C8C8C', // Grey text color for unselected items
-      backgroundColor: '#fff', // White background for unselected items
-      '&:hover': {
-        backgroundColor: '#f0f0f0', // Slightly darker hover background
-      },
-    },
-    // Styles specifically for the selected page item
-    '& .MuiPaginationItem-root.Mui-selected': {
-      backgroundColor: '#1A73E8', // Solid blue background for selected item
-      color: '#fff', // White text color for selected item
-      borderColor: '#1A73E8', // Blue border for selected item
-      '&:hover': {
-        backgroundColor: '#1669C1', // Slightly darker blue on hover for selected item
-        borderColor: '#1669C1',
-      },
-    },
-    // Styles for the arrow buttons
-    '& .MuiPaginationItem-previousNext': {
-      // These will inherit the general '.MuiPaginationItem-root' styles
-      // but you can add specific overrides if needed
-    },
-  }}
-/>
+                  <Pagination
+                    count={totalPages}
+                    page={currentPage}
+                    onChange={(e, value) => setCurrentPage(value)}
+                    color="primary" // This will make the default 'primary' color for selected items if not overridden
+                    sx={{
+                      // Styles for the individual page items (including arrows and numbers)
+                      '& .MuiPaginationItem-root': {
+                        borderRadius: '50%', // Makes them circular
+                        border: '1px solid #D9D9D9', // Light grey border for unselected items
+                        color: '#8C8C8C', // Grey text color for unselected items
+                        backgroundColor: '#fff', // White background for unselected items
+                        '&:hover': {
+                          backgroundColor: '#f0f0f0', // Slightly darker hover background
+                        },
+                      },
+                      // Styles specifically for the selected page item
+                      '& .MuiPaginationItem-root.Mui-selected': {
+                        backgroundColor: '#1A73E8', // Solid blue background for selected item
+                        color: '#fff', // White text color for selected item
+                        borderColor: '#1A73E8', // Blue border for selected item
+                        '&:hover': {
+                          backgroundColor: '#1669C1', // Slightly darker blue on hover for selected item
+                          borderColor: '#1669C1',
+                        },
+                      },
+                      // Styles for the arrow buttons
+                      '& .MuiPaginationItem-previousNext': {
+                        // These will inherit the general '.MuiPaginationItem-root' styles
+                        // but you can add specific overrides if needed
+                      },
+                    }}
+                  />
                 </MDBox>
               </>
             )}

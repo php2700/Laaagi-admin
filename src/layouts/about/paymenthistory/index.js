@@ -259,6 +259,7 @@ function PaymentHistoryAdmin() {
             ]);
 
             const paymentData = paymentRes.data.data.map((item) => ({
+                
                 type: "Payment",
                 userName: item.userId?.name || "N/A",
                 amount: `₹${item.amount}`,
@@ -269,6 +270,7 @@ function PaymentHistoryAdmin() {
             }));
 
             const sweetData = sweetRes.data.data.map((item) => ({
+                _id: item._id,
                 type: "Sweet",
                 userName: item.userId?.name || "N/A",
                 amount: `₹${item.amount}`,
@@ -293,6 +295,8 @@ function PaymentHistoryAdmin() {
     }, []);
 
     const columns = [
+        // { Header: "id", accessor: "id", align: "left" },
+
         { Header: "Type", accessor: "type", align: "left" },
         { Header: "User", accessor: "userName", align: "left" },
         { Header: "Amount", accessor: "amount", align: "left" },
@@ -309,7 +313,7 @@ function PaymentHistoryAdmin() {
                     <Grid item xs={12}>
                         <Card>
                             <MDBox mx={2} mt={-3} py={3} px={2} variant="gradient" bgColor={sidenavColor} borderRadius="lg" coloredShadow="info">
-                                <MDTypography variant="h6" color="white">All Payment History (Combined)</MDTypography>
+                                <MDTypography variant="h6" color="white">All Payment History </MDTypography>
                             </MDBox>
                             <MDBox pt={3} pb={3}>
                                 {historyList.length > 0 ? (
@@ -328,7 +332,6 @@ function PaymentHistoryAdmin() {
                     </Grid>
                 </Grid>
             </MDBox>
-            <Footer />
         </DashboardLayout>
     );
 }

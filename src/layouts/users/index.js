@@ -367,7 +367,16 @@ function Users() {
                                                                     variant="gradient"
                                                                     color="info"
                                                                     size="small"
-                                                                    onClick={() => navigate(`/payment-history/${user._id}`)}
+                                                                    // onClick={() => navigate(`/payment-history/${user._id}`)}
+                                                                    onClick={() => navigate(
+                                                                        `/payment-historys`, // URL अब साफ है
+                                                                        {
+                                                                            state: { // state ऑब्जेक्ट के माध्यम से userId और userName पास करें
+                                                                                userId: user._id,
+                                                                                userName: user.name // यदि आप userName भी डिस्प्ले करना चाहते हैं तो इसे भी पास करें
+                                                                            }
+                                                                        }
+                                                                    )}
                                                                 >
                                                                     payment history
                                                                 </MDButton>
@@ -375,7 +384,16 @@ function Users() {
                                                                     variant="gradient"
                                                                     color="dark"
                                                                     size="small"
-                                                                    onClick={() => navigate(`/guest-list/${user._id}`)}
+                                                                    // onClick={() => navigate(`/guest-list/${user._id}`)}
+                                                                                                                                        onClick={() => navigate(
+                                                                        `/guest-list`, // URL अब साफ है
+                                                                        {
+                                                                            state: { // state ऑब्जेक्ट के माध्यम से userId और userName पास करें
+                                                                                userId: user._id,
+                                                                                userName: user.name // यदि आप userName भी डिस्प्ले करना चाहते हैं तो इसे भी पास करें
+                                                                            }
+                                                                        }
+                                                                    )}
                                                                 >
                                                                     guestList
                                                                 </MDButton>

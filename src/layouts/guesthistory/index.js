@@ -25,7 +25,7 @@
 //     // State declarations
 //     const [userGuests, setUserGuests] = useState([]);
 //     const [userName, setUserName] = useState("");
-    
+
 //     const token = localStorage.getItem("authToken");
 
 //     useEffect(() => {
@@ -46,11 +46,11 @@
 //                 });
 
 //                 const guestData = response.data.data || [];
-                
+
 //                 if (guestData.length > 0 && guestData[0].userId) {
 //                     setUserName(guestData[0].userId.name);
 //                 }
-                
+
 //                 // गेस्ट स्कीमा के अनुसार डेटा को मैप करें
 //                 const modifiedData = guestData.map((guest) => ({
 //                     _id: guest._id,
@@ -59,7 +59,7 @@
 //                     address: guest.address || "N/A",
 //                     category: guest.category || "N/A",
 //                 }));
-                
+
 //                 setUserGuests(modifiedData);
 
 //             } catch (error) {
@@ -88,15 +88,15 @@
 //         mobile: <MDTypography variant="caption" color="text">{guest.mobile}</MDTypography>,
 //         address: <MDTypography variant="caption" color="text">{guest.address}</MDTypography>,
 //         category: <MDTypography variant="caption" color="text">{guest.category}</MDTypography>,
-        
+
 //     }));
-    
+
 
 //     return (
 //         <DashboardLayout>
-            
+
 //             <DashboardNavbar />
-            
+
 //             <MDBox pt={6} pb={3}>
 //                 <Card>
 //                     <MDBox
@@ -117,7 +117,7 @@
 //                         ) : (
 //                             <DataTable
 //                                 table={{ columns, rows }}
-                                
+
 //                                 noEndBorder
 //                             />
 //                         )}
@@ -271,7 +271,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DataTable from "examples/Tables/DataTable";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import { logout } from "layouts/common";
 import { useMaterialUIController } from "context";
@@ -279,16 +279,20 @@ import PropTypes from "prop-types";
 import ExpandableText from "./Expand";
 import Pagination from "@mui/material/Pagination"; // Import Pagination component
 import Stack from "@mui/material/Stack";
- // Import Stack for layout
+// Import Stack for layout
 
 function UserGuestList() {
   const navigate = useNavigate();
-  const { userId } = useParams();
+  // const { userId } = useParams();
+  const location = useLocation();
+  const userId = location.state?.userId;
+  const initialUserName = location.state?.userName;
   const [controller] = useMaterialUIController();
   const { sidenavColor } = controller;
 
   const [userGuests, setUserGuests] = useState([]);
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState(initialUserName || "");
+  // const [userName, setUserName] = useState("");
   const [page, setPage] = useState(1); // Current page
   const [limit, setLimit] = useState(10); // Items per page
   const [totalPages, setTotalPages] = useState(0); // Total number of pages
@@ -417,28 +421,28 @@ function UserGuestList() {
                         )}
                       /> */}
                       <Pagination
-  count={totalPages}
-  page={page}
-  onChange={handlePageChange}
-  renderItem={(item) => (
-    <PaginationItem
-      {...item}
-      sx={{
-        minWidth: 32,
-        height: 32,
-        borderRadius: "50%",
-        fontSize: "0.875rem",
-        ...(item.selected && {
-          background: "linear-gradient(195deg, #49a3f1, #1A73E8)",
-          color: "#fff",
-          "&:hover": {
-            background: "linear-gradient(195deg, #49a3f1, #1A73E8)",
-          },
-        }),
-      }}
-    />
-  )}
-/>
+                        count={totalPages}
+                        page={page}
+                        onChange={handlePageChange}
+                        renderItem={(item) => (
+                          <PaginationItem
+                            {...item}
+                            sx={{
+                              minWidth: 32,
+                              height: 32,
+                              borderRadius: "50%",
+                              fontSize: "0.875rem",
+                              ...(item.selected && {
+                                background: "linear-gradient(195deg, #49a3f1, #1A73E8)",
+                                color: "#fff",
+                                "&:hover": {
+                                  background: "linear-gradient(195deg, #49a3f1, #1A73E8)",
+                                },
+                              }),
+                            }}
+                          />
+                        )}
+                      />
 
                     </Stack>
                   </MDBox>

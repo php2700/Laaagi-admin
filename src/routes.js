@@ -91,7 +91,7 @@ import { Shipping } from "layouts/shipping";
 import { PaymentRefund } from "layouts/payment_refund";
 import GuestList from "layouts/guestList/index"
 import PaymentHistoryAdmin from "layouts/about/paymenthistory/index"
-import UserPaymentHistory  from "layouts/userpayments/index"
+import UserPaymentHistory from "layouts/userpayments/index"
 import UserGuestList from "layouts/guesthistory/index"
 
 
@@ -112,41 +112,41 @@ const routes = [
     route: "/users",
     component: <Users />,
   },
-    {
+  {
     type: "collapse",
     name: "All GuestList",
     key: "userssss",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/guestList",
-    component: <GuestList/>,
+    component: <GuestList />,
   },
-     {
+  {
     type: "collapse",
     name: " All Payment History",
     key: "paymenthistory",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/payment-history",
-    component: <PaymentHistoryAdmin/>,
+    component: <PaymentHistoryAdmin />,
   },
-      {
-        type: "collapse",
-        name: "Userpayment History",
-        key: "user-payment-history",
-        icon: <Icon fontSize="small">table_view</Icon>,
-        route: "/payment-history/:userId", 
-        component: <UserPaymentHistory />,
-       
-    },
-        {
-        name: "User GuestList",
-        key: "user-guest-list",
+  {
+    type: "collapse",
+    name: "Userpayment History",
+    key: "user-payment-history",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/payment-historys",
+    component: <UserPaymentHistory />,
+
+  },
+  {
+    name: "User GuestList",
+    key: "user-guest-list",
     icon: <Icon fontSize="small">table_view</Icon>,
 
-        route: "/guest-list/:userId", 
-        component: <UserGuestList />,
-    },
+    route: "/guest-list",
+    component: <UserGuestList />,
+  },
 
- 
+
   {
     type: "collapse",
     name: "Invitation",
@@ -505,8 +505,8 @@ const routes = [
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/edit-banner",
     component: <Edit_Banner />,
-  },{
-     type: "collapse",
+  }, {
+    type: "collapse",
     name: "Privacy Policy",
     key: "privacy policy",
     icon: <Icon fontSize="small">notifications</Icon>,
@@ -514,7 +514,7 @@ const routes = [
     component: <PrivacyPolicy />,
   },
   {
-     type: "collapse",
+    type: "collapse",
     name: "Term And Condition",
     key: "term and condition",
     icon: <Icon fontSize="small">notifications</Icon>,
@@ -522,7 +522,7 @@ const routes = [
     component: <TermCondition />,
   },
   {
-     type: "collapse",
+    type: "collapse",
     name: "Shipping",
     key: "shipping",
     icon: <Icon fontSize="small">notifications</Icon>,
@@ -530,14 +530,14 @@ const routes = [
     component: <Shipping />,
   },
   {
-     type: "collapse",
+    type: "collapse",
     name: "Payment Refund",
     key: "payment refund",
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/payment-refund",
     component: <PaymentRefund />,
   }
-  
+
 
 ];
 

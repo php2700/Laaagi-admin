@@ -70,8 +70,8 @@ function GuestListAdmin() {
             }
 
             const modifiedData = guestListData.map((guest) => ({
-                _id: guest._id,
-                name: guest.name || "N/A",
+                _id: guest._id, 
+               name: guest.name || "N/A",
                 mobile: guest.mobile || "N/A",
                 email: guest.email || "N/A",
                 address: guest.address || "N/A",
