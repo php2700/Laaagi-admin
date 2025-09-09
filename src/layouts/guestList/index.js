@@ -136,6 +136,11 @@ function GuestListAdmin() {
                 {guest.address}
             </MDTypography>
         ),
+         pin_code: (
+        <MDTypography component="p" variant="caption" color="text" fontWeight="medium">
+            {guest.pin_code}
+        </MDTypography>
+    ),
         category: (
             <MDTypography component="p" variant="caption" color="text" fontWeight="medium">
                 {guest.category}

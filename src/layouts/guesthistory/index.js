@@ -332,6 +332,8 @@ function UserGuestList() {
           name: guest.name || "N/A",
           mobile: guest.mobile || "N/A",
           address: guest.address || "N/A",
+           pin_code: guest.pincode || "N/A",
+
           category: guest.category || "N/A",
         }));
 
@@ -340,7 +342,7 @@ function UserGuestList() {
         setTotalPages(Math.ceil(total / limit)); // Calculate total pages
       } catch (error) {
         if (error?.response?.status === 401) logout(navigate);
-        console.error("यूज़र के गेस्ट्स लाने में त्रुटि:", error);
+        console.error("error during taking by guestlist:", error);
         setUserGuests([]);
         setTotalGuests(0);
         setTotalPages(0);
@@ -359,6 +361,8 @@ function UserGuestList() {
     { Header: "Name", accessor: "name", width: "25%", align: "left" },
     { Header: "Mobile", accessor: "mobile", width: "20%", align: "left" },
     { Header: "Address", accessor: "address", width: "30%", align: "left" },
+        { Header: "PinCode", accessor: "pin_code", width: "10%", align: "left" },
+
     { Header: "Category", accessor: "category", width: "15%", align: "left" },
   ];
 
@@ -367,6 +371,11 @@ function UserGuestList() {
     name: <MDTypography variant="caption" color="text">{guest.name}</MDTypography>,
     mobile: <MDTypography variant="caption" color="text">{guest.mobile}</MDTypography>,
     address: <ExpandableText text={guest.address} />,
+     pin_code: (
+        <MDTypography component="p" variant="caption" color="text" fontWeight="medium">
+            {guest.pin_code}
+        </MDTypography>
+     ),
     category: <MDTypography variant="caption" color="text">{guest.category}</MDTypography>,
   }));
 
