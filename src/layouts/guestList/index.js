@@ -23,7 +23,7 @@ import axios from "axios";
 
 // Context and common functions
 import { useMaterialUIController } from "context";
-import { logout } from "layouts/common"; 
+import { logout } from "layouts/common";
 
 // Icons
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
@@ -40,9 +40,9 @@ function GuestListAdmin() {
 
     // Pagination states
     const [totalPages, setTotalPages] = useState(0);
-    const [perPage, setPerPage] = useState(10); 
+    const [perPage, setPerPage] = useState(10);
 
-    const token = localStorage.getItem("authToken"); 
+    const token = localStorage.getItem("authToken");
 
     const getGuestData = async (page, searchQuery) => {
         if (!token) {
@@ -63,23 +63,24 @@ function GuestListAdmin() {
             });
 
             const guestListData = response.data.guests || [];
-            
+
             if (response.data.pagination) {
                 setTotalPages(response.data.pagination.totalPages || 0);
                 setCurrentPage(response.data.pagination.currentPage || 1);
             }
 
             const modifiedData = guestListData.map((guest) => ({
-                _id: guest._id, 
-               name: guest.name || "N/A",
+                _id: guest._id,
+                name: guest.name || "N/A",
                 mobile: guest.mobile || "N/A",
                 email: guest.email || "N/A",
                 address: guest.address || "N/A",
                 guestNo: guest.guestNo || "N/A",
                 category: guest.category || "N/A",
-                createdBy: guest.userId?.name || "Unknown User", 
+                createdBy: guest.userId?.name || "Unknown User",
+                pincode: guest?.pincode || 'N/A'
             }));
-            
+
             setGuestData(modifiedData);
 
         } catch (error) {
@@ -87,7 +88,7 @@ function GuestListAdmin() {
                 logout(navigate);
             }
             console.error("गेस्ट सूची लाने में त्रुटि:", error);
-            setGuestData([]); 
+            setGuestData([]);
         }
     };
 
@@ -107,6 +108,7 @@ function GuestListAdmin() {
         { Header: "Created By", accessor: "createdBy", width: "15%", align: "left" },
         { Header: "Mobile", accessor: "mobile", width: "10%", align: "left" },
         { Header: "Address", accessor: "address", width: "25%", align: "left" },
+        { Header: "Pincode", accessor: "pincode", width: "15%", align: "left" },
         { Header: "Category", accessor: "category", width: "10%", align: "left" },
     ];
 
@@ -136,11 +138,11 @@ function GuestListAdmin() {
                 {guest.address}
             </MDTypography>
         ),
-         pin_code: (
-        <MDTypography component="p" variant="caption" color="text" fontWeight="medium">
-            {guest.pin_code}
-        </MDTypography>
-    ),
+        pincode: (
+            <MDTypography component="p" variant="caption" color="text" fontWeight="medium">
+                {guest.pincode}
+            </MDTypography>
+        ),
         category: (
             <MDTypography component="p" variant="caption" color="text" fontWeight="medium">
                 {guest.category}

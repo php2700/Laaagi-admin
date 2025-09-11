@@ -35,8 +35,9 @@ function Edit_Review() {
 
     // State for image file and success message
     const [image, setImage] = useState(null);
-    const [designation, setDesignation] = useState(null);
+    const [address, setAddress] = useState(null);
     const [description, setDescription] = useState(null);
+    const [rating, setRating] = useState();
     const [name, setName] = useState(null);
     const [_id, setId] = useState();
 
@@ -77,12 +78,13 @@ function Edit_Review() {
     useEffect(() => {
         setId(reviewData?._id)
         setName(reviewData?.name)
-        setDesignation(reviewData?.designation)
+        setAddress(reviewData?.location)
         setDescription(reviewData?.description)
-        setImage(reviewData?.image)
-        if (reviewData?.image) {
-            setPreviewUrl(`${process.env.REACT_APP_BASE_URL}uploads/${reviewData?.image}`);
-        }
+        setRating(reviewData?.rating)
+        // setImage(reviewData?.image)
+        // if (reviewData?.image) {
+        //     setPreviewUrl(`${process.env.REACT_APP_BASE_URL}uploads/${reviewData?.image}`);
+        // }
     }, [reviewData]);
 
     const handleRemoveImage = () => {
@@ -113,10 +115,10 @@ function Edit_Review() {
         }
 
 
-        if (!designation) {
-            allError.designation = "Please Add Designation."
-        } else if (!designation?.trim()) {
-            allError.designation = "Please Enter designation"
+        if (!address) {
+            allError.address = "Please Add address."
+        } else if (!address?.trim()) {
+            allError.address = "Please Enter address"
         }
 
         if (!description) {
@@ -125,36 +127,37 @@ function Edit_Review() {
             allError.description = "Please Enter description"
         }
 
-        if (Object?.keys(allError)?.length > 0) {
-            setErrors(allError)
-            if (!image) {
-                setError("Please Upload Image.");
-            }
-            return
+        if (!rating) {
+            allError.rating = "Please Enter Rating"
         }
 
-        if (!image) {
-            setError("Please upload Image.");
-            return;
-        }
+        // if (Object?.keys(allError)?.length > 0) {
+        //     setErrors(allError)
+        //     if (!image) {
+        //         setError("Please Upload Image.");
+        //     }
+        //     return
+        // }
 
-        const formData = new FormData();
-        formData.append("_id", _id)
-        formData.append("name", name);
-        formData.append("designation", designation);
-        formData.append("description", description);
-        if (image && image !== reviewData?.image) {
-            formData.append("image", image);
+        // if (!image) {
+        //     setError("Please upload Image.");
+        //     return;
+        // }
+        const updateReview = {
+            "_id": _id,
+            "name": name,
+            "location": address,
+            "description": description,
+            "rating": rating
         }
 
         try {
             const response = await axios.patch(
                 `${process.env.REACT_APP_BASE_URL}api/admin/update_review`,
-                formData,
+                updateReview,
                 {
                     headers: {
                         "Authorization": `Bearer ${token}`,
-                        "Content-Type": "multipart/form-data",
                     },
                 }
             );
@@ -163,8 +166,9 @@ function Edit_Review() {
                 setImage(null);
                 setId("")
                 setName("");
-                setDesignation("");
+                setAddress("");
                 setDescription("");
+                setRating("")
                 setErrors({});
                 navigate("/review")
             } else {
@@ -225,18 +229,40 @@ function Edit_Review() {
                                             <MDBox mb={2} width='100%'>
                                                 <MDInput
                                                     type="text"
-                                                    label="designation"
+                                                    label="location"
                                                     fullWidth
-                                                    value={designation || ""}
+                                                    value={address || ""}
                                                     onChange={(e) => {
-                                                        setDesignation(e.target.value)
-                                                        setErrors((prev) => ({ ...prev, designation: "" }))
+                                                        setAddress(e.target.value)
+                                                        setErrors((prev) => ({ ...prev, address: "" }))
                                                     }
                                                     }
                                                     sx={{ marginTop: "8px" }}
                                                 />
-                                                {errors.designation && (
-                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.designation}</div>
+                                                {errors.address && (
+                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.address}</div>
+                                                )}
+                                            </MDBox>
+                                        </Grid>
+                                        <Grid item xs={12} md={6} xl={4} display='flex' justifyContent='center'>
+                                            <MDBox mb={2} width='100%'>
+                                                <MDInput
+                                                    type="text"
+                                                    label="rating max 5"
+                                                    fullWidth
+                                                    value={rating || ""}
+                                                    onChange={(e) => {
+                                                        const rate = e.target.value;
+                                                        if (rate < 6) {
+                                                            setRating(rate)
+                                                            setErrors((prev) => ({ ...prev, rating: "" }))
+                                                        }
+                                                    }
+                                                    }
+                                                    sx={{ marginTop: "8px" }}
+                                                />
+                                                {errors.rating && (
+                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>{errors.rating}</div>
                                                 )}
                                             </MDBox>
                                         </Grid>
@@ -262,74 +288,7 @@ function Edit_Review() {
                                                 )}
                                             </MDBox>
                                         </Grid>
-                                        <Grid item xs={12} md={6} xl={4} mt={1}
-                                            display='flex'
-                                            flexDirection='column'
-                                            alignItems="center"
-                                        >
-                                            <MDBox mb={2}
-                                                width='100%'
-                                                display="flex"
-                                                flexDirection="column"
-                                            >
-                                                <MuiFileInput
-                                                    // value={image || null}
-                                                    value={image instanceof File ? image : null}
 
-                                                    onChange={handleChangefile}
-                                                    // placeholder="Upload Image"
-                                                    placeholder={
-                                                        !previewUrl && !image
-                                                            ? "Upload Image"
-                                                            : previewUrl
-                                                                ? "Edit Image"
-                                                                : "Replace Image"
-                                                    }
-                                                    fullWidth
-                                                    minHeight={'450px'}
-                                                    InputProps={{
-                                                        startAdornment: (
-                                                            <InputAdornment position="start">
-                                                                <AttachFileIcon sx={{ marginRight: 1, color: "#757575" }} />
-                                                            </InputAdornment>
-                                                        ),
-                                                    }}
-                                                />
-                                                {error && (
-                                                    <div style={{ color: "red", fontSize: "12px", fontWeight: 350, marginTop: "8px" }}>
-                                                        {error}
-                                                    </div>
-                                                )}
-                                            </MDBox>
-                                            {previewUrl && (
-                                                <MDBox mt={2} sx={{ textAlign: "center" }}>
-                                                    <img
-                                                        src={previewUrl}
-                                                        alt="Preview"
-                                                        style={{
-                                                            width: "100px",
-                                                            height: "100px",
-                                                            objectFit: "cover",
-                                                            borderRadius: "8px",
-                                                            marginTop: "8px",
-                                                        }}
-                                                    />
-                                                    <MDBox mt={1}>
-                                                        <MDTypography variant="caption" color="text">
-                                                            {image?.name}
-                                                        </MDTypography>
-                                                        <IconButton
-                                                            onClick={handleRemoveImage}
-                                                            color="error"
-                                                            size="small"
-                                                            sx={{ ml: 1 }}
-                                                        >
-                                                            <DeleteIcon />
-                                                        </IconButton>
-                                                    </MDBox>
-                                                </MDBox>
-                                            )}
-                                        </Grid>
 
                                     </Grid>
                                     <MDBox mt={4} mb={1} sx={{ textAlign: "center" }}>

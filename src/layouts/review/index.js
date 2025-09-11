@@ -121,7 +121,8 @@ function Review() {
                     _id: review._id,
                     image: review?.image,
                     name: review?.name,
-                    designation: review?.designation,
+                    location: review?.location,
+                    rating: review?.rating,
                     description: review?.description,
                     createdAt: formatedDate,
                     updatedAt: updateDate
@@ -131,8 +132,8 @@ function Review() {
             setReviewData(modifiedData);
         } catch (error) {
             if (error?.response?.data?.Message === 'jwt expired') {
-                            logout(navigate)
-                        }
+                logout(navigate)
+            }
             console.error("Error fetching banner data:", error);
         }
     };
@@ -205,7 +206,7 @@ function Review() {
                                     </MDTypography>
                                 </MDBox>
                                 <MDBox pt={3}>
-                                    <MDBox mx={2} mb={2}>
+                                    {/* <MDBox mx={2} mb={2}>
                                         <Link to={`/add-review`}>
                                             <MDButton
                                                 component="a"
@@ -216,7 +217,7 @@ function Review() {
                                                 Add Review
                                             </MDButton>
                                         </Link>
-                                    </MDBox>
+                                    </MDBox> */}
                                     {reviewData?.length === 0 ? (
                                         <p style={{ textAlign: "center", fontWeight: "500", paddingBottom: "10px" }}>
                                             No Data Found
@@ -227,12 +228,12 @@ function Review() {
                                                 table={{
                                                     columns: [
                                                         { Header: "ID", accessor: "orderId", width: "1%", align: "left" },
-                                                        {
-                                                            Header: "Image ",
-                                                            accessor: "Image",
-                                                            width: "15%",
-                                                            align: "left",
-                                                        },
+                                                        // {
+                                                        //     Header: "Image ",
+                                                        //     accessor: "Image",
+                                                        //     width: "15%",
+                                                        //     align: "left",
+                                                        // },
                                                         {
                                                             Header: "Name ",
                                                             accessor: "Name",
@@ -240,12 +241,17 @@ function Review() {
                                                             align: "left",
                                                         },
                                                         {
-                                                            Header: "Designation ",
-                                                            accessor: "Designation",
+                                                            Header: "location ",
+                                                            accessor: "location",
                                                             width: "15%",
                                                             align: "left",
                                                         },
-
+                                                        {
+                                                            Header: "rating ",
+                                                            accessor: "rating",
+                                                            width: "15%",
+                                                            align: "left",
+                                                        },
                                                         {
                                                             Header: "Created ",
                                                             accessor: "Created",
@@ -263,7 +269,7 @@ function Review() {
                                                             align: "left",
                                                         },
                                                         { Header: "Edit", accessor: "Edit", align: "left" },
-                                                        { Header: "Action", accessor: "Action", align: "left" },
+                                                        // { Header: "Action", accessor: "Action", align: "left" },
                                                     ],
 
                                                     rows: reviewData.map((review, index) => ({
@@ -277,20 +283,20 @@ function Review() {
                                                                 {index + 1}
                                                             </MDTypography>
                                                         ),
-                                                        Image: (
-                                                            <MDTypography
-                                                                component="a"
-                                                                variant="caption"
-                                                                color="text"
-                                                                fontWeight="medium"
-                                                            >
-                                                                <img
-                                                                    src={`${process.env.REACT_APP_BASE_URL}uploads/${review?.image}`}
-                                                                    alt="Banner"
-                                                                    style={{ width: "100px", height: "100px", borderRadius: "50%" }}
-                                                                />
-                                                            </MDTypography>
-                                                        ),
+                                                        // Image: (
+                                                        //     <MDTypography
+                                                        //         component="a"
+                                                        //         variant="caption"
+                                                        //         color="text"
+                                                        //         fontWeight="medium"
+                                                        //     >
+                                                        //         <img
+                                                        //             src={`${process.env.REACT_APP_BASE_URL}uploads/${review?.image}`}
+                                                        //             alt="Banner"
+                                                        //             style={{ width: "100px", height: "100px", borderRadius: "50%" }}
+                                                        //         />
+                                                        //     </MDTypography>
+                                                        // ),
                                                         Name: (
                                                             <MDTypography
                                                                 component="a"
@@ -301,14 +307,24 @@ function Review() {
                                                                 {review?.name}
                                                             </MDTypography>
                                                         ),
-                                                        Designation: (
+                                                        location: (
                                                             <MDTypography
                                                                 component="a"
                                                                 variant="caption"
                                                                 color="text"
                                                                 fontWeight="medium"
                                                             >
-                                                                {review?.designation}
+                                                                {review?.location}
+                                                            </MDTypography>
+                                                        ),
+                                                        rating: (
+                                                            <MDTypography
+                                                                component="a"
+                                                                variant="caption"
+                                                                color="text"
+                                                                fontWeight="medium"
+                                                            >
+                                                                {review?.rating}
                                                             </MDTypography>
                                                         ),
                                                         Description: (
@@ -366,22 +382,22 @@ function Review() {
                                                                 </MDTypography>
                                                             </Link>
                                                         ),
-                                                        Action: (
-                                                            <MDTypography
-                                                                component="span"
-                                                                variant="caption"
-                                                                color="error"
-                                                                fontWeight="medium"
-                                                                onClick={() => handleDelete(review._id)}
-                                                                sx={{
-                                                                    cursor: "pointer",
-                                                                    textDecoration: "none",
-                                                                    fontSize: '18px'
-                                                                }}
-                                                            >
-                                                                <DeleteIcon />
-                                                            </MDTypography>
-                                                        ),
+                                                        // Action: (
+                                                        //     <MDTypography
+                                                        //         component="span"
+                                                        //         variant="caption"
+                                                        //         color="error"
+                                                        //         fontWeight="medium"
+                                                        //         onClick={() => handleDelete(review._id)}
+                                                        //         sx={{
+                                                        //             cursor: "pointer",
+                                                        //             textDecoration: "none",
+                                                        //             fontSize: '18px'
+                                                        //         }}
+                                                        //     >
+                                                        //         <DeleteIcon />
+                                                        //     </MDTypography>
+                                                        // ),
                                                     })),
                                                 }}
                                                 isSorted={false}
