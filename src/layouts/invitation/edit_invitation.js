@@ -173,16 +173,23 @@ function Edit_Invitation() {
         }
     };
 
-    const handleVideoChange = (file) => {
-        if (file && file.type.startsWith("video/")) {
+ const handleVideoChange = (file) => {
+    if (file) {
+        if (file.type.startsWith("video/")) {
             setVideoFile(file);
             setVideoPreviewUrl(URL.createObjectURL(file));
-            setVideoError("")
+            setVideoError("");
         } else {
+            setVideoError("Please select a valid video file.");
             setVideoFile(null);
             setVideoPreviewUrl(null);
         }
-    };
+    } else {
+        setVideoError("No video file selected.");
+        setVideoFile(null);
+        setVideoPreviewUrl(null);
+    }
+};
 
     const handleRemoveVideo = () => {
         setVideoFile(null);
@@ -199,7 +206,7 @@ function Edit_Invitation() {
         setImage02(invitationData?.image02)
         setImage03(invitationData?.image03)
         setImage04(invitationData?.image04)
-        setVideoError(invitationData?.videoFile)
+        setVideoFile(invitationData?.videoFile)
         setPrice((invitationData?.price.toString()))
         if (invitationData?.image) {
             setPreviewUrl(`${process.env.REACT_APP_BASE_URL}uploads/${invitationData?.image}`);
@@ -243,114 +250,119 @@ function Edit_Invitation() {
 
 
     const handleSubmit = async () => {
-        let allError = {}
-        if (!price) {
-            allError.price = "Please Enter Amount ."
-        } else if (!/^\d*$/.test(price)) {
-            allError.price = "Enter Valid Amount"
-        }
+    let allError = {};
+    if (!price) {
+        allError.price = "Please Enter Amount.";
+    } else if (!/^\d*$/.test(price)) {
+        allError.price = "Enter Valid Amount";
+    }
 
-        if (!name) {
-            allError.name = "Please Enter Name"
-        } else if (!name?.trim()) {
-            allError.name = "Please Enter Name"
-        } else if (!/^[a-zA-Z\s]*$/.test(name)) {
-            allError.name = "Please Enter Valid Name"
-        }
+    if (!name) {
+        allError.name = "Please Enter Name";
+    } else if (!name?.trim()) {
+        allError.name = "Please Enter Name";
+    } else if (!/^[a-zA-Z\s]*$/.test(name)) {
+        allError.name = "Please Enter Valid Name";
+    }
 
-        if (!description) {
-            allError.description = "Please Add Description."
-        } else if (!description?.trim()) {
-            allError.description = "Please Enter Description"
-        }
+    if (!description) {
+        allError.description = "Please Add Description.";
+    } else if (!description?.trim()) {
+        allError.description = "Please Enter Description";
+    }
 
-        if (!category) {
-            allError.category = "Please Select Category."
-        }
+    if (!category) {
+        allError.category = "Please Select Category.";
+    }
 
-        if (Object?.keys(allError)?.length > 0) {
-            setErrors(allError);
-            if (!image) {
-                setError("Please upload Image.");
-            }
-            if (!image02) setError02("Please upload Image.");
-            if (!image03) setError03("Please upload Image.");
-            if (!image04) setError04("Please upload Image.");
-            if (!videoFile) setVideoError("Please upload Video.");
-
-            return;
-        }
-
-        if (!image) {
-            setError("Please upload Image.");
-        }
-
+    if (Object.keys(allError).length > 0) {
+        setErrors(allError);
+        if (!image) setError("Please upload Image.");
         if (!image02) setError02("Please upload Image.");
         if (!image03) setError03("Please upload Image.");
         if (!image04) setError04("Please upload Image.");
         if (!videoFile) setVideoError("Please upload Video.");
+        return;
+    }
 
+    if (!image) {
+        setError("Please upload Image.");
+        return;
+    }
+    if (!image02) {
+        setError02("Please upload Image.");
+        return;
+    }
+    if (!image03) {
+        setError03("Please upload Image.");
+        return;
+    }
+    if (!image04) {
+        setError04("Please upload Image.");
+        return;
+    }
+    if (!videoFile) {
+        setVideoError("Please upload Video.");
+        return;
+    }
 
-        if (!image || !image02 || !image03 || !image04 || videoFile) return
+    const formData = new FormData();
+    formData.append("_id", _id);
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("category", category);
+    formData.append("price", price);
+    if (image instanceof File) {
+        formData.append("image", image);
+    }
+    if (image02 instanceof File) {
+        formData.append("image02", image02);
+    }
+    if (image03 instanceof File) {
+        formData.append("image03", image03);
+    }
+    if (image04 instanceof File) {
+        formData.append("image04", image04);
+    }
+    if (videoFile instanceof File) {
+        formData.append("videoFile", videoFile);
+    }
 
-
-        const formData = new FormData();
-        formData.append("_id", _id)
-        formData.append("name", name);
-        formData.append("description", description);
-        formData.append("category", category);
-        formData.append("price", price)
-        if (image && image !== invitationData?.image) {
-            formData.append("image", image);
-        }
-        if (image02 && image02 !== invitationData?.image02) {
-            formData.append("image02", image02);
-        }
-        if (image03 && image03 !== invitationData?.image03) {
-            formData.append("image03", image03);
-        }
-        if (image04 && image04 !== invitationData?.image04) {
-            formData.append("image04", image04);
-        }
-        if (videoFile && videoFile !== invitationData?.videoFile) {
-            formData.append("videoFile", videoFile)
-        }
-        try {
-            const response = await axios.patch(
-                `${process.env.REACT_APP_BASE_URL}api/admin/update_invitation`,
-                formData,
-                {
-                    headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
-            );
-            if (response.status === 200) {
-                setSuccessSB(true);
-                setImage(null);
-                setImage02(null);
-                setImage03(null);
-                setImage04(null);
-                setVideoFile(null)
-                setId("")
-                setName("");
-                setDescription("");
-                setCategory("");
-                setPrice("")
-                setErrors({});
-                navigate("/invitation")
-            } else {
-                setError("Failed to upload the image.");
+    try {
+        const response = await axios.patch(
+            `${process.env.REACT_APP_BASE_URL}api/admin/update_invitation`,
+            formData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
+                },
             }
-        } catch (error) {
-            // console.error("Error uploading banner:", error);
-            if (error?.response?.data?.Message === 'jwt expired') {
-                logout(navigate)
-            }
-            // setError("Error uploading the image.");
+        );
+        if (response.status === 200) {
+            setSuccessSB(true);
+            setImage(null);
+            setImage02(null);
+            setImage03(null);
+            setImage04(null);
+            setVideoFile(null);
+            setId("");
+            setName("");
+            setDescription("");
+            setCategory("");
+            setPrice("");
+            setErrors({});
+            navigate("/invitation");
+        } else {
+            setError("Failed to upload the invitation.");
         }
-    };
+    } catch (error) {
+        if (error?.response?.data?.Message === "jwt expired") {
+            logout(navigate);
+        }
+        setError("Error uploading the invitation.");
+    }
+};
     console.log(category, "category")
     return (
         <DashboardLayout>

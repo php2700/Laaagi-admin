@@ -202,9 +202,9 @@ function Add_Invitation() {
 
     // Handle form submission
     const handleSubmit = async (e) => {
+        console.log("jhjhjhjhjj")
         let allError = {}
         e.preventDefault()
-
         if (!price) {
             allError.price = "Please Enter Amount ."
         } else if (!/^\d*$/.test(price)) {
@@ -228,7 +228,6 @@ function Add_Invitation() {
         if (!category) {
             allError.category = "Please Select Category."
         }
-
         if (Object?.keys(allError)?.length > 0) {
             setErrors(allError)
             if (!image) {
@@ -263,6 +262,8 @@ function Add_Invitation() {
         formData.append("category", category);
         formData.append('videoFile', videoFile)
         console.log(formData, 'hjhlkgfgmnfgmn')
+console.log("777777777755557")
+
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_BASE_URL}api/admin/add_invitation`,
