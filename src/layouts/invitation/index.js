@@ -81,9 +81,11 @@ function Overview() {
     const [id, setId] = useState();
     const [viewData, setViewData] = useState();
     const [viewOpen, setViewOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
 
     const token = localStorage.getItem("authToken");
     const getInvitationData = async (page, search) => {
+           setIsLoading(true);
         try {
             const response = await axios.get(
                 `${process.env.REACT_APP_BASE_URL}api/admin/invitation_list`,
@@ -118,7 +120,7 @@ function Overview() {
                     image02: invitation?.image02,
                     image03: invitation?.image03,
                     image04: invitation?.image04,
-                    videoFile:invitation?.videoFile,
+                    videoFile: invitation?.videoFile,
                     name: invitation?.name,
                     description: invitation?.description,
                     category: invitation?.category,
@@ -132,6 +134,9 @@ function Overview() {
             setInvitationData(modifiedData);
         } catch (error) {
             console.error("Error fetching banner data:", error);
+        }
+        finally {
+            setIsLoading(false);
         }
     };
 
@@ -231,10 +236,39 @@ function Overview() {
         updateSwitch(formData)
     }
 
-console.log(invitationData,"invitation")
+    console.log(invitationData, "invitation")
     return (
         <>
             <DashboardLayout>
+                {isLoading && (
+                    <div
+                        style={{
+                            position: "fixed",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            backgroundColor: "rgba(0, 0, 0, 0.4)",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            zIndex: 9999,
+                        }}
+                    >
+                        <div
+                            style={{
+                                backgroundColor: "#fff",
+                                padding: "20px 40px",
+                                borderRadius: "10px",
+                                boxShadow: "0 0 10px rgba(0,0,0,0.2)",
+                                fontSize: "18px",
+                                fontWeight: "500",
+                            }}
+                        >
+                            ⏳ Uploading... Please wait
+                        </div>
+                    </div>
+                )}
                 <DashboardNavbar />
                 <MDBox pt={6} pb={3}>
                     <Grid container spacing={6}>
@@ -405,23 +439,23 @@ console.log(invitationData,"invitation")
                                                                 />
                                                             </MDTypography>
                                                         ),
-                                                        Video:(
+                                                        Video: (
                                                             <MDTypography
                                                                 component="a"
                                                                 variant="caption"
                                                                 color="text"
                                                                 fontWeight="medium"
                                                             >
-                                                               
-                                                              <video
-  controls muted
-  style={{ width: "100px", height: "80px", borderRadius: "5px" }}
->
-  <source
-    src={`${process.env.REACT_APP_BASE_URL}uploads/${invitation?.videoFile}`}
-    type="video/mp4"
-  />
-</video>
+
+                                                                <video
+                                                                    controls muted
+                                                                    style={{ width: "100px", height: "80px", borderRadius: "5px" }}
+                                                                >
+                                                                    <source
+                                                                        src={`${process.env.REACT_APP_BASE_URL}uploads/${invitation?.videoFile}`}
+                                                                        type="video/mp4"
+                                                                    />
+                                                                </video>
 
                                                             </MDTypography>
                                                         ),

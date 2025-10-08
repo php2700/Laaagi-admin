@@ -50,6 +50,7 @@ function Add_Invitation() {
     const [error04, setError04] = useState("");
     const [errors, setErrors] = useState({})
     const [videoError, setVideoError] = useState("")
+    const [isLoading,setIsLoading]=useState(false)
 
     const invitationCategory = invitationCategoryData;
     const PriceRangeList = PriceRangeData
@@ -263,6 +264,7 @@ function Add_Invitation() {
         formData.append('videoFile', videoFile)
         console.log(formData, 'hjhlkgfgmnfgmn')
 console.log("777777777755557")
+    setIsLoading(true);
 
         try {
             const response = await axios.post(
@@ -299,13 +301,47 @@ console.log("777777777755557")
             if (error?.response?.data?.Message === 'jwt expired') {
                 logout(navigate)
             }
+            
             console.error("Error uploading banner:", error);
             // setError("Error uploading the image.");
         }
+        finally {
+    setIsLoading(false);
+  }
     };
 
     return (
         <DashboardLayout>
+            {isLoading && (
+  <div
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      backgroundColor: "rgba(0, 0, 0, 0.4)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      zIndex: 9999,
+    }}
+  >
+    <div
+      style={{
+        backgroundColor: "#fff",
+        padding: "20px 40px",
+        borderRadius: "10px",
+        boxShadow: "0 0 10px rgba(0,0,0,0.2)",
+        fontSize: "18px",
+        fontWeight: "500",
+      }}
+    >
+      ⏳ Uploading... Please wait
+    </div>
+  </div>
+)}
+
             <DashboardNavbar />
             <MDBox pt={6} pb={3}>
                 <Grid container spacing={6}>
@@ -765,6 +801,7 @@ console.log("777777777755557")
                 bgWhite
             />
         </DashboardLayout>
+        
     );
 }
 
