@@ -59,6 +59,7 @@ function Edit_Invitation() {
     const [errors, setErrors] = useState({})
     const [open, setOpen] = useState(false)
     const [videoError, setVideoError] = useState("")
+        const [isLoading,setIsLoading]=useState(false)
 
 
     const invitationList = invitationCategoryData;
@@ -327,7 +328,7 @@ function Edit_Invitation() {
     if (videoFile instanceof File) {
         formData.append("videoFile", videoFile);
     }
-
+setIsLoading(true)
     try {
         const response = await axios.patch(
             `${process.env.REACT_APP_BASE_URL}api/admin/update_invitation`,
@@ -362,10 +363,42 @@ function Edit_Invitation() {
         }
         setError("Error uploading the invitation.");
     }
+    finally {
+    setIsLoading(false);
+  }
 };
     console.log(category, "category")
     return (
         <DashboardLayout>
+             {isLoading && (
+  <div
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      backgroundColor: "rgba(0, 0, 0, 0.4)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      zIndex: 9999,
+    }}
+  >
+    <div
+      style={{
+        backgroundColor: "#fff",
+        padding: "20px 40px",
+        borderRadius: "10px",
+        boxShadow: "0 0 10px rgba(0,0,0,0.2)",
+        fontSize: "18px",
+        fontWeight: "500",
+      }}
+    >
+      ⏳ Uploading... Please wait
+    </div>
+  </div>
+)}
             <DashboardNavbar />
             <MDBox pt={6} pb={3}>
                 <Grid container spacing={6}>
